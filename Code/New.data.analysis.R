@@ -12,6 +12,7 @@ summary(Data)
 str(Data)
 
 
+
 Data%>%
   ggplot(aes(x=bottle.number,y=connectivity))+
   geom_point()+
