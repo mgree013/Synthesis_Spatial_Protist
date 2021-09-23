@@ -1,21 +1,21 @@
-library(ggplot2)
+#paper title: Synthesizing the Effects of Spatial Network Structure on Predator Prey Dynamics
+#Author: Matthew Douglas Green; Kurt E. Anderson
+#Date: September 21, 2021
+
+########################################################################################################################library(ggplot2)
 library(tidyverse)
 library(raster)
 library(corrr)
 library(viridis)
 library(lme4)
-
+########################################################################################################################
 setwd("~/Dropbox/Protist Lab Data/Kurt_Matthew_Shared Data/Dendritic Data/Holistic/Data/All.Matt/")
 
 Data=read.csv("data/upd.datas.all.csv")
 summary(Data)
 str(Data)
-
-Data%>%
-  ggplot(aes(x=bottle.number,y=connectivity))+
-  geom_point()+
-  facet_wrap(~structure,scales="free")
-
+########################################################################################################################
+#Plot Time Series
 Data%>%
   filter(day > 3 & day < 100)%>%
   filter(structure=="HL25array")%>%
