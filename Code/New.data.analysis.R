@@ -122,9 +122,9 @@ reg.all<-Data %>%
   mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))
 
 ################################################################################################################################################################################################################################################################
-
+#Days to Extinction
 loc.all %>%
-  gather(prey.minimia,pred.minimia,day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.den,pred.den,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally,cv.prey,cv.pred, key = "var", value = "value") %>% 
+  gather(prey.minimia,pred.minimia,day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
   ggplot(aes(x =(log.number.bottles) , y = value, colour=var)) +
   geom_point() +
   geom_smooth(method='glm')+
@@ -133,25 +133,35 @@ loc.all %>%
   theme_bw()+ theme(legend.position = "none")
 
 loc.all %>%
-  gather(prey.minimia,pred.minimia,day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.den,pred.den,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally,cv.prey,cv.pred, key = "var", value = "value") %>% 
-  ggplot(aes(x =nghbr.connect , y = value, colour=var)) +
+  gather(prey.minimia,pred.minimia,day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
+  ggplot(aes(x =(nghbr.connect) , y = value, colour=var)) +
   geom_point() +
   geom_smooth(method='glm')+
-  facet_wrap(~ var, scales = "free") +
   scale_color_viridis(discrete = TRUE)+
+  facet_wrap(~ var, scales = "free") +
   theme_bw()+ theme(legend.position = "none")
 
 loc.all %>%
-  gather(day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.den,pred.den,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally,cv.prey,cv.pred, key = "var", value = "value") %>% 
+  gather(prey.minimia,pred.minimia,day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
   ggplot(aes(x =(log.network.syn.lap) , y = value, colour=var)) +
   geom_point() +
   geom_smooth(method='glm')+
-  facet_wrap(~ var, scales = "free") +
   scale_color_viridis(discrete = TRUE)+
+  facet_wrap(~ var, scales = "free") +
   theme_bw()+ theme(legend.position = "none")
 
+loc.all %>%
+  gather(prey.minimia,pred.minimia,day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
+  ggplot(aes(x =as.factor(prod) , y = value, fill=var)) +
+  geom_boxplot()+
+  scale_color_viridis(discrete = TRUE)+
+  facet_wrap(~ var, scales = "free") +
+  theme_bw()+ theme(legend.position = "none")
+
+
+
 reg.all %>%
-  gather(day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.den,pred.den,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally,cv.prey,cv.pred, key = "var", value = "value") %>% 
+  gather(prey.minimia,pred.minimia,day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
   ggplot(aes(x =(nghbr.connect) , y = value, colour=var)) +
   geom_point() +
   geom_smooth(method='glm')+
@@ -160,7 +170,7 @@ reg.all %>%
   theme_bw()+ theme(legend.position = "none")
 
 reg.all %>%
-  gather(day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.den,pred.den,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally,cv.prey,cv.pred, key = "var", value = "value") %>% 
+  gather(prey.minimia,pred.minimia,day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
   ggplot(aes(x =(log.number.bottles) , y = value, colour=var)) +
   geom_point() +
   geom_smooth(method='glm')+
@@ -169,7 +179,7 @@ reg.all %>%
   theme_bw()+ theme(legend.position = "none")
 
 reg.all %>%
-  gather(day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.den,pred.den,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally,cv.prey,cv.pred, key = "var", value = "value") %>% 
+  gather(prey.minimia,pred.minimia,day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
   ggplot(aes(x =(log.network.syn.lap) , y = value, colour=var)) +
   geom_point() +
   geom_smooth(method='glm')+
