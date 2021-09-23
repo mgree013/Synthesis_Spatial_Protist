@@ -1,11 +1,10 @@
 library(igraph)
-library(cowplot)
+
 #To Do: Calculate lambda for predicted occupancy
 #Replace 0's along diagonal and change sign to positive from negative
 
-plot_grid(A,B,C,D,E,Fa,G,H,I,dend.7,latt.7,str.7,sean.big,sean.small,dend.15,latt.15,big, nrow=4)
-plot_grid(A,B,C,D, nrow=4)
 
+#Figure 1: Networks
 par(mfrow=c(6,3),mar= c(2, 4, 1, 1), mgp=c(2,1,0))
 plot(A)
 plot(B)

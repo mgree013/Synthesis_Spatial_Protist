@@ -28,7 +28,6 @@ gf.lambda_m
 #lattice 7
 #gf <- make_lattice(c(7, 1),circular=T) # Make the lattice graph
 gf <- graph( edges=c(1,2, 1,7, 1,3, 1,6, 2,3, 2,4, 2,7, 3,4, 3,5, 4,5, 4,6, 5,6, 7,5, 7,6 ), n=7, directed=F ) 
-plot(gf)
 plot(gf) # Picture
 gf.matrix <- as_adjacency_matrix(gf) # Get the adjacency matrix from the graph
 gf.ev <- eigen(gf.matrix) # Get the eigenvalues of the adjacency matrix 
