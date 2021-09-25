@@ -90,8 +90,8 @@ loc.all<-Data %>%
 
 #Regional
 reg.all<-Data %>%
-  filter(day > 5)%>%
-  #filter(day > 5 & day < 75)%>%
+  #filter(day > 5)%>%
+  filter(day > 5 & day < 75)%>%
   #filter(media=="medium")%>%
   #filter(predator=="didinium")%>%
   filter(number.bottles > 1)%>%
@@ -118,6 +118,7 @@ reg.all<-Data %>%
              prey.den=mean(ln.prey),pred.den=mean(ln.pred),                                                #Mean Density
              prey.persistence=sum(prey.density>1)/bottle.number,pred.persistence=sum(pred.density>1)/bottle.number,                    #Number of days Persistence
              Sum.Zero.Prey.Densities.Locally=mean(prey.density==0),Sum.Zero.Predator.Densities.Locally=mean(pred.density==0),# Number of days  Zero
+             time.2ext=
              cv.prey=raster::cv(ln.prey,na.rm=T), cv.pred=raster::cv(ln.pred,na.rm=T)) %>%
   mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))
 
