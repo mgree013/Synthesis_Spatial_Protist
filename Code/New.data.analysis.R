@@ -55,7 +55,7 @@ Data%>%
 #Local
 loc.all<-Data %>%
   filter(day > 3 & day < 75)%>%
-  #filter(number.bottles > 1)%>%
+  filter(number.bottles > 1)%>%
   group_by(predator,prey,network.syn.lap,number.bottles, structure,replicate,media,year,bottle.number,nghbr.connect)%>%
   dplyr::summarize(sampling.days=n(),
              prod=mean(productivity),
@@ -94,31 +94,36 @@ reg.all<-Data %>%
   filter(day > 5 & day < 75)%>%
   #filter(media=="medium")%>%
   #filter(predator=="didinium")%>%
-  #filter(number.bottles > 1)%>%
-  group_by(predator,prey,network.syn.lap,number.bottles,replicate,structure,media,year) %>%
+  filter(number.bottles > 1)%>%
+  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,day,volume.L) %>%
+  summarise(prey.dens=sum(ln.prey),pred.dens=sum(ln.pred),
+            total.vol=sum(volume.L),
+            av.nghbr.connect=mean(nghbr.connect),
+            prey.net.oc=if_else(prey.oc>0,1,0),pred.net.oc=if_else(pred.oc>0,1,0))%>%
+  ungroup()%>%
+  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,total.vol,av.nghbr.connect) %>%
   summarise( sampling.days=n(),
              prod=mean(productivity),
              bottle.number=mean(number.bottles),
-             patch.degree= mean(connectivity),
-             patch.deg2=mean(disp.connect),
-             tubelength=mean(tube.length),
-             connect.per=mean(Connectivity.per),
-             total.vol=sum(volume.L),
-             nghbr.connect=mean(nghbr.connect),
+             #patch.degree= mean(connectivity),
+             #patch.deg2=mean(disp.connect),
+             #tubelength=mean(tube.length),
+             #connect.per=mean(Connectivity.per),
+             #total.vol=sum(volume.L),
              meta.size=mean(number.bottles),
-             prey.growth=mean(Prey.growth.rate),
-             prey.size=mean(Prey.size),
-             prey.k.cap=mean(Prey.K.cap),
-             prey.disp=mean(Prey.disp.rate),
-             prey.oc=mean(prey.oc),pred.oc=mean(pred.oc),
-             prey.minimia=min(prey.density),pred.minimia=min(pred.density),                                #Minima density
-             day.prey.min=day[which.min(prey.density)],day.pred.min=day[which.min(pred.density)],          #Day of Minimia
-             prey.amp=max(ln.prey),pred.amp=max(ln.pred),                                        #Amp density
-             day.prey.max=day[which.max(prey.density)],day.pred.max=day[which.max(pred.density)],          #Day of Amp
-             prey.den=mean(ln.prey),pred.den=mean(ln.pred),                                                #Mean Density
-             prey.persistence=sum(prey.density>1)/bottle.number,pred.persistence=sum(pred.density>1)/bottle.number,                    #Number of days Persistence
-             Sum.Zero.Prey.Densities.Locally=mean(prey.density==0),Sum.Zero.Predator.Densities.Locally=mean(pred.density==0),# Number of days  Zero
-             cv.prey=raster::cv(ln.prey,na.rm=T), cv.pred=raster::cv(ln.pred,na.rm=T)) %>%
+             #prey.growth=mean(Prey.growth.rate),
+             #prey.size=mean(Prey.size),
+             #prey.k.cap=mean(Prey.K.cap),
+            # prey.disp=mean(Prey.disp.rate),
+             prey.oc=mean(prey.net.oc),pred.oc=mean(pred.net.oc),
+            # prey.den=sum(ln.prey),pred.den=sum(ln.pred), 
+             prey.minimia=min(prey.dens),pred.minimia=min(pred.dens),                                #Minima density
+             day.prey.min=day[which.min(prey.dens)],day.pred.min=day[which.min(pred.dens)],          #Day of Minimia
+             prey.amp=max(prey.dens),pred.amp=max(pred.dens),                                        #Amp density
+             day.prey.max=day[which.max(prey.dens)],day.pred.max=day[which.max(pred.dens)],          #Day of Amp
+             prey.persistence=sum(prey.dens>1),pred.persistence=sum(pred.dens>1),                    #Number of days Persistence
+             Sum.Zero.Prey.Densities.Locally=sum(prey.dens<1),Sum.Zero.Predator.Densities.Locally=sum(pred.dens<1),# Number of days  Zero
+             cv.prey=raster::cv(prey.dens,na.rm=T), cv.pred=raster::cv(pred.dens,na.rm=T)) %>%
   mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))
 
 ################################################################################################################################################################################################################################################################
@@ -130,7 +135,9 @@ loc.all %>%
   geom_smooth(method='glm')+xlab("Metacommunity Size")+
   scale_color_viridis(discrete = TRUE)+
   facet_wrap(~ var, scales = "free") +
-  theme_bw()+ theme(legend.position = "none")
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(),
+                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 loc.all %>%
   gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
@@ -139,8 +146,9 @@ loc.all %>%
   geom_smooth(method='glm')+xlab("Connectivity")+
   scale_color_viridis(discrete = TRUE)+
   facet_wrap(~ var, scales = "free") +
-  theme_bw()+ theme(legend.position = "none")
-
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 loc.all %>%
   gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
   ggplot(aes(x =(log.network.syn.lap) , y = value, colour=var)) +
@@ -148,26 +156,21 @@ loc.all %>%
   geom_smooth(method='glm')+
   scale_color_viridis(discrete = TRUE)+
   facet_wrap(~ var, scales = "free") +
-  theme_bw()+ theme(legend.position = "none")
-
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 loc.all %>%
   gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
   ggplot(aes(x =as.factor(prod) , y = value, fill=var)) +
   geom_boxplot()+xlab("Productivity (g)")+
   scale_color_viridis(discrete = TRUE)+
   facet_wrap(~ var, scales = "free") +
-  theme_bw()+ theme(legend.position = "none")
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 
 
-reg.all %>%
-  gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
-  ggplot(aes(x =(nghbr.connect) , y = value, colour=var)) +
-  geom_point() +
-  geom_smooth(method='glm')+
-  facet_wrap(~ var, scales = "free") +
-  scale_color_viridis(discrete = TRUE)+
-  theme_bw()+ theme(legend.position = "none")
 
 reg.all %>%
   gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
@@ -176,8 +179,19 @@ reg.all %>%
   geom_smooth(method='glm')+
   facet_wrap(~ var, scales = "free") +
   scale_color_viridis(discrete = TRUE)+
-  theme_bw()+ theme(legend.position = "none")
-
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+reg.all %>%
+  gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
+  ggplot(aes(x =(av.nghbr.connect) , y = value, colour=var)) +
+  geom_point() +
+  geom_smooth(method='glm')+
+  facet_wrap(~ var, scales = "free") +
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 reg.all %>%
   gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
   ggplot(aes(x =(log.network.syn.lap) , y = value, colour=var)) +
@@ -185,8 +199,9 @@ reg.all %>%
   geom_smooth(method='glm')+
   facet_wrap(~ var, scales = "free") +
   scale_color_viridis(discrete = TRUE)+
-  theme_bw()+ theme(legend.position = "none")
-
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 reg.all %>%
   gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
   ggplot(aes(x =(log.total.vol) , y = value, colour=var)) +
@@ -194,7 +209,9 @@ reg.all %>%
   geom_smooth(method='glm')+
   facet_wrap(~ var, scales = "free") +
   scale_color_viridis(discrete = TRUE)+
-  theme_bw()+ theme(legend.position = "none")
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 reg.all %>%
   gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
@@ -202,8 +219,9 @@ reg.all %>%
   geom_boxplot()+
   scale_fill_viridis(discrete = TRUE)+xlab("Productivity (g)")+
   facet_wrap(~ var, scales = "free") +
-  theme_bw()+ theme(legend.position = "none")
-
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 loc.all %>%
   gather(prey.minimia,pred.minimia,day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.den,pred.den,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally,cv.prey,cv.pred, key = "var", value = "value") %>% 
@@ -212,8 +230,9 @@ loc.all %>%
   geom_smooth(method='lm')+
   scale_color_viridis(discrete = TRUE)+
   facet_wrap(~ var, scales = "free") +
-  theme_bw()
-
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 loc.all %>%
   gather(prey.oc,pred.oc, key = "var", value = "value") %>% 
   ggplot(aes(x =network.syn.lap , y = value, colour=var)) +
@@ -221,8 +240,9 @@ loc.all %>%
   geom_smooth(method='lm')+
   scale_color_viridis(discrete = TRUE)+
   facet_wrap(~ var, scales = "free") +
-  theme_bw()
-
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 loc.all %>%
   gather(prey.minimia,pred.minimia,day.prey.min,day.pred.min,prey.amp,pred.amp,day.prey.max,day.pred.max,prey.den,pred.den,prey.persistence,pred.persistence,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally,cv.prey,cv.pred, key = "var", value = "value") %>% 
   ggplot(aes(x =connect.per , y = value, colour=var)) +

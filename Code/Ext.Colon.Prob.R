@@ -45,7 +45,8 @@ Ext_col_data<-newer_pa_datas%>%
     colonization_sum_prey=sum(colonization_col_prey),non_colonization_sum_prey=sum(non_colonization_col_prey),extinction_sum_prey=sum(extinction_col_prey),non_extinction_sum_prey=sum(non_extinction_col_prey),
     colonization_prob_pred=sum(colonization_col_pred)/sum(colonization_col_pred+non_colonization_col_pred), extinction_prob_pred=sum(extinction_col_pred)/sum(extinction_col_pred+non_extinction_col_pred),
     colonization_prob_prey=sum(colonization_col_prey)/sum(colonization_col_prey+non_colonization_col_prey), extinction_prob_prey=sum(extinction_col_prey)/sum(extinction_col_prey+non_extinction_col_prey),
-    ext_colon_ratio_pred=extinction_prob_pred/colonization_prob_pred,ext_colon_ratio_prey=extinction_prob_prey/colonization_prob_prey)%>%
+    ext_colon_ratio_pred=extinction_prob_pred/colonization_prob_pred,ext_colon_ratio_prey=extinction_prob_prey/colonization_prob_prey,
+    pred.prey.oc=colonization_prob_prey/(extinction_prob_prey+colonization_prob_prey),pred.pred.oc=colonization_prob_pred/(extinction_prob_pred+colonization_prob_pred))%>%
   left_join(all_pa_dataz, by="newID")
 
 
@@ -66,7 +67,9 @@ Ext_col_data%>%
   geom_smooth(method = "lm")+
   scale_color_viridis_d()+
   facet_grid(structure~var, scales = "free")+
-  theme_bw()
+  theme_bw()+theme_bw()+ theme(panel.grid.major = element_blank(),
+                              panel.grid.minor = element_blank(),
+                              panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 Ext_col_data%>%
   #filter(structure !="isolated")%>%
@@ -76,8 +79,9 @@ Ext_col_data%>%
   geom_smooth(method = "lm")+
   scale_color_viridis_d()+
   facet_grid(~var, scales = "free")+
-  theme_bw()
-
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 Ext_col_data%>%
   #filter(structure !="isolated")%>%
   gather(colonization_prob_pred,colonization_prob_prey,extinction_prob_pred,extinction_prob_prey, key = "var", value = "value")%>%
@@ -86,14 +90,17 @@ Ext_col_data%>%
   geom_smooth(method = "lm")+
   scale_color_viridis_d()+
   facet_grid(~var, scales = "free")+
-  theme_bw()
-
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 Ext_col_data%>%
   gather(colonization_prob_pred,colonization_prob_prey,extinction_prob_pred,extinction_prob_prey,key = "var", value = "value")%>%
   ggplot(aes(x=structure, y=value, fill=structure))+
   geom_boxplot()+
   scale_fill_viridis(discrete = TRUE)+
-  facet_grid(~var, scales = "free")
+  facet_grid(~var, scales = "free")+theme_bw()+ theme(panel.grid.major = element_blank(),
+                                                      panel.grid.minor = element_blank(),
+                                                      panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 
 Ext_col_data%>%
@@ -102,7 +109,9 @@ Ext_col_data%>%
   xlab("Conenctivity")+
   geom_boxplot()+
   scale_fill_viridis(discrete = TRUE)+
-  facet_grid(~var)
+  facet_grid(~var)+theme_bw()+ theme(panel.grid.major = element_blank(),
+                                     panel.grid.minor = element_blank(),
+                                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 Ext_col_data%>%
   gather(colonization_prob_pred,colonization_prob_prey,extinction_prob_pred,extinction_prob_prey,key = "var", value = "value")%>%
@@ -112,7 +121,9 @@ Ext_col_data%>%
   scale_color_viridis_d()+
   xlab("Nearest Neighboor Connectivity")+
   scale_fill_viridis(discrete = TRUE)+
-  facet_grid(~var)
+  facet_grid(~var)+theme_bw()+ theme(panel.grid.major = element_blank(),
+                                     panel.grid.minor = element_blank(),
+                                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 Ext_col_data%>%
   gather(colonization_prob_pred,colonization_prob_prey,extinction_prob_pred,extinction_prob_prey,key = "var", value = "value")%>%
@@ -121,7 +132,9 @@ Ext_col_data%>%
   geom_smooth(method = "lm")+
   scale_color_viridis_d()+
   scale_fill_viridis(discrete = TRUE)+
-  facet_grid(~var)
+  facet_grid(~var)theme_bw()+ theme(panel.grid.major = element_blank(),
+                                    panel.grid.minor = element_blank(),
+                                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 Ext_col_data%>%
   gather(colonization_prob_pred,colonization_prob_prey,extinction_prob_pred,extinction_prob_prey,key = "var", value = "value")%>%
@@ -130,7 +143,9 @@ Ext_col_data%>%
   geom_smooth(method = "lm")+
   scale_color_viridis_d()+
   scale_fill_viridis(discrete = TRUE)+
-  facet_grid(~var)
+  facet_grid(~var)+theme_bw()+ theme(panel.grid.major = element_blank(),
+                                     panel.grid.minor = element_blank(),
+                                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 Ext_col_data%>%
   gather(colonization_prob_pred,colonization_prob_prey,extinction_prob_pred,extinction_prob_prey,key = "var", value = "value")%>%
@@ -139,7 +154,9 @@ Ext_col_data%>%
   geom_smooth(method = "lm")+
   scale_color_viridis_d()+
   scale_fill_viridis(discrete = TRUE)+
-  facet_grid(~var)
+  facet_grid(~var)+theme_bw()+ theme(panel.grid.major = element_blank(),
+                                     panel.grid.minor = element_blank(),
+                                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 
 ######
