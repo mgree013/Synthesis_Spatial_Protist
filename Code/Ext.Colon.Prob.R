@@ -50,7 +50,6 @@ Ext_col_data<-newer_pa_datas%>%
   left_join(all_pa_dataz, by="newID")
 
 
-
 ##########################################################################################################################################################
 Ext_col_data%>%
   gather(colonization_prob_pred,colonization_prob_prey,extinction_prob_pred,extinction_prob_prey, key = "var", value = "value")%>%
