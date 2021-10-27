@@ -163,7 +163,7 @@ loc.all %>%
   gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
   ggplot(aes(x =as.factor(prod) , y = value, fill=var)) +
   geom_boxplot()+xlab("Productivity (g)")+
-  scale_color_viridis(discrete = TRUE)+
+  scale_fill_viridis(discrete=T)+
   facet_wrap(~ var, scales = "free") +
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
