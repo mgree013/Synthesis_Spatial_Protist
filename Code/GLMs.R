@@ -73,6 +73,43 @@ f<-Ext_col_data%>%
 
 plot_grid(a,b,c,d,e,f, nrow=2)
 
+Ext_col_data%>%
+  ggplot(aes(x=as.factor(productivity),y=extinction_prob_pred,fill=as.factor(productivity)))+ 
+  ggtitle("f)") +
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  labs(x="Productivity",y="Predator Exctinction Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+Ext_col_data%>%
+  ggplot(aes(x=as.factor(productivity),y=extinction_prob_prey,fill=as.factor(productivity)))+ 
+  ggtitle("f)") +
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  labs(x="Productivity",y="Prey Exctinction Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+Ext_col_data%>%
+  ggplot(aes(x=as.factor(productivity),y=colonization_prob_pred,fill=as.factor(productivity)))+ 
+  ggtitle("f)") +
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  labs(x="Productivity",y="Predator Exctinction Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+Ext_col_data%>%
+  ggplot(aes(x=as.factor(productivity),y=colonization_prob_prey, fill=as.factor(productivity)))+ 
+  ggtitle("f)") +
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  labs(x="Productivity",y="Prey Exctinction Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+
+  facet_grid(~predator)
+
 #COL PLOTS
 a<-Ext_col_data%>%
   ggplot(aes(x=log.number.bottles,y=colonization_prob_prey))+ 

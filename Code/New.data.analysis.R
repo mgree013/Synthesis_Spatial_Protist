@@ -91,7 +91,7 @@ loc.all<-Data %>%
 #Regional
 reg.all<-Data %>%
   #filter(day > 5)%>%
-  filter(day > 5 & day < 75)%>%
+  filter(day > 3 & day < 75)%>%
   #filter(media=="medium")%>%
   #filter(predator=="didinium")%>%
   filter(number.bottles > 1)%>%
@@ -129,7 +129,7 @@ reg.all<-Data %>%
 ################################################################################################################################################################################################################################################################
 #Days to Extinction
 loc.all %>%
-  gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
+  gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally,prey.persistence,pred.persistence, key = "var", value = "value") %>% 
   ggplot(aes(x =(log.number.bottles) , y = value, colour=var)) +
   geom_point() +
   geom_smooth(method='glm')+xlab("Metacommunity Size")+
