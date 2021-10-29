@@ -701,15 +701,29 @@ r22
 pred_Ext_col_data<-Ext_col_data%>%
   left_join(occupnacy, by="newID")%>%
   filter(pred.pred.oc>0)%>%
-  filter(pred.prey.oc>0)
+  filter(pred.prey.oc>0)%>%
+  filter(pred.pred.oc<1)%>%
+  filter(pred.prey.oc<1)%>%
+  filter(pred.oc>0)%>%
+  filter(prey.oc>0)%>%
+  filter(pred.oc<1)%>%
+  filter(prey.oc<1)%>%
+  filter(colonization_prob_pred>0)%>%
+  filter(colonization_prob_pred<1)%>%
+  filter(colonization_prob_prey>0)%>%
+  filter(colonization_prob_prey<1)%>%
+  filter(extinction_prob_pred>0)%>%
+  filter(extinction_prob_pred<1)%>%
+  filter(extinction_prob_pred>0)%>%
+  filter(extinction_prob_prey<1)
   
-
 #Predicted Occupnacy
 preda<-pred_Ext_col_data%>%
   ggplot(aes(x=prey.oc,y=pred.prey.oc))+ 
   geom_point()+
-  ggtitle("a)") +
-  geom_smooth(method = "lm",se=F)+
+  ggtitle("c)") +
+  #geom_smooth(method = "lm",se=F)+
+  stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Prey Observed Occupancy",y="Prey Predicted Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -718,15 +732,89 @@ preda<-pred_Ext_col_data%>%
 predb<-pred_Ext_col_data%>%
   ggplot(aes(x=pred.oc,y=pred.pred.oc))+ 
   geom_point()+
-  ggtitle("b)") +
-  geom_smooth(method = "lm",se=F)+
+  ggtitle("d)") +
+  #geom_smooth(method = "lm",se=F)+
+  stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Predator Observed Occupancy",y="Predator Predicted Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
-plot_grid(preda,predb)
+predc<-pred_Ext_col_data%>%
+  ggplot(aes(x=prey.oc,y=colonization_prob_prey))+ 
+  geom_point()+
+  ggtitle("e)") +
+  #geom_smooth(method = "lm",se=F)+
+  stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
+  scale_color_viridis_d()+
+  labs(x="Prey Observed Occupancy",y="Prey Colonization Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
+predd<-pred_Ext_col_data%>%
+  ggplot(aes(x=pred.oc,y=colonization_prob_pred))+ 
+  geom_point()+
+  ggtitle("f)") +
+  #geom_smooth(method = "lm",se=F)+
+  stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
+  scale_color_viridis_d()+
+  labs(x="Predator Observed Occupancy",y="Predator Colonization Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+
+prede<-pred_Ext_col_data%>%
+  ggplot(aes(x=prey.oc,y=extinction_prob_prey))+ 
+  geom_point()+
+  ggtitle("g)") +
+  #geom_smooth(method = "lm",se=F)+
+  stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
+  scale_color_viridis_d()+
+  labs(x="Prey Observed Occupancy",y="Prey Extinction Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+
+predf<-pred_Ext_col_data%>%
+  ggplot(aes(x=pred.oc,y=extinction_prob_pred))+ 
+  geom_point()+
+  ggtitle("h)") +
+  #geom_smooth(method = "lm",se=F)+
+  stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
+  scale_color_viridis_d()+
+  labs(x="Predator Observed Occupancy",y="Predator Extinction Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+#plot_grid(preda,predb)
+
+plot_grid(preda_net,predb_net,preda,predb,predc,predd,prede,predf,nrow=4)
+
+#Network level
+Ext_col_data_network<-newer_pa_datas%>%
+  filter(structure !="control")%>%
+  rename(lag.pred.oc = `pred.oc-1`,lag.prey.oc = `prey.oc-1`)%>%
+  mutate(
+    colonization_col_pred=if_else(pred.oc==1 & lag.pred.oc==0 ,1,0),
+    non_colonization_col_pred=if_else(pred.oc==0 & lag.pred.oc==0 ,1,0), 
+    extinction_col_pred=if_else(pred.oc==0 & lag.pred.oc==1 ,1,0),
+    non_extinction_col_pred=if_else(pred.oc==1 & lag.pred.oc==1 ,1,0),
+    colonization_col_prey=if_else(prey.oc==1 & lag.prey.oc==0 ,1,0), 
+    non_colonization_col_prey=if_else(prey.oc==0 & lag.prey.oc==0 ,1,0), 
+    extinction_col_prey=if_else(prey.oc==0 & lag.prey.oc== 1, 1,0),
+    non_extinction_col_prey=if_else(prey.oc==1 & lag.prey.oc== 1, 1,0))%>%
+  replace(is.na(.), 0)%>%
+  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,lambda_m)%>%
+  summarize(
+    colonization_sum_pred=sum(colonization_col_pred),non_colonization_sum_pred=sum(non_colonization_col_pred),extinction_sum_pred=sum(extinction_col_pred),non_extinction_sum_pred=sum(non_extinction_col_pred),
+    colonization_potenital_pred=sum(colonization_col_pred+non_colonization_col_pred),colonization_potenital_prey=sum(colonization_col_prey+non_colonization_col_prey),
+    extinction_potenital_pred=sum(extinction_col_pred+non_extinction_col_pred),extinction_potenital_prey=sum(extinction_col_prey+non_extinction_col_prey),
+    colonization_sum_prey=sum(colonization_col_prey),non_colonization_sum_prey=sum(non_colonization_col_prey),extinction_sum_prey=sum(extinction_col_prey),non_extinction_sum_prey=sum(non_extinction_col_prey),
+    colonization_prob_pred=colonization_sum_pred/colonization_potenital_pred, extinction_prob_pred=extinction_sum_pred/extinction_potenital_pred,
+    colonization_prob_prey=colonization_sum_prey/colonization_potenital_prey, extinction_prob_prey=extinction_sum_prey/extinction_potenital_prey,
+    ext_colon_ratio_pred=(extinction_prob_pred/colonization_prob_pred),ext_colon_ratio_prey=(extinction_prob_prey/colonization_prob_prey),
+    pred.prey.oc=1-((extinction_prob_prey/colonization_prob_prey)/lambda_m),pred.pred.oc=1-((extinction_prob_pred/colonization_prob_pred)/lambda_m))%>%
+  left_join(reg.all, by=c("predator","prey","productivity","network.syn.lap","number.bottles","replicate","structure","media","year"))%>%
+  distinct(structure,replicate, .keep_all = T)
+
+#Network Occupnacy
 Ext_col_data_network%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=as.factor(productivity),y=prey.oc,fill=as.factor(productivity)))+ 
@@ -766,7 +854,7 @@ b<-Ext_col_data_network%>%
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 c<-Ext_col_data_network%>%
-  ggplot(aes(x=av.nghbr.connect.y,y=prey.oc))+ 
+  ggplot(aes(x=av.nghbr.connect,y=prey.oc))+ 
   geom_point()+
   ggtitle("c)") +
   geom_smooth(method = "lm",se=F)+
@@ -796,7 +884,7 @@ e<-Ext_col_data_network%>%
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 f<-Ext_col_data_network%>%
-  ggplot(aes(x=av.nghbr.connect.y,y=pred.oc))+ 
+  ggplot(aes(x=av.nghbr.connect,y=pred.oc))+ 
   geom_point()+
   ggtitle("f)") +
   geom_smooth(method = "lm",se=F)+
@@ -807,55 +895,31 @@ f<-Ext_col_data_network%>%
 
 plot_grid(a,b,c,d,e,f,nrow=2)
 
-#Network level
-Ext_col_data_network<-newer_pa_datas%>%
-  filter(structure !="control")%>%
-  rename(lag.pred.oc = `pred.oc-1`,lag.prey.oc = `prey.oc-1`)%>%
-  mutate(
-    colonization_col_pred=if_else(pred.oc==1 & lag.pred.oc==0 ,1,0),
-    non_colonization_col_pred=if_else(pred.oc==0 & lag.pred.oc==0 ,1,0), 
-    extinction_col_pred=if_else(pred.oc==0 & lag.pred.oc==1 ,1,0),
-    non_extinction_col_pred=if_else(pred.oc==1 & lag.pred.oc==1 ,1,0),
-    colonization_col_prey=if_else(prey.oc==1 & lag.prey.oc==0 ,1,0), 
-    non_colonization_col_prey=if_else(prey.oc==0 & lag.prey.oc==0 ,1,0), 
-    extinction_col_prey=if_else(prey.oc==0 & lag.prey.oc== 1, 1,0),
-    non_extinction_col_prey=if_else(prey.oc==1 & lag.prey.oc== 1, 1,0))%>%
-  replace(is.na(.), 0)%>%
-  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,lambda_m)%>%
-  summarize(
-    colonization_sum_pred=sum(colonization_col_pred),non_colonization_sum_pred=sum(non_colonization_col_pred),extinction_sum_pred=sum(extinction_col_pred),non_extinction_sum_pred=sum(non_extinction_col_pred),
-    colonization_potenital_pred=sum(colonization_col_pred+non_colonization_col_pred),colonization_potenital_prey=sum(colonization_col_prey+non_colonization_col_prey),
-    extinction_potenital_pred=sum(extinction_col_pred+non_extinction_col_pred),extinction_potenital_prey=sum(extinction_col_prey+non_extinction_col_prey),
-    colonization_sum_prey=sum(colonization_col_prey),non_colonization_sum_prey=sum(non_colonization_col_prey),extinction_sum_prey=sum(extinction_col_prey),non_extinction_sum_prey=sum(non_extinction_col_prey),
-    colonization_prob_pred=colonization_sum_pred/colonization_potenital_pred, extinction_prob_pred=extinction_sum_pred/extinction_potenital_pred,
-    colonization_prob_prey=colonization_sum_prey/colonization_potenital_prey, extinction_prob_prey=extinction_sum_prey/extinction_potenital_prey,
-    ext_colon_ratio_pred=(extinction_prob_pred/colonization_prob_pred),ext_colon_ratio_prey=(extinction_prob_prey/colonization_prob_prey),
-    pred.prey.oc=1-((extinction_prob_prey/colonization_prob_prey)/lambda_m),pred.pred.oc=1-((extinction_prob_pred/colonization_prob_pred)/lambda_m))%>%
-  left_join(reg.all, by=c("predator","prey","productivity","network.syn.lap","number.bottles","replicate","structure","media","year"))
-  #distinct(structure,replicate, .keep_all = T)
-
-preda<-Ext_col_data_network%>%
+#Predicted Occupnacy
+preda_net<-Ext_col_data_network%>%
   filter(pred.prey.oc>0)%>%
   ggplot(aes(x=prey.oc,y=pred.prey.oc))+ 
   geom_point()+
   ggtitle("a)") +
-  geom_smooth(method = "lm",se=F)+
+  #geom_smooth(method = "lm",se=F)+
+  stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Prey Observed Occupancy",y="Prey Predicted Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
-predb<-Ext_col_data_network%>%
+predb_net<-Ext_col_data_network%>%
   filter(pred.pred.oc>0)%>%
   ggplot(aes(x=pred.oc,y=pred.pred.oc))+ 
   geom_point()+
   ggtitle("b)") +
-  geom_smooth(method = "lm",se=F)+
+  #geom_smooth(method = "lm",se=F)+
+  stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Predator Observed Occupancy",y="Predator Predicted Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
-plot_grid(preda,predb)
+plot_grid(preda_net,predb_net)
 
 #Predicted prey and predator occupancy at network level and local  scales
