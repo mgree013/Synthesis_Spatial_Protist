@@ -84,7 +84,8 @@ loc.all<-Data %>%
   ungroup()%>%
   dplyr::distinct(predator,prey,bottle.number,media,year,structure,replicate,.keep_all = TRUE)%>%
   mutate(log.number.bottles=log(number.bottles+1))%>%
-  mutate(log.network.syn.lap=log(network.syn.lap+1))
+  mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
+  mutate(log.total.vol=log(total.vol+1))
 # CV 
             # prey.cor= corrr::correlate(prey.den,pred.den, method="pearson"))#, pred.cor=correlate(pred.den, method="pearson"))
 

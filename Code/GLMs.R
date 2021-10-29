@@ -1,13 +1,220 @@
 library(cowplot)
 library(tidyverse)
 library(ggplot2)
+library(viridis)
+
+########################################################################################################################
+#Ext, time 2 ext, persistence dynamics
+
+#local
+loc.all.glm<-loc.all%>%
+  filter(nghbr.connect>0)
+
+p1<-loc.all.glm%>%
+  ggplot(aes(x=log.number.bottles, y=day.pred.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p2<-loc.all.glm%>%
+  ggplot(aes(x=log.total.vol, y=day.pred.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p3<-loc.all.glm%>%
+  ggplot(aes(x=nghbr.connect, y=day.pred.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p4<-loc.all.glm%>%
+  ggplot(aes(x=log.network.syn.lap, y=day.pred.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+
+p5<-loc.all.glm%>%
+  ggplot(aes(x =as.factor(prod) , y = day.pred.min, fill=as.factor(prod))) +
+  geom_boxplot()+xlab("Productivity (g)")+
+  scale_fill_viridis(discrete=T)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+plot_grid(p1,p3,p4,p5)
+
+p1<-loc.all.glm%>%
+  ggplot(aes(x=log.number.bottles, y=day.prey.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p2<-loc.all.glm%>%
+  ggplot(aes(x=log.total.vol, y=day.prey.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p3<-loc.all.glm%>%
+  ggplot(aes(x=nghbr.connect, y=day.prey.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p4<-loc.all.glm%>%
+  ggplot(aes(x=log.network.syn.lap, y=day.prey.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+
+p5<-loc.all.glm%>%
+  ggplot(aes(x =as.factor(prod) , y = day.prey.min, fill=as.factor(prod))) +
+  geom_boxplot()+xlab("Productivity (g)")+
+  scale_fill_viridis(discrete=T)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+plot_grid(p1,p3,p4,p5)
+
+######################################################################
+#Regional
+reg.all.glm<-reg.all%>%
+  filter(av.nghbr.connect>0)
+
+p1<-reg.all.glm%>%
+  ggplot(aes(x=log.number.bottles, y=pred.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p2<-reg.all.glm%>%
+  ggplot(aes(x=log.total.vol, y=pred.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p3<-reg.all.glm%>%
+  ggplot(aes(x=av.nghbr.connect, y=pred.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p4<-reg.all.glm%>%
+  ggplot(aes(x=log.network.syn.lap, y=pred.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+
+p5<-reg.all.glm%>%
+  ggplot(aes(x =as.factor(prod) , y = pred.persistence, fill=as.factor(prod))) +
+  geom_boxplot()+xlab("Productivity (g)")+
+  scale_fill_viridis(discrete=T)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+plot_grid(p1,p3,p4,p5)
+
+p1<-reg.all.glm%>%
+  ggplot(aes(x=log.number.bottles, y=prey.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p2<-reg.all.glm%>%
+  ggplot(aes(x=log.total.vol, y=prey.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p3<-reg.all.glm%>%
+  ggplot(aes(x=av.nghbr.connect, y=prey.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p4<-reg.all.glm%>%
+  ggplot(aes(x=log.network.syn.lap, y=prey.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+
+p5<-reg.all.glm%>%
+  ggplot(aes(x =as.factor(prod) , y = prey.persistence, fill=as.factor(prod))) +
+  geom_boxplot()+xlab("Productivity (g)")+
+  scale_fill_viridis(discrete=T)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+plot_grid(p1,p3,p4,p5)
+
+
+
+########################################################################################################################
+
 
 #1)Ext-COlon
 ########################################################################################################################
 Ext_col_data<-Ext_col_data%>%
   mutate(log.number.bottles=log(number.bottles+1))%>%
   mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
-  filter(bottle.number>1)
+  filter(bottle.number>1)%>%
+  filter(nghbr.connect>0)
 Ext_col_data$log.network.syn.lap
 
 #EXT PLOTS
@@ -75,7 +282,6 @@ plot_grid(a,b,c,d,e,f, nrow=2)
 
 Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=extinction_prob_pred,fill=as.factor(productivity)))+ 
-  ggtitle("f)") +
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
   labs(x="Productivity",y="Predator Exctinction Probability")+
@@ -84,7 +290,6 @@ Ext_col_data%>%
 
 Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=extinction_prob_prey,fill=as.factor(productivity)))+ 
-  ggtitle("f)") +
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
   labs(x="Productivity",y="Prey Exctinction Probability")+
@@ -93,7 +298,6 @@ Ext_col_data%>%
 
 Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=colonization_prob_pred,fill=as.factor(productivity)))+ 
-  ggtitle("f)") +
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
   labs(x="Productivity",y="Predator Exctinction Probability")+
@@ -102,13 +306,11 @@ Ext_col_data%>%
 
 Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=colonization_prob_prey, fill=as.factor(productivity)))+ 
-  ggtitle("f)") +
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
   labs(x="Productivity",y="Prey Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+
-  facet_grid(~predator)
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 #COL PLOTS
 a<-Ext_col_data%>%
@@ -176,7 +378,6 @@ plot_grid(a,b,c,d,e,f, nrow=2)
 Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=colonization_prob_pred, fill=as.factor(productivity)))+ 
   geom_boxplot()+
-  ggtitle("f)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Productivity (g)",y="Predator Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -185,7 +386,6 @@ Ext_col_data%>%
 Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=colonization_prob_prey, fill=as.factor(productivity)))+ 
   geom_boxplot()+
-  ggtitle("f)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Productivity (g)",y="Prey Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -194,7 +394,6 @@ Ext_col_data%>%
 Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=extinction_prob_pred, fill=as.factor(productivity)))+ 
   geom_boxplot()+
-  ggtitle("f)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Productivity (g)",y="Pred Ext. Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -203,7 +402,6 @@ Ext_col_data%>%
 Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=extinction_prob_prey, fill=as.factor(productivity)))+ 
   geom_boxplot()+
-  ggtitle("f)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Productivity (g)",y="Prey Ext. Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -416,6 +614,25 @@ f<-occupnacy%>%
 
 plot_grid(a,b,c,d,e,f,nrow=2)
 
+op1<-occupnacy%>%
+  filter(connectivity.x>0)%>%
+  ggplot(aes(x=as.factor(productivity),y=pred.oc,fill=as.factor(productivity)))+ 
+  geom_boxplot()+
+  scale_fill_viridis(discrete = TRUE)+
+  labs(x="Productivity (g)",y="Predator Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+op2<-occupnacy%>%
+  filter(connectivity.x>0)%>%
+  ggplot(aes(x=as.factor(productivity),y=prey.oc,fill=as.factor(productivity)))+ 
+  geom_boxplot()+
+  scale_fill_viridis(discrete = TRUE)+
+  labs(x="Productivity (g)",y="Prey Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+plot_grid(op1,op2,nrow=1)
+
 occupnacy%>%
   #filter(connectivity.y >= 1)%>%
   ggplot(aes(x=pred.oc,y=prey.oc, colour=prey.y))+ 
@@ -510,6 +727,85 @@ predb<-pred_Ext_col_data%>%
 
 plot_grid(preda,predb)
 
+Ext_col_data_network%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(productivity),y=prey.oc,fill=as.factor(productivity)))+ 
+  geom_boxplot()+
+  scale_fill_viridis(discrete = TRUE)+
+  labs(x="Productivity (g)",y="Prey Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+Ext_col_data_network%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(productivity),y=pred.oc,fill=as.factor(productivity)))+ 
+  geom_boxplot()+
+  scale_fill_viridis(discrete = TRUE)+
+  labs(x="Productivity (g)",y="Predator Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+a<-Ext_col_data_network%>%
+  ggplot(aes(x=log.number.bottles,y=prey.oc))+ 
+  geom_point()+
+  ggtitle("a)") +
+  geom_smooth(method = "lm",se=F)+
+  scale_color_viridis_d()+
+  labs(x="Metacommunity Size",y="Prey Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+
+b<-Ext_col_data_network%>%
+  ggplot(aes(x=log.network.syn.lap,y=prey.oc))+ 
+  geom_point()+
+  ggtitle("b)") +
+  geom_smooth(method = "lm",se=F)+
+  scale_color_viridis_d()+
+  labs(x="Netwokr Synchrony",y="Prey Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+
+c<-Ext_col_data_network%>%
+  ggplot(aes(x=av.nghbr.connect.y,y=prey.oc))+ 
+  geom_point()+
+  ggtitle("c)") +
+  geom_smooth(method = "lm",se=F)+
+  scale_color_viridis_d()+
+  labs(x="Nearest Neighboor Connectivity",y="Prey Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+
+d<-Ext_col_data_network%>%
+  ggplot(aes(x=log.number.bottles,y=pred.oc))+ 
+  geom_point()+
+  ggtitle("d)") +
+  geom_smooth(method = "lm",se=F)+
+  scale_color_viridis_d()+
+  labs(x="Metacommunity Size",y="Predator Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+
+e<-Ext_col_data_network%>%
+  ggplot(aes(x=log.network.syn.lap,y=pred.oc))+ 
+  geom_point()+
+  ggtitle("e)") +
+  geom_smooth(method = "lm",se=F)+
+  scale_color_viridis_d()+
+  labs(x="Network Synchrony",y="Predator Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+
+f<-Ext_col_data_network%>%
+  ggplot(aes(x=av.nghbr.connect.y,y=pred.oc))+ 
+  geom_point()+
+  ggtitle("f)") +
+  geom_smooth(method = "lm",se=F)+
+  scale_color_viridis_d()+
+  labs(x="Nearest Neighboor Connectivity",y="Predator Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+
+plot_grid(a,b,c,d,e,f,nrow=2)
 
 #Network level
 Ext_col_data_network<-newer_pa_datas%>%
@@ -525,7 +821,7 @@ Ext_col_data_network<-newer_pa_datas%>%
     extinction_col_prey=if_else(prey.oc==0 & lag.prey.oc== 1, 1,0),
     non_extinction_col_prey=if_else(prey.oc==1 & lag.prey.oc== 1, 1,0))%>%
   replace(is.na(.), 0)%>%
-  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year)%>%
+  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,lambda_m)%>%
   summarize(
     colonization_sum_pred=sum(colonization_col_pred),non_colonization_sum_pred=sum(non_colonization_col_pred),extinction_sum_pred=sum(extinction_col_pred),non_extinction_sum_pred=sum(non_extinction_col_pred),
     colonization_potenital_pred=sum(colonization_col_pred+non_colonization_col_pred),colonization_potenital_prey=sum(colonization_col_prey+non_colonization_col_prey),
