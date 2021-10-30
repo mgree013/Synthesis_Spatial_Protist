@@ -11,9 +11,114 @@ loc.all.glm<-loc.all%>%
   filter(nghbr.connect>0)
 
 p1<-loc.all.glm%>%
+  ggplot(aes(x=log.number.bottles, y=pred.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Metacommunity Size")+ ylab("Predator Persistence")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p2<-loc.all.glm%>%
+  ggplot(aes(x=log.total.vol, y=pred.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Total Volume")+ ylab("Predator Persistence")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p3<-loc.all.glm%>%
+  ggplot(aes(x=nghbr.connect, y=pred.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Nearest Neighboor Connectivity")+ ylab("Predator Persistence")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p4<-loc.all.glm%>%
+  ggplot(aes(x=log.network.syn.lap, y=pred.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Network Synchrony")+ylab("Predator Persistence")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+
+p5<-loc.all.glm%>%
+  ggplot(aes(x =as.factor(prod) , y = pred.persistence, fill=as.factor(prod))) +
+  geom_boxplot()+
+  xlab("Productivity (g)")+ ylab("Predator Persistence")+
+  scale_fill_viridis(discrete=T)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+plot_grid(p1,p3,p4,p5)
+
+p1<-loc.all.glm%>%
+  ggplot(aes(x=log.number.bottles, y=prey.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Metacommunity Size")+ ylab("Prey Persistence")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p2<-loc.all.glm%>%
+  ggplot(aes(x=log.total.vol, y=prey.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Total Volume")+ ylab("Prey Persistence")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p3<-loc.all.glm%>%
+  ggplot(aes(x=nghbr.connect, y=prey.persistence))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Nearest Neighboor Connectivity")+ylab("Prey Persistence")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p4<-loc.all.glm%>%
+  ggplot(aes(x=log.network.syn.lap, y=prey.persistence))+
+  geom_point() +
+  xlab("Network Asynchrony")+ ylab("Prey Persistence")+
+  geom_smooth(method='lm')+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+
+p5<-loc.all.glm%>%
+  ggplot(aes(x =as.factor(prod) , y = prey.persistence, fill=as.factor(prod))) +
+  geom_boxplot()+
+  xlab("Productivity (g)")+ ylab("Prey Persistence")+
+  scale_fill_viridis(discrete=T)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+plot_grid(p1,p3,p4,p5)
+
+p1<-loc.all.glm%>%
   ggplot(aes(x=log.number.bottles, y=day.pred.min))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Metacommunity Size")+ ylab("Day of Predator Extinction")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -23,6 +128,7 @@ p2<-loc.all.glm%>%
   ggplot(aes(x=log.total.vol, y=day.pred.min))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Total Volume")+ ylab("Day of Predator Extinction")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -32,6 +138,7 @@ p3<-loc.all.glm%>%
   ggplot(aes(x=nghbr.connect, y=day.pred.min))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Nearest Neighboor Connectivity")+ ylab("Day of Predator Extinction")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -41,6 +148,7 @@ p4<-loc.all.glm%>%
   ggplot(aes(x=log.network.syn.lap, y=day.pred.min))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Network Synchrony")+ ylab("Day of Predator Extinction")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -49,7 +157,8 @@ p4<-loc.all.glm%>%
 
 p5<-loc.all.glm%>%
   ggplot(aes(x =as.factor(prod) , y = day.pred.min, fill=as.factor(prod))) +
-  geom_boxplot()+xlab("Productivity (g)")+
+  geom_boxplot()+
+  xlab("Productivity (g)")+ ylab("Day of Predator Extinction")+
   scale_fill_viridis(discrete=T)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -61,6 +170,7 @@ p1<-loc.all.glm%>%
   ggplot(aes(x=log.number.bottles, y=day.prey.min))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Metacommunity Size")+ ylab("Day of Prey Extinction")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -70,6 +180,7 @@ p2<-loc.all.glm%>%
   ggplot(aes(x=log.total.vol, y=day.prey.min))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Total Volume")+ ylab("Day of Prey Extinction")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -79,6 +190,7 @@ p3<-loc.all.glm%>%
   ggplot(aes(x=nghbr.connect, y=day.prey.min))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Nearest Neighboor Connectivity")+ ylab("Day of Prey Extinction")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -87,6 +199,7 @@ p3<-loc.all.glm%>%
 p4<-loc.all.glm%>%
   ggplot(aes(x=log.network.syn.lap, y=day.prey.min))+
   geom_point() +
+  xlab("Network Asynchrony")+ ylab("Day of Prey Extinction")+
   geom_smooth(method='lm')+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
@@ -96,7 +209,8 @@ p4<-loc.all.glm%>%
 
 p5<-loc.all.glm%>%
   ggplot(aes(x =as.factor(prod) , y = day.prey.min, fill=as.factor(prod))) +
-  geom_boxplot()+xlab("Productivity (g)")+
+  geom_boxplot()+
+  xlab("Productivity (g)")+ ylab("Day of Prey Extinction")+
   scale_fill_viridis(discrete=T)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -113,6 +227,7 @@ p1<-reg.all.glm%>%
   ggplot(aes(x=log.number.bottles, y=pred.persistence))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Metacommunity Size")+ ylab("Predator Persistence")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -122,6 +237,7 @@ p2<-reg.all.glm%>%
   ggplot(aes(x=log.total.vol, y=pred.persistence))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Total Volume")+ ylab("Predator Persistence")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -131,6 +247,7 @@ p3<-reg.all.glm%>%
   ggplot(aes(x=av.nghbr.connect, y=pred.persistence))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Neearest Neighboor Connectivity")+ ylab("Predator Persistence")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -140,6 +257,7 @@ p4<-reg.all.glm%>%
   ggplot(aes(x=log.network.syn.lap, y=pred.persistence))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Network Asynchrony")+ ylab("Predator Persistence")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -148,7 +266,8 @@ p4<-reg.all.glm%>%
 
 p5<-reg.all.glm%>%
   ggplot(aes(x =as.factor(prod) , y = pred.persistence, fill=as.factor(prod))) +
-  geom_boxplot()+xlab("Productivity (g)")+
+  geom_boxplot()+
+  xlab("Productivity (g)")+ ylab("Predator Persistence")+
   scale_fill_viridis(discrete=T)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -160,6 +279,7 @@ p1<-reg.all.glm%>%
   ggplot(aes(x=log.number.bottles, y=prey.persistence))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Metacommunity Size")+ ylab("Prey Persistence")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -169,6 +289,7 @@ p2<-reg.all.glm%>%
   ggplot(aes(x=log.total.vol, y=prey.persistence))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Total Volume")+ ylab("Prey Persistence")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -178,6 +299,7 @@ p3<-reg.all.glm%>%
   ggplot(aes(x=av.nghbr.connect, y=prey.persistence))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Nearest Neighboor Connectivity")+ ylab("Prey Persistence")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -187,6 +309,7 @@ p4<-reg.all.glm%>%
   ggplot(aes(x=log.network.syn.lap, y=prey.persistence))+
   geom_point() +
   geom_smooth(method='lm')+
+  xlab("Network Asynchrony")+ ylab("Prey Persistence")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -195,7 +318,7 @@ p4<-reg.all.glm%>%
 
 p5<-reg.all.glm%>%
   ggplot(aes(x =as.factor(prod) , y = prey.persistence, fill=as.factor(prod))) +
-  geom_boxplot()+xlab("Productivity (g)")+
+  geom_boxplot()+xlab("Productivity (g)")+ylab("Prey Persistence")+
   scale_fill_viridis(discrete=T)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -204,7 +327,108 @@ p5<-reg.all.glm%>%
 plot_grid(p1,p3,p4,p5)
 
 
+p1<-reg.all.glm%>%
+  ggplot(aes(x=log.number.bottles, y=day.pred.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Metacommunity Size")+ylab("Day of Predator Extinction")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
+p2<-reg.all.glm%>%
+  ggplot(aes(x=log.total.vol, y=day.pred.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Total Volume")+ ylab("Day of Predator Extinction")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p3<-reg.all.glm%>%
+  ggplot(aes(x=av.nghbr.connect, y=day.pred.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Neearest Neighboor Connectivity")+ ylab("Day of Predator Extinction")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p4<-reg.all.glm%>%
+  ggplot(aes(x=log.network.syn.lap, y=day.pred.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Network Asynchrony")+ylab("Day of Predator Extinction")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+
+p5<-reg.all.glm%>%
+  ggplot(aes(x =as.factor(prod) , y = day.pred.min, fill=as.factor(prod))) +
+  geom_boxplot()+
+  xlab("Productivity (g)")+ ylab("Day of Predator Extinction")+
+  scale_fill_viridis(discrete=T)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+plot_grid(p1,p3,p4,p5)
+
+p1<-reg.all.glm%>%
+  ggplot(aes(x=log.number.bottles, y=day.prey.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Metacommunity Size")+ ylab("Day of Prey Extinction")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p2<-reg.all.glm%>%
+  ggplot(aes(x=log.total.vol, y=day.prey.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Total Volume")+ ylab("Day of Prey Extinction")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p3<-reg.all.glm%>%
+  ggplot(aes(x=av.nghbr.connect, y=day.prey.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Nearest Neighboor Connectivity")+ ylab("Day of Prey Extinction")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+p4<-reg.all.glm%>%
+  ggplot(aes(x=log.network.syn.lap, y=day.prey.min))+
+  geom_point() +
+  geom_smooth(method='lm')+
+  xlab("Network Asynchrony")+ ylab("Day of Prey Extinction")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+
+p5<-reg.all.glm%>%
+  ggplot(aes(x =as.factor(prod) , y = prey.persistence, fill=as.factor(prod))) +
+  geom_boxplot()+xlab("Productivity (g)")+ylab("Prey Persistence")+
+  scale_fill_viridis(discrete=T)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+plot_grid(p1,p3,p4,p5)
 ########################################################################################################################
 
 
