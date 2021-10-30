@@ -1147,3 +1147,65 @@ predb_net<-Ext_col_data_network%>%
 plot_grid(preda_net,predb_net)
 
 #Predicted prey and predator occupancy at network level and local  scales
+
+
+
+################################################################################################################################################
+#Trophic Dynamics
+
+trophic<-loc.all%>%
+  mutate(trophic=if_else(Sum.Zero.Prey.Densities.Locally>Sum.Zero.Predator.Densities.Locally,"prey","pred"))
+
+trophic%>%
+  filter(pred.den>0)%>%
+  filter(nghbr.connect>0)%>%
+  ggplot(aes(x=log(prey.den+1),y=log(pred.den+1)))+
+  geom_point()+
+  #ggtitle("b)") +
+  geom_smooth(method = "lm",se=F)+
+  #stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
+  scale_color_viridis_d()+
+  labs(x="Prey Density",y="Predator Density")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+#+ theme(legend.position = "none")
+  facet_grid(~trophic)
+
+trophic%>%
+  filter(pred.den>0)%>%
+  filter(nghbr.connect>0)%>%
+  ggplot(aes(x=prey.oc,y=pred.oc))+
+  geom_point()+
+  #ggtitle("b)") +
+  geom_smooth(method = "lm",se=F)+
+  #stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
+  scale_color_viridis_d()+
+  labs(x="Prey Occupancy",y="Predator Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+#+ theme(legend.position = "none")
+  facet_grid(as.factor(prod)~trophic)
+
+trophic%>%
+  filter(pred.den>0)%>%
+  filter(nghbr.connect>0)%>%
+  ggplot(aes(x=as.factor(prod),y=log(pred.den+1),fill=as.factor(prod)))+
+  geom_boxplot()+
+  #ggtitle("b)") +
+  #stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
+  scale_fill_viridis_d()+
+  labs(x="Prey Occupancy",y="Predator Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+#+ theme(legend.position = "none")
+facet_grid(as~trophic)
+
+loc.all%>%
+  filter(pred.den>0)%>%
+  filter(nghbr.connect>0)%>%
+  ggplot(aes(x=as.factor(prod),y=log(prey.den+1),fill=as.factor(prod)))+
+  geom_boxplot()+
+  #ggtitle("b)") +
+  #stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
+  scale_fill_viridis_d()+
+  labs(x="Prey Occupancy",y="Predator Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+#+ theme(legend.position = "none")
+#facet_grid(~structure)
