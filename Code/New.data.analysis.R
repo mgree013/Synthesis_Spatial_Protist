@@ -54,6 +54,7 @@ Data%>%
 ################################################################################################################################################################################################################
 #Local
 loc.all<-Data %>%
+  #filter(day > 4)%>%
   filter(day > 3 & day < 75)%>%
   filter(number.bottles > 1)%>%
   group_by(predator,prey,network.syn.lap,number.bottles, structure,replicate,media,year,bottle.number,nghbr.connect)%>%
@@ -78,8 +79,10 @@ loc.all<-Data %>%
              prey.amp=max(prey.density),pred.amp=max(pred.density),                                        #Amp density
              day.prey.max=day[which.max(prey.density)],day.pred.max=day[which.max(pred.density)],          #Day of Amp
              prey.den=mean(prey.density),pred.den=mean(pred.density),                                                #Mean Density
-             prey.persistence=sum(prey.density>1)/bottle.number,pred.persistence=sum(pred.density>1)/bottle.number,                    #Number of days Persistence
-             Sum.Zero.Prey.Densities.Locally=sum(prey.density==0)/bottle.number,Sum.Zero.Predator.Densities.Locally=sum(pred.density==0)/bottle.number,# Number of days  Zero
+             prey.ext=if_else(ln.prey<=.01, "yes", "no"),pred.ext=if_else(ln.pred<=.01, "yes", "no"),
+             prey.persistence=sum(ln.prey>1),pred.persistence=sum(ln.pred>1),                    #Number of days Persistence
+             prey.time.2.ext=first(day[ln.prey<=.25]),pred.time.2.ext=first(day[ln.pred<=.25]),
+             Sum.Zero.Prey.Densities.Locally=sum(ln.prey<1),Sum.Zero.Predator.Densities.Locally=sum(ln.pred<1),# Number of days  Zero
              cv.prey=raster::cv(prey.density,na.rm = T), cv.pred=raster::cv(pred.density,na.rm = T))%>%
   ungroup()%>%
   dplyr::distinct(predator,prey,bottle.number,media,year,structure,replicate,.keep_all = TRUE)%>%
@@ -122,8 +125,9 @@ reg.all<-Data %>%
              day.prey.min=day[which.min(prey.dens)],day.pred.min=day[which.min(pred.dens)],          #Day of Minimia
              prey.amp=max(prey.dens),pred.amp=max(pred.dens),                                        #Amp density
              day.prey.max=day[which.max(prey.dens)],day.pred.max=day[which.max(pred.dens)],          #Day of Amp
-             prey.persistence=sum(prey.dens>1),pred.persistence=sum(pred.dens>1),                    #Number of days Persistence
+             prey.persistence=sum(prey.dens>1)/meta.size,pred.persistence=sum(pred.dens>1)/meta.size,                    #Number of days Persistence
              Sum.Zero.Prey.Densities.Locally=sum(prey.dens<1),Sum.Zero.Predator.Densities.Locally=sum(pred.dens<1),# Number of days  Zero
+             prey.time.2.ext=first(day[prey.dens<1]),pred.time.2.ext=first(day[pred.dens<1]),
              cv.prey=raster::cv(prey.dens,na.rm=T), cv.pred=raster::cv(pred.dens,na.rm=T)) %>%
   mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))
 

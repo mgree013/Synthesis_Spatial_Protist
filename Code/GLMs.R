@@ -8,7 +8,8 @@ library(viridis)
 
 #local
 loc.all.glm<-loc.all%>%
-  filter(nghbr.connect>0)
+  filter(nghbr.connect>0)#%>%
+  #filter(pred.ext=="no")
 
 p1<-loc.all.glm%>%
   ggplot(aes(x=log.number.bottles, y=pred.persistence))+
@@ -115,7 +116,7 @@ p5<-loc.all.glm%>%
 plot_grid(p1,p3,p4,p5)
 
 p1<-loc.all.glm%>%
-  ggplot(aes(x=log.number.bottles, y=day.pred.min))+
+  ggplot(aes(x=log.number.bottles, y=pred.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Metacommunity Size")+ ylab("Day of Predator Extinction")+
@@ -125,7 +126,7 @@ p1<-loc.all.glm%>%
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 p2<-loc.all.glm%>%
-  ggplot(aes(x=log.total.vol, y=day.pred.min))+
+  ggplot(aes(x=log.total.vol, y=pred.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Total Volume")+ ylab("Day of Predator Extinction")+
@@ -135,7 +136,7 @@ p2<-loc.all.glm%>%
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 p3<-loc.all.glm%>%
-  ggplot(aes(x=nghbr.connect, y=day.pred.min))+
+  ggplot(aes(x=nghbr.connect, y=pred.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Nearest Neighboor Connectivity")+ ylab("Day of Predator Extinction")+
@@ -145,7 +146,7 @@ p3<-loc.all.glm%>%
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 p4<-loc.all.glm%>%
-  ggplot(aes(x=log.network.syn.lap, y=day.pred.min))+
+  ggplot(aes(x=log.network.syn.lap, y=pred.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Network Synchrony")+ ylab("Day of Predator Extinction")+
@@ -156,7 +157,7 @@ p4<-loc.all.glm%>%
 
 
 p5<-loc.all.glm%>%
-  ggplot(aes(x =as.factor(prod) , y = day.pred.min, fill=as.factor(prod))) +
+  ggplot(aes(x =as.factor(prod) , y = pred.time.2.ext, fill=as.factor(prod))) +
   geom_boxplot()+
   xlab("Productivity (g)")+ ylab("Day of Predator Extinction")+
   scale_fill_viridis(discrete=T)+
@@ -167,7 +168,7 @@ p5<-loc.all.glm%>%
 plot_grid(p1,p3,p4,p5)
 
 p1<-loc.all.glm%>%
-  ggplot(aes(x=log.number.bottles, y=day.prey.min))+
+  ggplot(aes(x=log.number.bottles, y=prey.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Metacommunity Size")+ ylab("Day of Prey Extinction")+
@@ -177,7 +178,7 @@ p1<-loc.all.glm%>%
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 p2<-loc.all.glm%>%
-  ggplot(aes(x=log.total.vol, y=day.prey.min))+
+  ggplot(aes(x=log.total.vol, y=prey.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Total Volume")+ ylab("Day of Prey Extinction")+
@@ -187,7 +188,7 @@ p2<-loc.all.glm%>%
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 p3<-loc.all.glm%>%
-  ggplot(aes(x=nghbr.connect, y=day.prey.min))+
+  ggplot(aes(x=nghbr.connect, y=prey.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Nearest Neighboor Connectivity")+ ylab("Day of Prey Extinction")+
@@ -197,7 +198,7 @@ p3<-loc.all.glm%>%
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 p4<-loc.all.glm%>%
-  ggplot(aes(x=log.network.syn.lap, y=day.prey.min))+
+  ggplot(aes(x=log.network.syn.lap, y=prey.time.2.ext))+
   geom_point() +
   xlab("Network Asynchrony")+ ylab("Day of Prey Extinction")+
   geom_smooth(method='lm')+
@@ -208,7 +209,7 @@ p4<-loc.all.glm%>%
 
 
 p5<-loc.all.glm%>%
-  ggplot(aes(x =as.factor(prod) , y = day.prey.min, fill=as.factor(prod))) +
+  ggplot(aes(x =as.factor(prod) , y = prey.time.2.ext, fill=as.factor(prod))) +
   geom_boxplot()+
   xlab("Productivity (g)")+ ylab("Day of Prey Extinction")+
   scale_fill_viridis(discrete=T)+
@@ -328,7 +329,7 @@ plot_grid(p1,p3,p4,p5)
 
 
 p1<-reg.all.glm%>%
-  ggplot(aes(x=log.number.bottles, y=day.pred.min))+
+  ggplot(aes(x=log.number.bottles, y=pred.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Metacommunity Size")+ylab("Day of Predator Extinction")+
@@ -338,7 +339,7 @@ p1<-reg.all.glm%>%
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 p2<-reg.all.glm%>%
-  ggplot(aes(x=log.total.vol, y=day.pred.min))+
+  ggplot(aes(x=log.total.vol, y=pred.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Total Volume")+ ylab("Day of Predator Extinction")+
@@ -348,7 +349,7 @@ p2<-reg.all.glm%>%
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 p3<-reg.all.glm%>%
-  ggplot(aes(x=av.nghbr.connect, y=day.pred.min))+
+  ggplot(aes(x=av.nghbr.connect, y=pred.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Neearest Neighboor Connectivity")+ ylab("Day of Predator Extinction")+
@@ -358,7 +359,7 @@ p3<-reg.all.glm%>%
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 p4<-reg.all.glm%>%
-  ggplot(aes(x=log.network.syn.lap, y=day.pred.min))+
+  ggplot(aes(x=log.network.syn.lap, y=pred.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Network Asynchrony")+ylab("Day of Predator Extinction")+
@@ -369,7 +370,7 @@ p4<-reg.all.glm%>%
 
 
 p5<-reg.all.glm%>%
-  ggplot(aes(x =as.factor(prod) , y = day.pred.min, fill=as.factor(prod))) +
+  ggplot(aes(x =as.factor(prod) , y = pred.time.2.ext, fill=as.factor(prod))) +
   geom_boxplot()+
   xlab("Productivity (g)")+ ylab("Day of Predator Extinction")+
   scale_fill_viridis(discrete=T)+
@@ -380,7 +381,7 @@ p5<-reg.all.glm%>%
 plot_grid(p1,p3,p4,p5)
 
 p1<-reg.all.glm%>%
-  ggplot(aes(x=log.number.bottles, y=day.prey.min))+
+  ggplot(aes(x=log.number.bottles, y=prey.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Metacommunity Size")+ ylab("Day of Prey Extinction")+
@@ -390,7 +391,7 @@ p1<-reg.all.glm%>%
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 p2<-reg.all.glm%>%
-  ggplot(aes(x=log.total.vol, y=day.prey.min))+
+  ggplot(aes(x=log.total.vol, y=prey.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Total Volume")+ ylab("Day of Prey Extinction")+
@@ -400,7 +401,7 @@ p2<-reg.all.glm%>%
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 p3<-reg.all.glm%>%
-  ggplot(aes(x=av.nghbr.connect, y=day.prey.min))+
+  ggplot(aes(x=av.nghbr.connect, y=prey.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Nearest Neighboor Connectivity")+ ylab("Day of Prey Extinction")+
@@ -410,7 +411,7 @@ p3<-reg.all.glm%>%
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
 p4<-reg.all.glm%>%
-  ggplot(aes(x=log.network.syn.lap, y=day.prey.min))+
+  ggplot(aes(x=log.network.syn.lap, y=prey.time.2.ext))+
   geom_point() +
   geom_smooth(method='lm')+
   xlab("Network Asynchrony")+ ylab("Day of Prey Extinction")+
@@ -421,8 +422,8 @@ p4<-reg.all.glm%>%
 
 
 p5<-reg.all.glm%>%
-  ggplot(aes(x =as.factor(prod) , y = prey.persistence, fill=as.factor(prod))) +
-  geom_boxplot()+xlab("Productivity (g)")+ylab("Prey Persistence")+
+  ggplot(aes(x =as.factor(prod) , y = prey.time.2.ext, fill=as.factor(prod))) +
+  geom_boxplot()+xlab("Productivity (g)")+ylab("Day of Prey Extinction")+
   scale_fill_viridis(discrete=T)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
@@ -1152,6 +1153,17 @@ plot_grid(preda_net,predb_net)
 
 ################################################################################################################################################
 #Trophic Dynamics
+Ext_col_data%>%
+  filter(extinction_sum_pred<2)%>%
+  ggplot(aes(y=prey.occupancy,x=pred.occupancy))+
+  geom_point()+
+  #ggtitle("b)") +
+  geom_smooth(method = "lm",se=F)+
+  #stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
+  scale_color_viridis_d()+
+  labs(y="Prey Density",x="Predator Density")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 trophic<-loc.all%>%
   mutate(trophic=if_else(Sum.Zero.Prey.Densities.Locally>Sum.Zero.Predator.Densities.Locally,"prey","pred"))
@@ -1159,16 +1171,16 @@ trophic<-loc.all%>%
 trophic%>%
   filter(pred.den>0)%>%
   filter(nghbr.connect>0)%>%
-  ggplot(aes(x=log(prey.den+1),y=log(pred.den+1)))+
+  ggplot(aes(y=log(prey.den+1),x=log(pred.den+1)))+
   geom_point()+
   #ggtitle("b)") +
   geom_smooth(method = "lm",se=F)+
   #stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
-  labs(x="Prey Density",y="Predator Density")+
+  labs(y="Prey Density",x="Predator Density")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+#+ theme(legend.position = "none")
-  facet_grid(~trophic)
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+
+  facet_grid(as.factor(prod)~pred.ext)
 
 trophic%>%
   filter(pred.den>0)%>%
