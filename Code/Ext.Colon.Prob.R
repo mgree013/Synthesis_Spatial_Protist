@@ -7,7 +7,7 @@ Datazz<-Data%>%
   unite("newID", media:predator,bottle, remove=FALSE)
 
 all_pa_dataz<-Datazz%>%
-  group_by(newID,structure,replicate,bottle,productivity,bottle.number,connectivity,predator,prey,network.syn.lap,media,year, number.bottles,nghbr.connect, Prey.disp.rate,Prey.growth.rate,Prey.K.cap,Pred.attack.rate,Pred.size,Prey.size)%>%
+  group_by(newID,volume.L,structure,replicate,bottle,productivity,bottle.number,connectivity,predator,prey,network.syn.lap,media,year, number.bottles,nghbr.connect, Prey.disp.rate,Prey.growth.rate,Prey.K.cap,Pred.attack.rate,Pred.size,Prey.size)%>%
   summarise(prey.occupancy =mean(prey.oc), pred.occupancy= mean(pred.oc))
 
 new_pa_datas <- slide(Datazz, Var = "pred.oc", GroupVar = "newID",

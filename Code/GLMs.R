@@ -773,7 +773,8 @@ occupnacy<-newer_pa_datas%>%
   mutate(log.number.bottles=log(number.bottles+1))%>%
   mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
   mutate(pred.size=log(Pred.size+1))%>%
-  mutate(prey.size=log(Prey.size+1))
+  mutate(prey.size=log(Prey.size+1))%>%
+  filter(connectivity.x>0)
 
 
 ########################################################################
@@ -794,7 +795,7 @@ b<-occupnacy%>%
   ggtitle("b)") +
   #geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
-  labs(x="Netwokr Synchrony",y="Prey Occupancy")+
+  labs(x="Network Synchrony",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
@@ -868,7 +869,7 @@ occupnacy%>%
   scale_color_viridis_d()+
   labs(x="Predator Occupancy",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+facet_wrap(number.bottles~structure.x, scales="free") #+facet_grid(media~predator)
+        panel.border = element_blank(),panel.background = element_blank())#+facet_wrap(number.bottles~structure.x, scales="free") #+facet_grid(media~predator)
 
 ################################################################################################################################################
 #Prey
@@ -877,12 +878,14 @@ y <- cbind(occupnacy$prey.occupany, occupnacy$n)
 mod1<-glm(y~log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
 mod2<-glm(y~(nghbr.connect),family=binomial(link = "logit"),data=occupnacy)
 mod3<-glm(y~log.network.syn.lap,family=binomial(link = "logit"),data=occupnacy)
+mod4<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+
 mod4<-glm(y~log.network.syn.lap*log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
 mod5<-glm(y~log.network.syn.lap*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
 mod6<-glm(y~(nghbr.connect)*log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
 mod7<-glm(y~log.network.syn.lap*log.number.bottles*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
 nullmod<-glm(y~1,family=binomial(link = "logit"),data=occupnacy)
-reported.table2 <- bbmle::AICtab(mod1,mod2,mod3,mod4,mod5,mod6,mod7,nullmod,weights = TRUE, sort = F)
+reported.table2 <- bbmle::AICtab(mod1,mod2,mod3,mod4,nullmod,weights = TRUE, sort = T)
 
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
 pseudoR2 <- ((mod2$null.deviance-mod2$deviance)/mod2$null.deviance)
@@ -903,12 +906,14 @@ y <- cbind(occupnacy$pred.occupany, occupnacy$n)
 mod1<-glm(y~log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
 mod2<-glm(y~(nghbr.connect),family=binomial(link = "logit"),data=occupnacy)
 mod3<-glm(y~log.network.syn.lap,family=binomial(link = "logit"),data=occupnacy)
+mod4<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+
 mod4<-glm(y~log.network.syn.lap*log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
 mod5<-glm(y~log.network.syn.lap*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
 mod6<-glm(y~(nghbr.connect)*log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
 mod7<-glm(y~log.network.syn.lap*log.number.bottles*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
 nullmod<-glm(y~1,family=binomial(link = "logit"),data=occupnacy)
-reported.table2 <- bbmle::AICtab(mod1,mod2,mod3,mod4,mod5,mod6,mod7,nullmod,weights = TRUE, sort = F)
+reported.table2 <- bbmle::AICtab(mod1,mod2,mod3,mod4,nullmod,weights = TRUE, sort = F)
 
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
 pseudoR2 <- ((mod2$null.deviance-mod2$deviance)/mod2$null.deviance)
@@ -944,66 +949,117 @@ pred_Ext_col_data<-Ext_col_data%>%
   filter(extinction_prob_prey<1)
   
 #Predicted Occupnacy
+dog<-betareg(pred.prey.oc~prey.oc, data=pred_Ext_col_data)
+dog1<-betareg(pred.prey.oc~1, data=pred_Ext_col_data)
+reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2
+performance::r2(dog)
+pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
+
 preda<-pred_Ext_col_data%>%
   ggplot(aes(x=prey.oc,y=pred.prey.oc))+ 
   geom_point()+
   ggtitle("c)") +
   #geom_smooth(method = "lm",se=F)+
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.80", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Prey Observed Occupancy",y="Prey Predicted Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
+
+dog<-betareg(pred.pred.oc~pred.oc, data=pred_Ext_col_data)
+dog1<-betareg(pred.prey.oc~1, data=pred_Ext_col_data)
+reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2
+performance::r2(dog)
+pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
+
 predb<-pred_Ext_col_data%>%
   ggplot(aes(x=pred.oc,y=pred.pred.oc))+ 
   geom_point()+
   ggtitle("d)") +
   #geom_smooth(method = "lm",se=F)+
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.91", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Predator Observed Occupancy",y="Predator Predicted Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
+
+dog<-betareg(colonization_prob_prey~prey.oc, data=pred_Ext_col_data)
+dog1<-betareg(colonization_prob_prey~1, data=pred_Ext_col_data)
+reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2
+performance::r2(dog)
+pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
+
 predc<-pred_Ext_col_data%>%
   ggplot(aes(x=prey.oc,y=colonization_prob_prey))+ 
   geom_point()+
   ggtitle("e)") +
   #geom_smooth(method = "lm",se=F)+
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.34", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Prey Observed Occupancy",y="Prey Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
+dog<-betareg(colonization_prob_pred~pred.oc, data=pred_Ext_col_data)
+dog1<-betareg(colonization_prob_pred~1, data=pred_Ext_col_data)
+reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2
+performance::r2(dog)
+pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
+
 predd<-pred_Ext_col_data%>%
   ggplot(aes(x=pred.oc,y=colonization_prob_pred))+ 
   geom_point()+
   ggtitle("f)") +
   #geom_smooth(method = "lm",se=F)+
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.84", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Predator Observed Occupancy",y="Predator Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
+
+dog<-betareg(extinction_prob_prey~prey.oc, data=pred_Ext_col_data)
+dog1<-betareg(extinction_prob_prey~1, data=pred_Ext_col_data)
+reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2
+performance::r2(dog)
+pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
+
 prede<-pred_Ext_col_data%>%
   ggplot(aes(x=prey.oc,y=extinction_prob_prey))+ 
   geom_point()+
   ggtitle("g)") +
   #geom_smooth(method = "lm",se=F)+
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.58", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Prey Observed Occupancy",y="Prey Extinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
+dog<-betareg(extinction_prob_pred~pred.oc, data=pred_Ext_col_data)
+dog1<-betareg(extinction_prob_pred~1, data=pred_Ext_col_data)
+reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2
+performance::r2(dog)
+pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
+
 predf<-pred_Ext_col_data%>%
   ggplot(aes(x=pred.oc,y=extinction_prob_pred))+ 
   geom_point()+
   ggtitle("h)") +
   #geom_smooth(method = "lm",se=F)+
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.55", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Predator Observed Occupancy",y="Predator Extinction Probability")+
@@ -1038,7 +1094,9 @@ Ext_col_data_network<-newer_pa_datas%>%
     ext_colon_ratio_pred=(extinction_prob_pred/colonization_prob_pred),ext_colon_ratio_prey=(extinction_prob_prey/colonization_prob_prey),
     pred.prey.oc=1-((extinction_prob_prey/colonization_prob_prey)/lambda_m),pred.pred.oc=1-((extinction_prob_pred/colonization_prob_pred)/lambda_m))%>%
   left_join(reg.all, by=c("predator","prey","productivity","network.syn.lap","number.bottles","replicate","structure","media","year"))%>%
-  distinct(structure,replicate, .keep_all = T)
+  distinct(structure,replicate, .keep_all = T)#%>%
+  #filter(pred.prey.oc>0 & pred.prey.oc<1)%>%
+  #filter(pred.pred.oc>0 & pred.pred.oc<1)
 
 #Network Occupnacy
 Ext_col_data_network%>%
@@ -1128,6 +1186,7 @@ preda_net<-Ext_col_data_network%>%
   geom_point()+
   ggtitle("a)") +
   #geom_smooth(method = "lm",se=F)+
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.67", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Prey Observed Occupancy",y="Prey Predicted Occupancy")+
@@ -1140,6 +1199,7 @@ predb_net<-Ext_col_data_network%>%
   geom_point()+
   ggtitle("b)") +
   #geom_smooth(method = "lm",se=F)+
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.64", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Predator Observed Occupancy",y="Predator Predicted Occupancy")+
@@ -1147,6 +1207,23 @@ predb_net<-Ext_col_data_network%>%
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 plot_grid(preda_net,predb_net)
+
+Ext_col_data_network_analysis<-Ext_col_data_network%>%
+  #filter(pred.prey.oc>0 & pred.prey.oc<1)%>%
+  filter(pred.pred.oc>0 & pred.pred.oc<1)
+dog<-betareg(pred.prey.oc~prey.oc, data=Ext_col_data_network_analysis)
+dog1<-betareg(pred.prey.oc~1, data=Ext_col_data_network_analysis)
+reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2
+performance::r2(dog)
+pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
+
+dog<-betareg(pred.pred.oc~pred.oc, data=Ext_col_data_network_analysis)
+dog1<-betareg(pred.pred.oc~1, data=Ext_col_data_network_analysis)
+reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2
+performance::r2(dog)
+pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
 
 #Predicted prey and predator occupancy at network level and local  scales
 
@@ -1178,10 +1255,11 @@ trophic%>%
   geom_smooth(method = "lm",se=F)+
   #stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
+  annotate("text", x = 4, y = 2.5, label = "R^2 == 0.39", parse = TRUE) +
   labs(y="Prey Density",x="Predator Density")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+
-  facet_grid(as.factor(prod)~pred.ext)
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")#+
+  #facet_grid(as.factor(prod)~pred.ext)
 
 trophic.glm<-trophic%>%
   filter(pred.den>0)%>%
@@ -1191,6 +1269,9 @@ dog<-glm(log(prey.den+1)~log(pred.den+1),family=gaussian(link = "identity"), dat
 dog1<-glm(log(prey.den+1)~1,family=gaussian(link = "identity"), data=trophic.glm)
 reported.table2<-bbmle::AICtab(dog1,dog)
 reported.table2
+pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
+pseudoR1 <- ((dog1$null.deviance-dog1$deviance)/dog1$null.deviance)
+
 r2(dog)
 performance::r2(dog1)
 

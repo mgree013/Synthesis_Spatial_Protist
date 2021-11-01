@@ -136,6 +136,15 @@ reg.all<-Data %>%
 
 #local plots
 loc.all %>%
+  ggplot(aes(x =total.vol , y = pred.oc)) +
+  geom_point() +
+  geom_smooth(method='glm')+xlab("Metacommunity Size")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+loc.all %>%
   gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally,prey.persistence,pred.persistence, key = "var", value = "value") %>% 
   ggplot(aes(x =(log.number.bottles) , y = value, colour=var)) +
   geom_point() +
