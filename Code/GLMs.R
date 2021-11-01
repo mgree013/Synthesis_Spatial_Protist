@@ -2,7 +2,8 @@ library(cowplot)
 library(tidyverse)
 library(ggplot2)
 library(viridis)
-
+library(performance)
+library(bbmle)
 ########################################################################################################################
 #Ext, time 2 ext, persistence dynamics
 
@@ -1181,6 +1182,17 @@ trophic%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+
   facet_grid(as.factor(prod)~pred.ext)
+
+trophic.glm<-trophic%>%
+  filter(pred.den>0)%>%
+  filter(nghbr.connect>0)
+
+dog<-glm(log(prey.den+1)~log(pred.den+1),family=gaussian(link = "identity"), data=trophic.glm)
+dog1<-glm(log(prey.den+1)~1,family=gaussian(link = "identity"), data=trophic.glm)
+reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2
+r2(dog)
+performance::r2(dog1)
 
 trophic%>%
   filter(pred.den>0)%>%
