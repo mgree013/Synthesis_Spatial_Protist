@@ -233,7 +233,7 @@ p1<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~pred.ext)
 
 p2<-reg.all.glm%>%
   ggplot(aes(x=log.total.vol, y=pred.persistence))+
@@ -243,7 +243,7 @@ p2<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~pred.ext)
 
 p3<-reg.all.glm%>%
   ggplot(aes(x=av.nghbr.connect, y=pred.persistence))+
@@ -253,7 +253,7 @@ p3<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~pred.ext)
 
 p4<-reg.all.glm%>%
   ggplot(aes(x=log.network.syn.lap, y=pred.persistence))+
@@ -263,7 +263,7 @@ p4<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~pred.ext)
 
 
 p5<-reg.all.glm%>%
@@ -273,7 +273,7 @@ p5<-reg.all.glm%>%
   scale_fill_viridis(discrete=T)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~pred.ext)
 
 plot_grid(p1,p3,p4,p5)
 
@@ -285,7 +285,7 @@ p1<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~prey.ext)
 
 p2<-reg.all.glm%>%
   ggplot(aes(x=log.total.vol, y=prey.persistence))+
@@ -295,7 +295,7 @@ p2<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~prey.ext)
 
 p3<-reg.all.glm%>%
   ggplot(aes(x=av.nghbr.connect, y=prey.persistence))+
@@ -305,7 +305,7 @@ p3<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~prey.ext)
 
 p4<-reg.all.glm%>%
   ggplot(aes(x=log.network.syn.lap, y=prey.persistence))+
@@ -315,7 +315,7 @@ p4<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~prey.ext)
 
 
 p5<-reg.all.glm%>%
@@ -324,7 +324,7 @@ p5<-reg.all.glm%>%
   scale_fill_viridis(discrete=T)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~prey.ext)
 
 plot_grid(p1,p3,p4,p5)
 
@@ -337,7 +337,7 @@ p1<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~pred.ext)
 
 p2<-reg.all.glm%>%
   ggplot(aes(x=log.total.vol, y=pred.time.2.ext))+
@@ -347,7 +347,7 @@ p2<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~pred.ext)
 
 p3<-reg.all.glm%>%
   ggplot(aes(x=av.nghbr.connect, y=pred.time.2.ext))+
@@ -357,7 +357,7 @@ p3<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~pred.ext)
 
 p4<-reg.all.glm%>%
   ggplot(aes(x=log.network.syn.lap, y=pred.time.2.ext))+
@@ -367,7 +367,7 @@ p4<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~pred.ext)
 
 
 p5<-reg.all.glm%>%
@@ -377,7 +377,7 @@ p5<-reg.all.glm%>%
   scale_fill_viridis(discrete=T)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~pred.ext)
 
 plot_grid(p1,p3,p4,p5)
 
@@ -389,7 +389,7 @@ p1<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~prey.ext)
 
 p2<-reg.all.glm%>%
   ggplot(aes(x=log.total.vol, y=prey.time.2.ext))+
@@ -399,7 +399,7 @@ p2<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~prey.ext)
 
 p3<-reg.all.glm%>%
   ggplot(aes(x=av.nghbr.connect, y=prey.time.2.ext))+
@@ -409,7 +409,7 @@ p3<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~prey.ext)
 
 p4<-reg.all.glm%>%
   ggplot(aes(x=log.network.syn.lap, y=prey.time.2.ext))+
@@ -419,7 +419,7 @@ p4<-reg.all.glm%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~prey.ext)
 
 
 p5<-reg.all.glm%>%
@@ -428,7 +428,7 @@ p5<-reg.all.glm%>%
   scale_fill_viridis(discrete=T)+
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")+facet_grid(~prey.ext)
 
 plot_grid(p1,p3,p4,p5)
 ########################################################################################################################

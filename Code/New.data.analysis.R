@@ -120,14 +120,16 @@ reg.all<-Data %>%
              #prey.k.cap=mean(Prey.K.cap),
             # prey.disp=mean(Prey.disp.rate),
              prey.oc=mean(prey.net.oc),pred.oc=mean(pred.net.oc),
+             prey.oc=mean(prey.net.oc),pred.oc=mean(pred.net.oc),
             # prey.den=sum(ln.prey),pred.den=sum(ln.pred), 
+             prey.ext=if_else(prey.dens<=.1*(mean(prey.dens)), "yes", "no"),pred.ext=if_else(pred.dens<=.1*(mean(pred.dens)), "yes", "no"),
              prey.minimia=min(prey.dens),pred.minimia=min(pred.dens),                                #Minima density
              day.prey.min=day[which.min(prey.dens)],day.pred.min=day[which.min(pred.dens)],          #Day of Minimia
              prey.amp=max(prey.dens),pred.amp=max(pred.dens),                                        #Amp density
              day.prey.max=day[which.max(prey.dens)],day.pred.max=day[which.max(pred.dens)],          #Day of Amp
              prey.persistence=sum(prey.dens>1)/meta.size,pred.persistence=sum(pred.dens>1)/meta.size,                    #Number of days Persistence
              Sum.Zero.Prey.Densities.Locally=sum(prey.dens<1),Sum.Zero.Predator.Densities.Locally=sum(pred.dens<1),# Number of days  Zero
-             prey.time.2.ext=first(day[prey.dens<1]),pred.time.2.ext=first(day[pred.dens<1]),
+             prey.time.2.ext=first(day[prey.dens<=.4]),pred.time.2.ext=first(day[pred.dens<=.4]),
              cv.prey=raster::cv(prey.dens,na.rm=T), cv.pred=raster::cv(pred.dens,na.rm=T)) %>%
   mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))
 
@@ -136,7 +138,8 @@ reg.all<-Data %>%
 
 #local plots
 loc.all %>%
-  ggplot(aes(x =total.vol , y = pred.oc)) +
+  filter(nghbr.connect>0)%>%
+  ggplot(aes(x =total.vol, y = pred.oc)) +
   geom_point() +
   geom_smooth(method='glm')+xlab("Metacommunity Size")+
   scale_color_viridis(discrete = TRUE)+
