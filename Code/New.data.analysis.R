@@ -40,7 +40,8 @@ Data%>%
   facet_wrap(~interaction(year,media,structure))
 
 Data%>%
-  filter(day > 3 & day < 100)%>%
+  filter(connectivity>0)%>%
+  filter(day > 3 & day < 75)%>%
   dplyr::group_by(structure,day,year,media)%>%
   dplyr::summarize(density.prey =mean(ln.prey), density.pred= mean(ln.pred))%>%
   pivot_longer(cols=density.prey:density.pred,names_to = "species", values_to="density")%>%
@@ -89,8 +90,7 @@ loc.all<-Data %>%
   mutate(log.number.bottles=log(number.bottles+1))%>%
   mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
   mutate(log.total.vol=log(total.vol+1))
-# CV 
-            # prey.cor= corrr::correlate(prey.den,pred.den, method="pearson"))#, pred.cor=correlate(pred.den, method="pearson"))
+
 
 #Regional
 reg.all<-Data %>%
@@ -133,6 +133,8 @@ reg.all<-Data %>%
 
 ################################################################################################################################################################################################################################################################
 #Days to Extinction
+
+#local plots
 loc.all %>%
   gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally,prey.persistence,pred.persistence, key = "var", value = "value") %>% 
   ggplot(aes(x =(log.number.bottles) , y = value, colour=var)) +
@@ -164,6 +166,7 @@ loc.all %>%
   theme_bw()+ theme(panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
 loc.all %>%
   gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
   ggplot(aes(x =as.factor(prod) , y = value, fill=var)) +
@@ -174,9 +177,7 @@ loc.all %>%
                     panel.grid.minor = element_blank(),
                     panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
 
-
-
-
+#Regional Plots
 reg.all %>%
   gather(day.prey.min,day.pred.min,Sum.Zero.Prey.Densities.Locally,Sum.Zero.Predator.Densities.Locally, key = "var", value = "value") %>% 
   ggplot(aes(x =(log.number.bottles) , y = value, colour=var)) +
