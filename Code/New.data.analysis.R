@@ -8,6 +8,7 @@ library(raster)
 library(corrr)
 library(viridis)
 library(lme4)
+library(cowplot)
 ########################################################################################################################
 setwd("~/Dropbox/Protist Lab Data/Kurt_Matthew_Shared Data/Dendritic Data/Holistic/Data/All.Matt/")
 
