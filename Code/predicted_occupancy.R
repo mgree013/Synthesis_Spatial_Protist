@@ -73,7 +73,7 @@ pred_Ext_col_data<-Ext_col_data%>%
 
 dog<-betareg(pred.prey.oc~prey.oc, data=pred_Ext_col_data)
 dog1<-betareg(pred.prey.oc~1, data=pred_Ext_col_data)
-reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2<-bbmle::AICtab(dog1,dog,weights = TRUE, sort = F)
 reported.table2
 performance::r2(dog)
 pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
@@ -93,7 +93,7 @@ preda<-pred_Ext_col_data%>%
 
 dog<-betareg(pred.pred.oc~pred.oc, data=pred_Ext_col_data)
 dog1<-betareg(pred.prey.oc~1, data=pred_Ext_col_data)
-reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2<-bbmle::AICtab(dog1,dog,weights=T)
 reported.table2
 performance::r2(dog)
 pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
@@ -113,7 +113,7 @@ predb<-pred_Ext_col_data%>%
 
 dog<-betareg(colonization_prob_prey~prey.oc, data=pred_Ext_col_data)
 dog1<-betareg(colonization_prob_prey~1, data=pred_Ext_col_data)
-reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2<-bbmle::AICtab(dog1,dog,weights=T)
 reported.table2
 performance::r2(dog)
 pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
@@ -152,7 +152,7 @@ predd<-pred_Ext_col_data%>%
 
 dog<-betareg(extinction_prob_prey~prey.oc, data=pred_Ext_col_data)
 dog1<-betareg(extinction_prob_prey~1, data=pred_Ext_col_data)
-reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2<-bbmle::AICtab(dog1,dog,weights=T)
 reported.table2
 performance::r2(dog)
 pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
@@ -171,7 +171,7 @@ prede<-pred_Ext_col_data%>%
 
 dog<-betareg(extinction_prob_pred~pred.oc, data=pred_Ext_col_data)
 dog1<-betareg(extinction_prob_pred~1, data=pred_Ext_col_data)
-reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2<-bbmle::AICtab(dog1,dog,weights=T)
 reported.table2
 performance::r2(dog)
 pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
@@ -191,7 +191,7 @@ predf<-pred_Ext_col_data%>%
 
 ################################################################################################################################################
 #2) Network level
-Ext_col_data_network<-newer_pa_datas%>%
+pred_network<-newer_pa_datas%>%
   filter(structure !="control")%>%
   rename(lag.pred.oc = `pred.oc-1`,lag.prey.oc = `prey.oc-1`)%>%
   mutate(
@@ -222,7 +222,7 @@ Ext_col_data_network<-newer_pa_datas%>%
 
 
 #Predicted Occupnacy
-preda_net<-Ext_col_data_network%>%
+preda_net<-pred_network%>%
   filter(pred.prey.oc>0)%>%
   ggplot(aes(x=prey.oc,y=pred.prey.oc))+ 
   geom_point()+
@@ -235,7 +235,7 @@ preda_net<-Ext_col_data_network%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
-predb_net<-Ext_col_data_network%>%
+predb_net<-pred_network%>%
   filter(pred.pred.oc>0)%>%
   ggplot(aes(x=pred.oc,y=pred.pred.oc))+ 
   geom_point()+
@@ -250,9 +250,11 @@ predb_net<-Ext_col_data_network%>%
 
 plot_grid(preda_net,predb_net)
 
-Ext_col_data_network_analysis<-Ext_col_data_network%>%
+Ext_col_data_network_analysis<-pred_network%>%
   #filter(pred.prey.oc>0 & pred.prey.oc<1)%>%
+  #filter(prey.oc>0 & prey.oc<1)
   filter(pred.pred.oc>0 & pred.pred.oc<1)
+  
 dog<-betareg(pred.prey.oc~prey.oc, data=Ext_col_data_network_analysis)
 dog1<-betareg(pred.prey.oc~1, data=Ext_col_data_network_analysis)
 reported.table2<-bbmle::AICtab(dog1,dog)

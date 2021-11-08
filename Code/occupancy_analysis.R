@@ -124,18 +124,27 @@ occupnacy%>%
 #Prey
 y <- cbind(occupnacy$prey.occupany, occupnacy$n)
 
+mod0<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
 mod1<-glm(y~log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
 mod2<-glm(y~(nghbr.connect),family=binomial(link = "logit"),data=occupnacy)
 mod3<-glm(y~log.network.syn.lap,family=binomial(link = "logit"),data=occupnacy)
-mod4<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
-
 mod4<-glm(y~log.network.syn.lap*log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
 mod5<-glm(y~log.network.syn.lap*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
 mod6<-glm(y~(nghbr.connect)*log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
-mod7<-glm(y~log.network.syn.lap*log.number.bottles*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod7<-glm(y~(nghbr.connect)*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod8<-glm(y~(log.network.syn.lap)*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod9<-glm(y~log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod10<-glm(y~log.network.syn.lap*log.number.bottles*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod11<-glm(y~log.network.syn.lap*log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod12<-glm(y~log.network.syn.lap*as.factor(productivity)*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod13<-glm(y~log.number.bottles*as.factor(productivity)*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod14<-glm(y~log.network.syn.lap*log.number.bottles*nghbr.connect*productivity,family=binomial(link = "logit"),data=occupnacy)
 nullmod<-glm(y~1,family=binomial(link = "logit"),data=occupnacy)
-reported.table2 <- bbmle::AICtab(mod1,mod2,mod3,mod4,nullmod,weights = TRUE, sort = T)
 
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
+reported.table2
+
+pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
 pseudoR2 <- ((mod2$null.deviance-mod2$deviance)/mod2$null.deviance)
 pseudoR3 <- ((mod3$null.deviance-mod3$deviance)/mod3$null.deviance)
@@ -143,27 +152,44 @@ pseudoR4 <- ((mod4$null.deviance-mod4$deviance)/mod4$null.deviance)
 pseudoR5 <- ((mod5$null.deviance-mod5$deviance)/mod5$null.deviance)
 pseudoR6 <- ((mod6$null.deviance-mod6$deviance)/mod6$null.deviance)
 pseudoR7 <- ((mod7$null.deviance-mod7$deviance)/mod7$null.deviance)
+pseudoR8 <- ((mod8$null.deviance-mod8$deviance)/mod8$null.deviance)
+pseudoR9 <- ((mod9$null.deviance-mod9$deviance)/mod9$null.deviance)
+pseudoR10 <- ((mod10$null.deviance-mod10$deviance)/mod10$null.deviance)
+pseudoR11 <- ((mod11$null.deviance-mod11$deviance)/mod11$null.deviance)
+pseudoR12 <- ((mod12$null.deviance-mod12$deviance)/mod12$null.deviance)
+pseudoR13 <- ((mod13$null.deviance-mod13$deviance)/mod13$null.deviance)
+pseudoR14 <- ((mod14$null.deviance-mod14$deviance)/mod14$null.deviance)
 pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.deviance)
 
-r2<-c(pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoRnullmod)
+r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
 r22<-as.data.frame(r2, ncol=1)
 r22
+
 
 ###pred 
 y <- cbind(occupnacy$pred.occupany, occupnacy$n)
 
+mod0<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
 mod1<-glm(y~log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
 mod2<-glm(y~(nghbr.connect),family=binomial(link = "logit"),data=occupnacy)
 mod3<-glm(y~log.network.syn.lap,family=binomial(link = "logit"),data=occupnacy)
-mod4<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
-
 mod4<-glm(y~log.network.syn.lap*log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
 mod5<-glm(y~log.network.syn.lap*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
 mod6<-glm(y~(nghbr.connect)*log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
-mod7<-glm(y~log.network.syn.lap*log.number.bottles*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod7<-glm(y~(nghbr.connect)*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod8<-glm(y~(log.network.syn.lap)*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod9<-glm(y~log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod10<-glm(y~log.network.syn.lap*log.number.bottles*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod11<-glm(y~log.network.syn.lap*log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod12<-glm(y~log.network.syn.lap*as.factor(productivity)*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod13<-glm(y~log.number.bottles*as.factor(productivity)*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod14<-glm(y~log.network.syn.lap*log.number.bottles*nghbr.connect*productivity,family=binomial(link = "logit"),data=occupnacy)
 nullmod<-glm(y~1,family=binomial(link = "logit"),data=occupnacy)
-reported.table2 <- bbmle::AICtab(mod1,mod2,mod3,mod4,nullmod,weights = TRUE, sort = F)
 
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
+reported.table2
+
+pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
 pseudoR2 <- ((mod2$null.deviance-mod2$deviance)/mod2$null.deviance)
 pseudoR3 <- ((mod3$null.deviance-mod3$deviance)/mod3$null.deviance)
@@ -171,41 +197,46 @@ pseudoR4 <- ((mod4$null.deviance-mod4$deviance)/mod4$null.deviance)
 pseudoR5 <- ((mod5$null.deviance-mod5$deviance)/mod5$null.deviance)
 pseudoR6 <- ((mod6$null.deviance-mod6$deviance)/mod6$null.deviance)
 pseudoR7 <- ((mod7$null.deviance-mod7$deviance)/mod7$null.deviance)
+pseudoR8 <- ((mod8$null.deviance-mod8$deviance)/mod8$null.deviance)
+pseudoR9 <- ((mod9$null.deviance-mod9$deviance)/mod9$null.deviance)
+pseudoR10 <- ((mod10$null.deviance-mod10$deviance)/mod10$null.deviance)
+pseudoR11 <- ((mod11$null.deviance-mod11$deviance)/mod11$null.deviance)
+pseudoR12 <- ((mod12$null.deviance-mod12$deviance)/mod12$null.deviance)
+pseudoR13 <- ((mod13$null.deviance-mod13$deviance)/mod13$null.deviance)
+pseudoR14 <- ((mod14$null.deviance-mod14$deviance)/mod14$null.deviance)
 pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.deviance)
 
-r2<-c(pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoRnullmod)
+r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
 r22<-as.data.frame(r2, ncol=1)
 r22
 
 ######################################################################################################################################################
 #Network level
+
 Ext_col_data_network<-newer_pa_datas%>%
-  filter(structure !="control")%>%
-  rename(lag.pred.oc = `pred.oc-1`,lag.prey.oc = `prey.oc-1`)%>%
-  mutate(
-    colonization_col_pred=if_else(pred.oc==1 & lag.pred.oc==0 ,1,0),
-    non_colonization_col_pred=if_else(pred.oc==0 & lag.pred.oc==0 ,1,0), 
-    extinction_col_pred=if_else(pred.oc==0 & lag.pred.oc==1 ,1,0),
-    non_extinction_col_pred=if_else(pred.oc==1 & lag.pred.oc==1 ,1,0),
-    colonization_col_prey=if_else(prey.oc==1 & lag.prey.oc==0 ,1,0), 
-    non_colonization_col_prey=if_else(prey.oc==0 & lag.prey.oc==0 ,1,0), 
-    extinction_col_prey=if_else(prey.oc==0 & lag.prey.oc== 1, 1,0),
-    non_extinction_col_prey=if_else(prey.oc==1 & lag.prey.oc== 1, 1,0))%>%
-  replace(is.na(.), 0)%>%
-  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,lambda_m)%>%
-  summarize(
-    colonization_sum_pred=sum(colonization_col_pred),non_colonization_sum_pred=sum(non_colonization_col_pred),extinction_sum_pred=sum(extinction_col_pred),non_extinction_sum_pred=sum(non_extinction_col_pred),
-    colonization_potenital_pred=sum(colonization_col_pred+non_colonization_col_pred),colonization_potenital_prey=sum(colonization_col_prey+non_colonization_col_prey),
-    extinction_potenital_pred=sum(extinction_col_pred+non_extinction_col_pred),extinction_potenital_prey=sum(extinction_col_prey+non_extinction_col_prey),
-    colonization_sum_prey=sum(colonization_col_prey),non_colonization_sum_prey=sum(non_colonization_col_prey),extinction_sum_prey=sum(extinction_col_prey),non_extinction_sum_prey=sum(non_extinction_col_prey),
-    colonization_prob_pred=colonization_sum_pred/colonization_potenital_pred, extinction_prob_pred=extinction_sum_pred/extinction_potenital_pred,
-    colonization_prob_prey=colonization_sum_prey/colonization_potenital_prey, extinction_prob_prey=extinction_sum_prey/extinction_potenital_prey,
-    ext_colon_ratio_pred=(extinction_prob_pred/colonization_prob_pred),ext_colon_ratio_prey=(extinction_prob_prey/colonization_prob_prey),
-    pred.prey.oc=1-((extinction_prob_prey/colonization_prob_prey)/lambda_m),pred.pred.oc=1-((extinction_prob_pred/colonization_prob_pred)/lambda_m))%>%
-  left_join(reg.all, by=c("predator","prey","productivity","network.syn.lap","number.bottles","replicate","structure","media","year"))%>%
-  distinct(structure,replicate, .keep_all = T)#%>%
-#filter(pred.prey.oc>0 & pred.prey.oc<1)%>%
-#filter(pred.pred.oc>0 & pred.pred.oc<1)
+  filter(day > 3 & day < 75)%>%
+  #filter(day < 75)%>%
+  #filter(day  > 75 & day < 150)%>%
+  #filter(day  > 150)%>%
+  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,day,volume.L) %>%
+  summarise(prey.dens=sum(ln.prey),pred.dens=sum(ln.pred),
+            total.vol=sum(volume.L),
+            av.nghbr.connect=mean(nghbr.connect),
+            prey.net.oc=if_else(prey.oc>0,1,0),pred.net.oc=if_else(pred.oc>0,1,0))%>%
+  ungroup()%>%
+  mutate(prey.unoccupied=if_else(prey.net.oc==1,0,1),prey.occupied=if_else(prey.net.oc==1,1,0),
+         pred.unoccupied=if_else(pred.net.oc==1,0,1),pred.occupied=if_else(pred.net.oc==1,1,0))%>%
+  group_by(structure,replicate, av.nghbr.connect,predator,prey, productivity,year,number.bottles,network.syn.lap)%>%
+  summarise(n=n(),
+            prey.occupany =sum(prey.occupied), prey.absence=sum(prey.unoccupied),
+            pred.occupany =sum(pred.occupied), pred.absence=sum(pred.unoccupied),
+            prey.oc=prey.occupany/n,pred.oc=pred.occupany/n,
+            prey.non.oc=prey.absence/n,pred.non.oc=pred.absence/n,
+            prey=prey.absence/prey.occupany,prey1=prey.occupany/prey.absence)%>%
+  #left_join(reg.all, by=c("structure","replicate", "av.nghbr.connect","predator","prey", "productivity","year"))%>%
+  mutate(log.number.bottles=log(number.bottles+1))%>%
+  mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
+  filter(av.nghbr.connect>0)
 
 #Network Occupnacy
 prey.a<-Ext_col_data_network%>%
@@ -292,3 +323,96 @@ plot_grid(a,b,c,d,e,f,nrow=2)
 plot_grid(prey.a,a,b,c,pred.a,d,e,f,nrow=2)
 
 ##########################################################################
+#2) Regional GLMs
+
+################################################################################################################################################
+#Prey
+y <- cbind(Ext_col_data_network$prey.occupany, Ext_col_data_network$prey.absence)
+
+mod0<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod1<-glm(y~log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod2<-glm(y~(av.nghbr.connect),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod3<-glm(y~log.network.syn.lap,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod4<-glm(y~log.network.syn.lap*log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod5<-glm(y~log.network.syn.lap*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod6<-glm(y~(av.nghbr.connect)*log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod7<-glm(y~(av.nghbr.connect)*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod8<-glm(y~(log.network.syn.lap)*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod9<-glm(y~log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod10<-glm(y~log.network.syn.lap*log.number.bottles*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod11<-glm(y~log.network.syn.lap*log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod12<-glm(y~log.network.syn.lap*as.factor(productivity)*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod13<-glm(y~log.number.bottles*as.factor(productivity)*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod14<-glm(y~log.network.syn.lap*log.number.bottles*av.nghbr.connect*productivity,family=binomial(link = "logit"),data=Ext_col_data_network)
+nullmod<-glm(y~1,family=binomial(link = "logit"),data=Ext_col_data_network)
+
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
+reported.table2
+
+pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
+pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
+pseudoR2 <- ((mod2$null.deviance-mod2$deviance)/mod2$null.deviance)
+pseudoR3 <- ((mod3$null.deviance-mod3$deviance)/mod3$null.deviance)
+pseudoR4 <- ((mod4$null.deviance-mod4$deviance)/mod4$null.deviance)
+pseudoR5 <- ((mod5$null.deviance-mod5$deviance)/mod5$null.deviance)
+pseudoR6 <- ((mod6$null.deviance-mod6$deviance)/mod6$null.deviance)
+pseudoR7 <- ((mod7$null.deviance-mod7$deviance)/mod7$null.deviance)
+pseudoR8 <- ((mod8$null.deviance-mod8$deviance)/mod8$null.deviance)
+pseudoR9 <- ((mod9$null.deviance-mod9$deviance)/mod9$null.deviance)
+pseudoR10 <- ((mod10$null.deviance-mod10$deviance)/mod10$null.deviance)
+pseudoR11 <- ((mod11$null.deviance-mod11$deviance)/mod11$null.deviance)
+pseudoR12 <- ((mod12$null.deviance-mod12$deviance)/mod12$null.deviance)
+pseudoR13 <- ((mod13$null.deviance-mod13$deviance)/mod13$null.deviance)
+pseudoR14 <- ((mod14$null.deviance-mod14$deviance)/mod14$null.deviance)
+pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.deviance)
+
+r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
+r22<-as.data.frame(r2, ncol=1)
+r22
+
+
+###pred 
+y <- cbind(Ext_col_data_network$pred.occupany, Ext_col_data_network$pred.absence)
+
+mod0<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod1<-glm(y~log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod2<-glm(y~(av.nghbr.connect),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod3<-glm(y~log.network.syn.lap,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod4<-glm(y~log.network.syn.lap*log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod5<-glm(y~log.network.syn.lap*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod6<-glm(y~(av.nghbr.connect)*log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod7<-glm(y~(av.nghbr.connect)*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod8<-glm(y~(log.network.syn.lap)*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod9<-glm(y~log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod10<-glm(y~log.network.syn.lap*log.number.bottles*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod11<-glm(y~log.network.syn.lap*log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod12<-glm(y~log.network.syn.lap*as.factor(productivity)*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod13<-glm(y~log.number.bottles*as.factor(productivity)*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod14<-glm(y~log.network.syn.lap*log.number.bottles*av.nghbr.connect*productivity,family=binomial(link = "logit"),data=Ext_col_data_network)
+nullmod<-glm(y~1,family=binomial(link = "logit"),data=Ext_col_data_network)
+
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
+reported.table2
+
+pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
+pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
+pseudoR2 <- ((mod2$null.deviance-mod2$deviance)/mod2$null.deviance)
+pseudoR3 <- ((mod3$null.deviance-mod3$deviance)/mod3$null.deviance)
+pseudoR4 <- ((mod4$null.deviance-mod4$deviance)/mod4$null.deviance)
+pseudoR5 <- ((mod5$null.deviance-mod5$deviance)/mod5$null.deviance)
+pseudoR6 <- ((mod6$null.deviance-mod6$deviance)/mod6$null.deviance)
+pseudoR7 <- ((mod7$null.deviance-mod7$deviance)/mod7$null.deviance)
+pseudoR8 <- ((mod8$null.deviance-mod8$deviance)/mod8$null.deviance)
+pseudoR9 <- ((mod9$null.deviance-mod9$deviance)/mod9$null.deviance)
+pseudoR10 <- ((mod10$null.deviance-mod10$deviance)/mod10$null.deviance)
+pseudoR11 <- ((mod11$null.deviance-mod11$deviance)/mod11$null.deviance)
+pseudoR12 <- ((mod12$null.deviance-mod12$deviance)/mod12$null.deviance)
+pseudoR13 <- ((mod13$null.deviance-mod13$deviance)/mod13$null.deviance)
+pseudoR14 <- ((mod14$null.deviance-mod14$deviance)/mod14$null.deviance)
+pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.deviance)
+
+r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
+r22<-as.data.frame(r2, ncol=1)
+r22
+
+###########################################################################################################################
