@@ -60,7 +60,7 @@ loc.all<-Data %>%
   #filter(day > 4)%>%
   filter(day > 3 & day < 75)%>%
   filter(number.bottles > 1)%>%
-  group_by(predator,prey,network.syn.lap,number.bottles, structure,replicate,media,year,bottle.number,nghbr.connect)%>%
+  group_by(predator,prey,network.syn.lap,number.bottles, structure,replicate,media,year,bottle.number,nghbr.connect,productivity)%>%
   dplyr::summarize(sampling.days=n(),
              prod=mean(productivity),
              patch.degree=mean(connectivity),
@@ -82,7 +82,12 @@ loc.all<-Data %>%
              prey.amp=max(prey.density),pred.amp=max(pred.density),                                        #Amp density
              day.prey.max=day[which.max(prey.density)],day.pred.max=day[which.max(pred.density)],          #Day of Amp
              prey.den=mean(prey.density),pred.den=mean(pred.density),                                                #Mean Density
-             prey.ext=if_else(ln.prey<=.01, "yes", "no"),pred.ext=if_else(ln.pred<=.01, "yes", "no"),
+             prey.quasi.ext.ten=if_else(prey.density<=.1*(mean(prey.density)), "yes", "no"),pred.quasi.ext.ten=if_else(pred.density<=.1*(mean(pred.density)), "yes", "no"),
+             prey.quasi.ext.five=if_else(prey.density<=.05*(mean(prey.density)), "yes", "no"),pred.quasi.ext.five=if_else(pred.density<=.05*(mean(pred.density)), "yes", "no"),
+             prey.quasi.ext.one=if_else(prey.density<=.01*(mean(prey.density)), "yes", "no"),pred.quasi.ext.one=if_else(pred.density<=.01*(mean(pred.density)), "yes", "no"),
+             prey.ext=if_else(prey.density<=0, "yes", "no"),pred.ext=if_else(pred.density<=0, "yes", "no"),       
+             prey.ext.quant=if_else(prey.density<=0, 1, 0),pred.ext.quant=if_else(pred.density<=0, 1,0),
+             prey.meta.ext=sum(prey.ext.quant),pred.meta.ext=sum(pred.ext.quant),
              prey.persistence=sum(ln.prey>1),pred.persistence=sum(ln.pred>1),                    #Number of days Persistence
              prey.time.2.ext=first(day[ln.prey<=.25]),pred.time.2.ext=first(day[ln.pred<=.25]),
              Sum.Zero.Prey.Densities.Locally=sum(ln.prey<1),Sum.Zero.Predator.Densities.Locally=sum(ln.pred<1),# Number of days  Zero
@@ -122,9 +127,12 @@ reg.all<-Data %>%
              #prey.k.cap=mean(Prey.K.cap),
             # prey.disp=mean(Prey.disp.rate),
              prey.oc=mean(prey.net.oc),pred.oc=mean(pred.net.oc),
-             prey.oc=mean(prey.net.oc),pred.oc=mean(pred.net.oc),
+             prey.dens=mean(prey.dens)/number.bottles,pred.dens=mean(pred.dens)/number.bottles,
             # prey.den=sum(ln.prey),pred.den=sum(ln.pred), 
-             prey.ext=if_else(prey.dens<=.1*(mean(prey.dens)), "yes", "no"),pred.ext=if_else(pred.dens<=.1*(mean(pred.dens)), "yes", "no"),
+             prey.quasi.ext.ten=if_else(prey.dens<=.1*(mean(prey.dens)), "yes", "no"),pred.quasi.ext.ten=if_else(pred.dens<=.1*(mean(pred.dens)), "yes", "no"),
+             prey.quasi.ext.five=if_else(prey.dens<=.05*(mean(prey.dens)), "yes", "no"),pred.quasi.ext.five=if_else(pred.dens<=.05*(mean(pred.dens)), "yes", "no"),
+             prey.quasi.ext.one=if_else(prey.dens<=.01*(mean(prey.dens)), "yes", "no"),pred.quasi.ext.one=if_else(pred.dens<=.01*(mean(pred.dens)), "yes", "no"),
+             prey.ext=if_else(prey.dens<=0, "yes", "no"),pred.ext=if_else(pred.dens<=0, "yes", "no"),
              prey.minimia=min(prey.dens),pred.minimia=min(pred.dens),                                #Minima density
              day.prey.min=day[which.min(prey.dens)],day.pred.min=day[which.min(pred.dens)],          #Day of Minimia
              prey.amp=max(prey.dens),pred.amp=max(pred.dens),                                        #Amp density
@@ -133,7 +141,7 @@ reg.all<-Data %>%
              Sum.Zero.Prey.Densities.Locally=sum(prey.dens<1),Sum.Zero.Predator.Densities.Locally=sum(pred.dens<1),# Number of days  Zero
              prey.time.2.ext=first(day[prey.dens<=.4]),pred.time.2.ext=first(day[pred.dens<=.4]),
              cv.prey=raster::cv(prey.dens,na.rm=T), cv.pred=raster::cv(pred.dens,na.rm=T)) %>%
-  mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))
+  mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))%>%unite("newID", predator:bottle.number, remove=FALSE)
 
 ################################################################################################################################################################################################################################################################
 #Days to Extinction

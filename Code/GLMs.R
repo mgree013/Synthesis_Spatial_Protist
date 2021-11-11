@@ -7,6 +7,26 @@ library(bbmle)
 ########################################################################################################################
 #Ext, time 2 ext, persistence dynamics
 
+
+loc.all%>%
+  ggplot(aes(x=pred.quasi.ext.ten,fill=pred.quasi.ext.ten))+
+  geom_bar()+
+  scale_fill_viridis_d() +
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
+reg.all.plot<-reg.all%>%
+  dplyr::distinct(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,total.vol,av.nghbr.connect,.keep_all=T)
+
+reg.all.plot%>%
+  ggplot(aes(x=pred.quasi.ext.one,fill=pred.quasi.ext.one))+
+  geom_bar()+
+  scale_fill_viridis_d() +
+  theme_bw()+ theme(panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour = "black"))+theme(legend.position = "none")
+
 #local
 loc.all.glm<-loc.all%>%
   filter(nghbr.connect>0)#%>%
@@ -440,7 +460,8 @@ Ext_col_data<-Ext_col_data%>%
   mutate(log.number.bottles=log(number.bottles+1))%>%
   mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
   filter(bottle.number>1)%>%
-  filter(nghbr.connect>0)
+  filter(nghbr.connect>0)%>%
+  left_join(loc.all)
 Ext_col_data$log.network.syn.lap
 
 #EXT PLOTS
@@ -452,7 +473,7 @@ a<-Ext_col_data%>%
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Prey Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+facet_grid(~prey.ext)
 
 b<-Ext_col_data%>%
   ggplot(aes(x=nghbr.connect,y=extinction_prob_prey))+ 
@@ -462,7 +483,7 @@ b<-Ext_col_data%>%
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Prey Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+facet_grid(~prey.ext)#+ theme(legend.position = "none")
 
 c<-Ext_col_data%>%
   ggplot(aes(x=log.network.syn.lap,y=extinction_prob_prey))+ 
@@ -472,7 +493,7 @@ c<-Ext_col_data%>%
   scale_color_viridis_d()+
   labs(x="Network Synchrony",y="Prey Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+facet_grid(~prey.ext)#+ theme(legend.position = "none")
 
 d<-Ext_col_data%>%
   ggplot(aes(x=log.number.bottles,y=extinction_prob_pred))+ 
@@ -482,7 +503,7 @@ d<-Ext_col_data%>%
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Predator Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+facet_grid(~pred.ext)#+ theme(legend.position = "none")
 
 e<-Ext_col_data%>%
   ggplot(aes(x=nghbr.connect,y=extinction_prob_pred))+ 
@@ -492,7 +513,7 @@ e<-Ext_col_data%>%
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Predator Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+facet_grid(~pred.ext)#+ theme(legend.position = "none")
 
 f<-Ext_col_data%>%
   ggplot(aes(x=log.network.syn.lap,y=extinction_prob_pred))+ 
@@ -502,7 +523,7 @@ f<-Ext_col_data%>%
   scale_color_viridis_d()+
   labs(x="Network Synchrony",y="Predator Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+facet_grid(~pred.ext)#+ theme(legend.position = "none")
 
 plot_grid(a,b,c,d,e,f, nrow=2)
 plot_grid(prey.ext.plot,a,c,b,pred.ext.plot,d,f,e, nrow=2)
@@ -997,7 +1018,7 @@ r22
 
 ########################################################################################################################
 pred_Ext_col_data<-Ext_col_data%>%
-  left_join(occupnacy, by="newID")%>%
+  left_join(occupnacy)%>%
   filter(pred.pred.oc>0)%>%
   filter(pred.prey.oc>0)%>%
   filter(pred.pred.oc<1)%>%
@@ -1053,8 +1074,16 @@ predb<-pred_Ext_col_data%>%
   scale_color_viridis_d()+
   labs(x="Predator Observed Occupancy",y="Predator Predicted Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+facet_grid(~as.factor(Pred.attack.rate))#+ theme(legend.position = "none")
 
+
+pred_Ext_col_data%>%
+  ggplot(aes(x=pred.oc,y=extinction_prob_pred))+ 
+  geom_point()+
+  ggtitle("d)") +
+  geom_smooth(method = "lm",se=F)+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+facet_grid(~prey)
 
 dog<-betareg(colonization_prob_prey~prey.oc, data=pred_Ext_col_data)
 dog1<-betareg(colonization_prob_prey~1, data=pred_Ext_col_data)

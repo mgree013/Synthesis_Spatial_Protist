@@ -39,6 +39,7 @@ Ext_col_data<-newer_pa_datas%>%
   replace(is.na(.), 0)%>%
   group_by(newID)%>%
   summarize(#prey.occupancy =sum(prey.oc)/sampling_days, pred.occupancy= sum(pred.oc)/sampling_days,
+    prey.ext=if_else(prey.density<=0, "yes", "no"),pred.ext=if_else(pred.density<=0, "yes", "no"),
     colonization_sum_pred=sum(colonization_col_pred),non_colonization_sum_pred=sum(non_colonization_col_pred),extinction_sum_pred=sum(extinction_col_pred),non_extinction_sum_pred=sum(non_extinction_col_pred),
     colonization_potenital_pred=sum(colonization_col_pred+non_colonization_col_pred),colonization_potenital_prey=sum(colonization_col_prey+non_colonization_col_prey),
     extinction_potenital_pred=sum(extinction_col_pred+non_extinction_col_pred),extinction_potenital_prey=sum(extinction_col_prey+non_extinction_col_prey),
