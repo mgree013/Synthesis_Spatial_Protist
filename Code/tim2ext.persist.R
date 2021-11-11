@@ -38,15 +38,16 @@ reg.all.plot%>%
   theme(legend.position = "none")+facet_grid(~var)
 
 
-
+################################################################################################################################################
 #Focus on extinctions
 loc.all%>%
+  #filter(pred.quasi.ext.five=="yes")%>%
   gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
   ggplot(aes(x=value,y=pred.time.2.ext))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
+  theme(legend.position = "none")+facet_grid(prey~var,scales="free")
 
 loc.all%>%
   filter(pred.ext=="yes")%>%
@@ -67,14 +68,31 @@ loc.all%>%
   theme(legend.position = "none")+facet_grid(~var,scales="free")
 
 loc.all%>%
-  filter(pred.ext=="no")%>%
+  filter(prey.ext=="no")%>%
   gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=day.pred.min))+
+  ggplot(aes(x=value,y=Sum.Zero.Prey.Densities.Locally))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(~var,scales="free")
 
+loc.all%>%
+  filter(prey.ext=="no")%>%
+  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
+  ggplot(aes(x=value,y=prey.persistence))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+facet_grid(~var,scales="free")
+
+loc.all%>%
+  filter(prey.ext=="no")%>%
+  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
+  ggplot(aes(x=value,y=day.prey.min))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+facet_grid(~var,scales="free")
 
 reg.all.plot%>%
   gather(log.number.bottles,log.network.syn.lap,log.total.vol,av.nghbr.connect, key = "var", value = "value")%>%
@@ -160,6 +178,8 @@ reg.all.plot%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")#+facet_grid(as.factor(patch.degree)~prod)                                    
      
+################################################################################################################################################
+#Proportion of Metacommunity Extinctions
 
 ext.prop<-loc.all%>%
   group_by(predator,prey,productivity,log.network.syn.lap,log.number.bottles,replicate,structure,media,year,log.total.vol,nghbr.connect,number.bottles) %>%

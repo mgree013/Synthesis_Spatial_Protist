@@ -1386,7 +1386,7 @@ trophic%>%
   labs(x="Prey Occupancy",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+#+ theme(legend.position = "none")
-  facet_grid(as.factor(prod)~trophic)
+  facet_grid(as.factor(prod)~prey)
 
 trophic%>%
   filter(pred.den>0)%>%
