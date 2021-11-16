@@ -183,7 +183,8 @@ reg.all.plot%>%
 
 ext.prop<-loc.all%>%
   group_by(predator,prey,productivity,log.network.syn.lap,log.number.bottles,replicate,structure,media,year,log.total.vol,nghbr.connect,number.bottles) %>%
-  summarize(prop.prey.met.ext=sum(prey.ext.quant)/number.bottles,prop.pred.met.ext=sum(pred.ext.quant)/number.bottles)
+  summarize(prop.prey.met.ext=sum(prey.ext.quant)/number.bottles,prop.pred.met.ext=sum(pred.ext.quant)/number.bottles,
+            prey.ext=if_else(prey.ext.quant>=1, "yes", "no"),pred.ext=if_else(pred.ext.quant>=1, "yes", "no"))
   
 ext.prop%>%
   #filter(number.bottles>1)%>%
@@ -193,7 +194,7 @@ ext.prop%>%
   scale_color_viridis(discrete = TRUE)+
   ylab("Proportion of Predator Metacommunites Extinct")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")          
+  theme(legend.position = "none")+facet_grid(prey.ext~var,scales="free")          
 
 ext.prop%>%
   filter(number.bottles>1)%>%
