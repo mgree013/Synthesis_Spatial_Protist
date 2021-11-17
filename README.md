@@ -16,4 +16,4 @@ Authors: Matthew D. Green, Clara Woodie, Megan Whitesell, Sean Hayes, and Kurt E
 ![](Figs/Fig2.png)
 
 ## Figure 6: Colonization and Extinction Dynamics of Predator and Prey Occupancy
-![](Figs/Fig6.png)
+![](Figs/Fig6..png)
