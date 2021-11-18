@@ -201,7 +201,7 @@ loc.all%>%
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(as.factor(patch.degree)~prod)
+  theme(legend.position = "none")#+facet_grid(~prod)
 
 
 loc.all%>%
@@ -217,11 +217,21 @@ loc.all%>%
   ggplot(aes(x=prey.oc,y=pred.persistence))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  xlab("Prey Occupancy")+ylab("Predator Persistence")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(prey~structure)
+  theme(legend.position = "none")#+facet_grid(prey~structure)
                                              
+loc.all%>%
+  #filter(number.bottles !="8")%>%
+  ggplot(aes(x=pred.oc,y=prey.persistence))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  xlab("Predator Occupancy")+ylab("Prey Persistence")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")#+facet_grid(prey~structure)
+
 reg.all.plot%>%
-  filter(pred.ext=="no")%>%
+  #filter(pred.ext=="no")%>%
   ggplot(aes(x=prey.oc,y=pred.persistence))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
