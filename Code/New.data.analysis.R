@@ -89,6 +89,7 @@ loc.all<-Data %>%
              prey.ext.quant=if_else(prey.density<=0, 1, 0),pred.ext.quant=if_else(pred.density<=0, 1,0),
              prey.meta.ext=sum(prey.ext.quant),pred.meta.ext=sum(pred.ext.quant),
              prey.persistence=sum(ln.prey>1)/sampling.days,pred.persistence=sum(ln.pred>1)/sampling.days,                    #Number of days Persistence
+             prey.nmbr.ext.days=sum(prey.density<=0)/sampling.days,pred.nmbr.ext.days=sum(pred.density<=0)/sampling.days,                   #Number of days Persistence
              prey.time.2.ext=first(day[ln.prey<=.05]),pred.time.2.ext=first(day[ln.pred<=.05]),
              Sum.Zero.Prey.Densities.Locally=sum(ln.prey<1),Sum.Zero.Predator.Densities.Locally=sum(ln.pred<1),# Number of days  Zero
              cv.prey=raster::cv(prey.density,na.rm = T), cv.pred=raster::cv(pred.density,na.rm = T))%>%
