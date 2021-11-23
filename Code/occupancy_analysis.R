@@ -109,6 +109,7 @@ plot_grid(op2,a,b,c,op1,d,e,f,nrow=2)
 plot_grid(a,b,c,d,e,f,nrow=2)
 
 
+
 occupnacy%>%
   #filter(connectivity.y >= 1)%>%
   ggplot(aes(x=pred.oc,y=prey.oc, colour=prey.y))+ 
@@ -128,17 +129,17 @@ mod0<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=occupna
 mod1<-glm(y~log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
 mod2<-glm(y~(nghbr.connect),family=binomial(link = "logit"),data=occupnacy)
 mod3<-glm(y~log.network.syn.lap,family=binomial(link = "logit"),data=occupnacy)
-mod4<-glm(y~log.network.syn.lap*log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
-mod5<-glm(y~log.network.syn.lap*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
-mod6<-glm(y~(nghbr.connect)*log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
-mod7<-glm(y~(nghbr.connect)*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
-mod8<-glm(y~(log.network.syn.lap)*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
-mod9<-glm(y~log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
-mod10<-glm(y~log.network.syn.lap*log.number.bottles*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
-mod11<-glm(y~log.network.syn.lap*log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
-mod12<-glm(y~log.network.syn.lap*as.factor(productivity)*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
-mod13<-glm(y~log.number.bottles*as.factor(productivity)*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
-mod14<-glm(y~log.network.syn.lap*log.number.bottles*nghbr.connect*productivity,family=binomial(link = "logit"),data=occupnacy)
+mod4<-glm(y~log.network.syn.lap+log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
+mod5<-glm(y~log.network.syn.lap+nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod6<-glm(y~(nghbr.connect)+log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
+mod7<-glm(y~(nghbr.connect)+as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod8<-glm(y~(log.network.syn.lap)+as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod9<-glm(y~log.number.bottles+as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod10<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod11<-glm(y~log.network.syn.lap+log.number.bottles+as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod12<-glm(y~log.network.syn.lap+as.factor(productivity)+nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod13<-glm(y~log.number.bottles+as.factor(productivity)+nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod14<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
 nullmod<-glm(y~1,family=binomial(link = "logit"),data=occupnacy)
 
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
@@ -173,19 +174,20 @@ mod0<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=occupna
 mod1<-glm(y~log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
 mod2<-glm(y~(nghbr.connect),family=binomial(link = "logit"),data=occupnacy)
 mod3<-glm(y~log.network.syn.lap,family=binomial(link = "logit"),data=occupnacy)
-mod4<-glm(y~log.network.syn.lap*log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
-mod5<-glm(y~log.network.syn.lap*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
-mod6<-glm(y~(nghbr.connect)*log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
-mod7<-glm(y~(nghbr.connect)*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
-mod8<-glm(y~(log.network.syn.lap)*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
-mod9<-glm(y~log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
-mod10<-glm(y~log.network.syn.lap*log.number.bottles*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
-mod11<-glm(y~log.network.syn.lap*log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
-mod12<-glm(y~log.network.syn.lap*as.factor(productivity)*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
-mod13<-glm(y~log.number.bottles*as.factor(productivity)*nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
-mod14<-glm(y~log.network.syn.lap*log.number.bottles*nghbr.connect*productivity,family=binomial(link = "logit"),data=occupnacy)
+mod4<-glm(y~log.network.syn.lap+log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
+mod5<-glm(y~log.network.syn.lap+nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod6<-glm(y~(nghbr.connect)+log.number.bottles,family=binomial(link = "logit"),data=occupnacy)
+mod7<-glm(y~(nghbr.connect)+as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod8<-glm(y~(log.network.syn.lap)+as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod9<-glm(y~log.number.bottles+as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod10<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod11<-glm(y~log.network.syn.lap+log.number.bottles+as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
+mod12<-glm(y~log.network.syn.lap+as.factor(productivity)+nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod13<-glm(y~log.number.bottles+as.factor(productivity)+nghbr.connect,family=binomial(link = "logit"),data=occupnacy)
+mod14<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(productivity),family=binomial(link = "logit"),data=occupnacy)
 nullmod<-glm(y~1,family=binomial(link = "logit"),data=occupnacy)
 
+summary(mod14)
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
 reported.table2
 
@@ -238,7 +240,10 @@ Ext_col_data_network<-newer_pa_datas%>%
   mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
   filter(av.nghbr.connect>0)
 
+Ext_col_data_network_analysis%>%ggplot(aes(x=log.number.bottles,y=total.vol))+geom_point()+geom_smooth(method="lm")
+
 #Network Occupnacy
+
 prey.a<-Ext_col_data_network%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=as.factor(productivity),y=prey.oc,fill=as.factor(productivity)))+ 
@@ -333,17 +338,17 @@ mod0<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=Ext_col
 mod1<-glm(y~log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
 mod2<-glm(y~(av.nghbr.connect),family=binomial(link = "logit"),data=Ext_col_data_network)
 mod3<-glm(y~log.network.syn.lap,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod4<-glm(y~log.network.syn.lap*log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod5<-glm(y~log.network.syn.lap*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod6<-glm(y~(av.nghbr.connect)*log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod7<-glm(y~(av.nghbr.connect)*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
-mod8<-glm(y~(log.network.syn.lap)*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
-mod9<-glm(y~log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
-mod10<-glm(y~log.network.syn.lap*log.number.bottles*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod11<-glm(y~log.network.syn.lap*log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
-mod12<-glm(y~log.network.syn.lap*as.factor(productivity)*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod13<-glm(y~log.number.bottles*as.factor(productivity)*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod14<-glm(y~log.network.syn.lap*log.number.bottles*av.nghbr.connect*productivity,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod4<-glm(y~log.network.syn.lap+log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod5<-glm(y~log.network.syn.lap+av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod6<-glm(y~(av.nghbr.connect)+log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod7<-glm(y~(av.nghbr.connect)+as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod8<-glm(y~(log.network.syn.lap)+as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod9<-glm(y~log.number.bottles+as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod10<-glm(y~log.network.syn.lap+log.number.bottles+av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod11<-glm(y~log.network.syn.lap+log.number.bottles+as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod12<-glm(y~log.network.syn.lap+as.factor(productivity)+av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod13<-glm(y~log.number.bottles+as.factor(productivity)+av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod14<-glm(y~log.network.syn.lap+log.number.bottles+av.nghbr.connect+as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
 nullmod<-glm(y~1,family=binomial(link = "logit"),data=Ext_col_data_network)
 
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
@@ -372,26 +377,36 @@ r22
 
 
 ###pred 
+
+library(MuMIn)
+fm1 <- lm(pred.occupany ~ log.network.syn.lap+log.number.bottles+av.nghbr.connect+productivity, data = Ext_col_data_network,na.omit=T)
+options(na.action = "na.fail")
+dd <- dredge(fm1)
+importance(dd)
+importance(subset((dd), delta <= 4))
+
 y <- cbind(Ext_col_data_network$pred.occupany, Ext_col_data_network$pred.absence)
 
 mod0<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
 mod1<-glm(y~log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
 mod2<-glm(y~(av.nghbr.connect),family=binomial(link = "logit"),data=Ext_col_data_network)
 mod3<-glm(y~log.network.syn.lap,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod4<-glm(y~log.network.syn.lap*log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod5<-glm(y~log.network.syn.lap*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod6<-glm(y~(av.nghbr.connect)*log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod7<-glm(y~(av.nghbr.connect)*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
-mod8<-glm(y~(log.network.syn.lap)*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
-mod9<-glm(y~log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
-mod10<-glm(y~log.network.syn.lap*log.number.bottles*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod11<-glm(y~log.network.syn.lap*log.number.bottles*as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
-mod12<-glm(y~log.network.syn.lap*as.factor(productivity)*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod13<-glm(y~log.number.bottles*as.factor(productivity)*av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
-mod14<-glm(y~log.network.syn.lap*log.number.bottles*av.nghbr.connect*productivity,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod4<-glm(y~log.network.syn.lap+log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod5<-glm(y~log.network.syn.lap+av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod6<-glm(y~(av.nghbr.connect)+log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod7<-glm(y~(av.nghbr.connect)+as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod8<-glm(y~(log.network.syn.lap)+as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod9<-glm(y~log.number.bottles+as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod10<-glm(y~log.network.syn.lap+log.number.bottles+av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod11<-glm(y~log.network.syn.lap+log.number.bottles+as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
+mod12<-glm(y~log.network.syn.lap+as.factor(productivity)+av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod13<-glm(y~log.number.bottles+as.factor(productivity)+av.nghbr.connect,family=binomial(link = "logit"),data=Ext_col_data_network)
+mod14<-glm(y~log.network.syn.lap+log.number.bottles+av.nghbr.connect+as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data_network)
 nullmod<-glm(y~1,family=binomial(link = "logit"),data=Ext_col_data_network)
 
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
+#reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,nullmod,weights = TRUE, sort = F)
+
 reported.table2
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)

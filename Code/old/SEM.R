@@ -265,8 +265,8 @@ semPaths(smod1.fit, what='std', layout = "tree3", intercepts = FALSE, residuals 
          edge.label.cex=1.25, curvePivot = FALSE,  fade=FALSE, rotation = 2)
 
 #2
-smod1 = ' prey.oc ~ productivity
-          pred.oc ~ prey.oc '
+smod1 = ' prey.oc ~ productivity 
+          pred.oc ~ prey.oc + productivity '
 
 smod1 = ' prey.oc ~ log.network.syn.lap+log.number.bottles+nghbr.connect+productivity
           pred.oc ~ prey.oc+nghbr.connect+log.network.syn.lap+log.number.bottles'
