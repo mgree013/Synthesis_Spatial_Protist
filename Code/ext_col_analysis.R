@@ -492,3 +492,41 @@ Ext_col_data%>%
   theme_bw()+theme_bw()+ theme(panel.grid.major = element_blank(),
                                panel.grid.minor = element_blank(),
                                panel.border = element_rect(colour = "black"))#+theme(legend.position = "none")
+
+
+net_Ext_col_data<-Ext_col_data%>%
+  filter(number.bottles>1)%>%
+  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year)%>%
+  summarise(av.ext_colon_ratio_pred=mean(ext_colon_ratio_pred),av.ext_colon_ratio_prey=mean(ext_colon_ratio_prey),
+            av.nghbr.connect=mean(nghbr.connect),
+            av.connect=mean(connectivity),
+            mean.prey.oc=mean(prey.occupancy),mean.pred.oc=mean(pred.occupancy),
+            total.vol=sum(volume.L))
+
+
+net_Ext_col_data%>%
+  ggplot(aes(x=av.nghbr.connect, y=mean.prey.oc))+#, colour=as.factor(connectivity)))+
+  geom_point()+
+  #geom_smooth(method = "loess")+  scale_color_viridis_d()+
+  stat_smooth(method = "lm", formula = y ~ sqrt(x), size = 1)+
+  ylim(0,1)+
+  #facet_grid(prey~structure)+
+  ylab("Average Prey Occupancy")+xlab("Average Nearest Neighboors Connectivity")+
+  theme_bw()+theme_bw()+ theme(panel.grid.major = element_blank(),
+                               panel.grid.minor = element_blank(),
+                               panel.border = element_rect(colour = "black"))#+theme(legend.position = "none")
+
+net_Ext_col_data%>%
+  ggplot(aes(x=av.nghbr.connect, y=mean.pred.oc)) +#, colour=as.factor(av.connect)))+
+  geom_point()+
+  #geom_smooth(method="lm", formula= (y ~ exp(x)), se=FALSE, linetype = 1) +
+ # geom_smooth(method = "loess")+  
+  scale_color_viridis_d()+
+  #stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1)+
+  stat_smooth(method = "glm", formula = y ~ sqrt(x), size = 1)+
+  ylim(0,1)+
+  #facet_grid(prey~structure)+
+  ylab("Average Predator Occupancy")+xlab("Average Nearest Neighboors Connectivity")+
+  theme_bw()+theme_bw()+ theme(panel.grid.major = element_blank(),
+                               panel.grid.minor = element_blank(),
+                               panel.border = element_rect(colour = "black"))#+theme(legend.position = "none")
