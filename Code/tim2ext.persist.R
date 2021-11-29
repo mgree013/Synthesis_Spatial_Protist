@@ -19,19 +19,16 @@ loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(~var)
 
-reg.all.plot<-reg.all%>%
-  dplyr::distinct(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,total.vol,av.nghbr.connect,.keep_all=T)
-
-reg.all.plot%>%
-  gather(pred.quasi.ext.ten,pred.quasi.ext.five,pred.quasi.ext.one,pred.ext, key = "var", value = "value") %>% 
+reg.all%>%
+  gather(pred.quasi.ext.ten,pred.quasi.ext.five,pred.quasi.ext.one,reg.pred.ext, key = "var", value = "value") %>% 
   ggplot(aes(x=value,fill=value))+
   geom_bar()+
   scale_fill_viridis_d() +
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(~var)
 
-reg.all.plot%>%
-  gather(prey.quasi.ext.ten,prey.quasi.ext.five,prey.quasi.ext.one,prey.ext, key = "var", value = "value") %>% 
+reg.all%>%
+  gather(prey.quasi.ext.ten,prey.quasi.ext.five,prey.quasi.ext.one,reg.prey.ext, key = "var", value = "value") %>% 
   ggplot(aes(x=value,fill=value))+
   geom_bar()+
   scale_fill_viridis_d() +
@@ -257,10 +254,11 @@ reg.all.plot%>%
 ################################################################################################################################################
 #Proportion of Metacommunity Extinctions
 
+
+#Focus on Regional Ext, Local responses
 ext.prop<-loc.all
-loc.all$reg.prey.ext 
-  
-ext.prop%>%
+
+loc.all%>%
   gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
   ggplot(aes(x=value,y=prey.oc))+
   geom_point()+geom_smooth(method = "lm")+
@@ -269,12 +267,12 @@ ext.prop%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(reg.prey.ext~var,scales="free")          
 
-ext.prop%>%
+loc.all%>%
   gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
   ggplot(aes(x=value,y=pred.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
-  ylab("Proportion of Prey Metacommunites Extinct")+
+  ylab("Proportion of Pred Metacommunites Extinct")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(reg.pred.ext~var,scales="free")     
 

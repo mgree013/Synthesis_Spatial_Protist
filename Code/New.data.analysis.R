@@ -61,7 +61,8 @@ loc.all<-Data %>%
   filter(day > 3 & day < 75)%>%
   filter(number.bottles > 1)%>%
   unite("newID", number.bottles:predator, remove=FALSE)%>%
-  group_by(predator,prey,network.syn.lap,number.bottles, structure,replicate,media,year,bottle.number,nghbr.connect,productivity,newID)%>%
+  unite("newBottleID", number.bottles:predator,bottle, remove=FALSE)%>%
+  group_by(predator,prey,network.syn.lap,number.bottles, structure,replicate,media,year,bottle.number,nghbr.connect,productivity,newID,newBottleID)%>%
   dplyr::summarize(sampling.days=n(),
              prod=mean(productivity),
              patch.degree=mean(connectivity),
@@ -95,12 +96,13 @@ loc.all<-Data %>%
              Sum.Zero.Prey.Densities.Locally=sum(ln.prey<1),Sum.Zero.Predator.Densities.Locally=sum(ln.pred<1),# Number of days  Zero
              cv.prey=raster::cv(prey.density,na.rm = T), cv.pred=raster::cv(pred.density,na.rm = T))%>%
   ungroup()%>%
-  dplyr::distinct(predator,prey,bottle.number,media,year,structure,replicate,newID,.keep_all = TRUE)%>%
   mutate(log.number.bottles=log(number.bottles+1))%>%
   mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
   mutate(log.total.vol=log(total.vol+1))%>%
-  left_join(reg.ext, by="newID")
-
+  left_join(reg.ext, by="newID")%>%
+  dplyr::distinct(newBottleID,cv.prey,pred.meta.ext,bottle.number,reg.pred.ext,.keep_all = TRUE)
+  
+loc.all$reg.pred.ext
 #Regional
 reg.ext<-reg.all%>%
   ungroup()%>%
@@ -149,7 +151,8 @@ reg.all<-Data %>%
              Sum.Zero.Prey.Densities.Locally=sum(prey.dens<1),Sum.Zero.Predator.Densities.Locally=sum(pred.dens<1),# Number of days  Zero
              prey.time.2.ext=first(day[prey.dens<=.4]),pred.time.2.ext=first(day[pred.dens<=.4]),
              cv.prey=raster::cv(prey.dens,na.rm=T), cv.pred=raster::cv(pred.dens,na.rm=T)) %>%
-  mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))
+  mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))%>%
+  dplyr::distinct(newID,cv.prey,reg.pred.ext,prey.persistence,.keep_all = TRUE)
 
 ################################################################################################################################################################################################################################################################
 #Days to Extinction
