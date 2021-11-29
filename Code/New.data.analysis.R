@@ -60,7 +60,8 @@ loc.all<-Data %>%
   #filter(day > 4)%>%
   filter(day > 3 & day < 75)%>%
   filter(number.bottles > 1)%>%
-  group_by(predator,prey,network.syn.lap,number.bottles, structure,replicate,media,year,bottle.number,nghbr.connect,productivity)%>%
+  unite("newID", number.bottles:predator, remove=FALSE)%>%
+  group_by(predator,prey,network.syn.lap,number.bottles, structure,replicate,media,year,bottle.number,nghbr.connect,productivity,newID)%>%
   dplyr::summarize(sampling.days=n(),
              prod=mean(productivity),
              patch.degree=mean(connectivity),
@@ -94,16 +95,17 @@ loc.all<-Data %>%
              Sum.Zero.Prey.Densities.Locally=sum(ln.prey<1),Sum.Zero.Predator.Densities.Locally=sum(ln.pred<1),# Number of days  Zero
              cv.prey=raster::cv(prey.density,na.rm = T), cv.pred=raster::cv(pred.density,na.rm = T))%>%
   ungroup()%>%
-  dplyr::distinct(predator,prey,bottle.number,media,year,structure,replicate,.keep_all = TRUE)%>%
+  dplyr::distinct(predator,prey,bottle.number,media,year,structure,replicate,newID,.keep_all = TRUE)%>%
   mutate(log.number.bottles=log(number.bottles+1))%>%
   mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
   mutate(log.total.vol=log(total.vol+1))%>%
-  left_join(reg.ext,by=c("predator","prey","productivity","log.number.bottles","replicate","structure","media","year","log.total.vol","log.network.syn.lap", "number.bottles","network.syn.lap","total.vol"))
-
+  left_join(reg.ext, by="newID")
 
 #Regional
 reg.ext<-reg.all%>%
-  dplyr::select(c(predator,prey,productivity,log.number.bottles,replicate,structure,media,year,log.total.vol,log.network.syn.lap,reg.prey.ext,reg.pred.ext,network.syn.lap))
+  ungroup()%>%
+  dplyr::select(c(newID,reg.prey.ext,reg.pred.ext))
+  
 
 reg.all<-Data %>%
   #filter(day > 5)%>%
@@ -111,13 +113,14 @@ reg.all<-Data %>%
   #filter(media=="medium")%>%
   #filter(predator=="didinium")%>%
   filter(number.bottles > 1)%>%
-  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,day,volume.L) %>%
+  unite("newID", number.bottles:predator, remove=FALSE)%>%
+  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,day,volume.L,newID) %>%
   summarise(prey.dens=sum(ln.prey),pred.dens=sum(ln.pred),
             total.vol=sum(volume.L),
             av.nghbr.connect=mean(nghbr.connect),
             prey.net.oc=if_else(prey.oc>0,1,0),pred.net.oc=if_else(pred.oc>0,1,0))%>%
   ungroup()%>%
-  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,total.vol,av.nghbr.connect) %>%
+  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,total.vol,av.nghbr.connect,newID) %>%
   summarise( sampling.days=n(),
              prod=mean(productivity),
              bottle.number=mean(number.bottles),
@@ -146,7 +149,7 @@ reg.all<-Data %>%
              Sum.Zero.Prey.Densities.Locally=sum(prey.dens<1),Sum.Zero.Predator.Densities.Locally=sum(pred.dens<1),# Number of days  Zero
              prey.time.2.ext=first(day[prey.dens<=.4]),pred.time.2.ext=first(day[pred.dens<=.4]),
              cv.prey=raster::cv(prey.dens,na.rm=T), cv.pred=raster::cv(pred.dens,na.rm=T)) %>%
-  mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))%>%unite("newID", predator:bottle.number, remove=FALSE)
+  mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))
 
 ################################################################################################################################################################################################################################################################
 #Days to Extinction

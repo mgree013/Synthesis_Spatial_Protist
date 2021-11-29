@@ -257,34 +257,26 @@ reg.all.plot%>%
 ################################################################################################################################################
 #Proportion of Metacommunity Extinctions
 
-ext.prop<-loc.all%>%
-  group_by(predator,prey,productivity,log.network.syn.lap,log.number.bottles,replicate,structure,media,year,log.total.vol,nghbr.connect,number.bottles) %>%
-  summarize(prop.prey.met.ext=sum(prey.ext.quant)/number.bottles,prop.pred.met.ext=sum(pred.ext.quant)/number.bottles,             
-            prey.ext=if_else(prey.den<=0, "yes", "no"),pred.ext=if_else(prey.den<=0, "yes", "no"))%>%
-  add_column(reg.all$prey.ext)
-
-  full_join(reg.all,by=c("predator", "prey", "replicate", "structure", "year", "productivity","log.network.syn.lap","log.number.bottles","log.total.vol","number.bottles","media"))
-           
+ext.prop<-loc.all
+loc.all$reg.prey.ext 
   
 ext.prop%>%
-  #filter(prop.pred.met.ext>0)%>%
   gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=prop.pred.met.ext))+
+  ggplot(aes(x=value,y=prey.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   ylab("Proportion of Predator Metacommunites Extinct")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(pred.ext~var,scales="free")          
+  theme(legend.position = "none")+facet_grid(reg.prey.ext~var,scales="free")          
 
 ext.prop%>%
- # filter(prop.prey.met.ext>0)%>%
   gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=prop.prey.met.ext))+
+  ggplot(aes(x=value,y=pred.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   ylab("Proportion of Prey Metacommunites Extinct")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(prey.ext~var,scales="free")     
+  theme(legend.position = "none")+facet_grid(reg.pred.ext~var,scales="free")     
 
 ext.prop%>%
   ggplot(aes(x=as.factor(productivity),y=prop.prey.met.ext, fill=as.factor(productivity)))+

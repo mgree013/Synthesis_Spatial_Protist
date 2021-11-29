@@ -361,6 +361,8 @@ mod13<-glm(y~log.number.bottles+as.factor(productivity)+nghbr.connect,family=bin
 mod14<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data)
 nullmod<-glm(y~1,family=binomial(link = "logit"),data=Ext_col_data)
 
+summary(mod14)
+
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
 reported.table2
 
