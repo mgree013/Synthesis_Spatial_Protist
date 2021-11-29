@@ -259,8 +259,12 @@ reg.all.plot%>%
 
 ext.prop<-loc.all%>%
   group_by(predator,prey,productivity,log.network.syn.lap,log.number.bottles,replicate,structure,media,year,log.total.vol,nghbr.connect,number.bottles) %>%
-  summarize(prop.prey.met.ext=sum(prey.ext.quant)/number.bottles,prop.pred.met.ext=sum(pred.ext.quant)/number.bottles,
-            prey.ext=if_else(prop.prey.met.ext==0, "no", "yes"),pred.ext=if_else(prop.prey.met.ext==0, "no", "yes"))
+  summarize(prop.prey.met.ext=sum(prey.ext.quant)/number.bottles,prop.pred.met.ext=sum(pred.ext.quant)/number.bottles,             
+            prey.ext=if_else(prey.den<=0, "yes", "no"),pred.ext=if_else(prey.den<=0, "yes", "no"))%>%
+  add_column(reg.all$prey.ext)
+
+  full_join(reg.all,by=c("predator", "prey", "replicate", "structure", "year", "productivity","log.network.syn.lap","log.number.bottles","log.total.vol","number.bottles","media"))
+           
   
 ext.prop%>%
   #filter(prop.pred.met.ext>0)%>%

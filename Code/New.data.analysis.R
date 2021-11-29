@@ -97,10 +97,14 @@ loc.all<-Data %>%
   dplyr::distinct(predator,prey,bottle.number,media,year,structure,replicate,.keep_all = TRUE)%>%
   mutate(log.number.bottles=log(number.bottles+1))%>%
   mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
-  mutate(log.total.vol=log(total.vol+1))
+  mutate(log.total.vol=log(total.vol+1))%>%
+  left_join(reg.ext,by=c("predator","prey","productivity","log.number.bottles","replicate","structure","media","year","log.total.vol","log.network.syn.lap", "number.bottles","network.syn.lap","total.vol"))
 
 
 #Regional
+reg.ext<-reg.all%>%
+  dplyr::select(c(predator,prey,productivity,log.number.bottles,replicate,structure,media,year,log.total.vol,log.network.syn.lap,reg.prey.ext,reg.pred.ext,network.syn.lap))
+
 reg.all<-Data %>%
   #filter(day > 5)%>%
   filter(day > 3 & day < 75)%>%
@@ -133,7 +137,7 @@ reg.all<-Data %>%
              prey.quasi.ext.ten=if_else(prey.dens<=.1*(mean(prey.dens)), "yes", "no"),pred.quasi.ext.ten=if_else(pred.dens<=.1*(mean(pred.dens)), "yes", "no"),
              prey.quasi.ext.five=if_else(prey.dens<=.05*(mean(prey.dens)), "yes", "no"),pred.quasi.ext.five=if_else(pred.dens<=.05*(mean(pred.dens)), "yes", "no"),
              prey.quasi.ext.one=if_else(prey.dens<=.01*(mean(prey.dens)), "yes", "no"),pred.quasi.ext.one=if_else(pred.dens<=.01*(mean(pred.dens)), "yes", "no"),
-             prey.ext=if_else(prey.dens<=0, "yes", "no"),pred.ext=if_else(pred.dens<=0, "yes", "no"),
+             reg.prey.ext=if_else(prey.dens<=0, "yes", "no"),reg.pred.ext=if_else(pred.dens<=0, "yes", "no"),
              prey.minimia=min(prey.dens),pred.minimia=min(pred.dens),                                #Minima density
              day.prey.min=day[which.min(prey.dens)],day.pred.min=day[which.min(pred.dens)],          #Day of Minimia
              prey.amp=max(prey.dens),pred.amp=max(pred.dens),                                        #Amp density
