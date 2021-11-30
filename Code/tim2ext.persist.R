@@ -10,11 +10,52 @@ loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(~var)
 
+p1<-loc.all%>%
+  ggplot(aes(x=pred.ext,fill=pred.ext))+
+  geom_bar(stat="count")+
+  stat_count(geom = "text", colour = "black", size = 3.5,
+             aes(label = ..count..),position=position_stack(vjust=0.5))+
+  scale_fill_viridis_d() +
+  xlab("Number of Local Predator Extinctions")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+p2<-loc.all%>%
+  ggplot(aes(x=prey.ext,fill=prey.ext))+
+  geom_bar(stat="count")+
+  stat_count(geom = "text", colour = "black", size = 3.5,
+             aes(label = ..count..),position=position_stack(vjust=0.5))+
+  scale_fill_viridis_d() +
+  xlab("Number of Local Prey Extinctions")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+p3<-reg.all%>%
+  ggplot(aes(x=reg.pred.ext,fill=reg.pred.ext))+
+  geom_bar(stat="count")+
+  stat_count(geom = "text", colour = "black", size = 3.5,
+             aes(label = ..count..),position=position_stack(vjust=0.5))+
+  scale_fill_viridis_d() +
+  xlab("Number of Regional Predator Extinctions")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+p4<-reg.all%>%
+  ggplot(aes(x=reg.prey.ext,fill=reg.prey.ext))+
+  geom_bar(stat="count")+
+  stat_count(geom = "text", colour = "black", size = 3.5,
+             aes(label = ..count..),position=position_stack(vjust=0.5))+
+  scale_fill_viridis_d() +
+  xlab("Number of Regional Prey Extinctions")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+plot_grid(p1,p2,p3,p4, nrow=1)
 
 loc.all%>%
   gather(prey.quasi.ext.ten,prey.quasi.ext.five,prey.quasi.ext.one,prey.ext, key = "var", value = "value") %>% 
   ggplot(aes(x=value,fill=value))+
-  geom_bar()+
+  geom_bar(stat = "identity")+
   scale_fill_viridis_d() +
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(~var)
@@ -48,13 +89,22 @@ loc.all%>%
   theme(legend.position = "none")+facet_grid(~var,scales="free")
 
 loc.all%>%
-  filter(pred.ext=="yes")%>%
+  filter(reg.pred.ext=="yes")%>%
   gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
   ggplot(aes(x=value,y=pred.time.2.ext))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(~var,scales="free")
+
+loc.all%>%
+  filter(reg.pred.ext=="yes")%>%
+  ggplot(aes(x=as.factor(productivity),y=pred.nmbr.ext.days, fill=as.factor(productivity)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ylab("Proportion of Predator Metacommunites Extinct")+xlab("Productivity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
 
 loc.all%>%
   filter(prey.ext=="yes")%>%

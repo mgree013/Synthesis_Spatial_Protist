@@ -55,66 +55,14 @@ Data%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())
 ################################################################################################################################################################################################################
-#Local
-loc.all<-Data %>%
-  #filter(day > 4)%>%
-  filter(day > 3 & day < 75)%>%
-  filter(number.bottles > 1)%>%
-  unite("newID", number.bottles:predator, remove=FALSE)%>%
-  unite("newBottleID", number.bottles:predator,bottle, remove=FALSE)%>%
-  group_by(predator,prey,network.syn.lap,number.bottles, structure,replicate,media,year,bottle.number,nghbr.connect,productivity,newID,newBottleID)%>%
-  dplyr::summarize(sampling.days=n(),
-             prod=mean(productivity),
-             patch.degree=mean(connectivity),
-             patch.deg2=mean(disp.connect),
-             tubelength=mean(tube.length),
-             connect.per=mean(Connectivity.per),
-             total.vol=sum(volume.L),
-             nghbr.connect=mean(nghbr.connect),
-             prey.growth=mean(Prey.growth.rate),
-             prey.size=mean(Prey.size),
-             prey.k.cap=mean(Prey.K.cap),
-             prey.disp=mean(Prey.disp.rate),
-             pred.size=mean(Pred.size),
-             pred.attack=mean(Pred.attack.rate),
-             meta.size=mean(number.bottles),
-             prey.oc=mean(prey.oc),pred.oc=mean(pred.oc),
-             prey.minimia=min(prey.density),pred.minimia=min(pred.density),                                #Minima density
-             day.prey.min=day[which.min(prey.density)],day.pred.min=day[which.min(pred.density)],          #Day of Minimia
-             prey.amp=max(prey.density),pred.amp=max(pred.density),                                        #Amp density
-             day.prey.max=day[which.max(prey.density)],day.pred.max=day[which.max(pred.density)],          #Day of Amp
-             prey.den=mean(prey.density),pred.den=mean(pred.density),                                                #Mean Density
-             prey.quasi.ext.ten=if_else(prey.density<=.1*(mean(prey.density)), "yes", "no"),pred.quasi.ext.ten=if_else(pred.density<=.1*(mean(pred.density)), "yes", "no"),
-             prey.quasi.ext.five=if_else(prey.density<=.05*(mean(prey.density)), "yes", "no"),pred.quasi.ext.five=if_else(pred.density<=.05*(mean(pred.density)), "yes", "no"),
-             prey.quasi.ext.one=if_else(prey.density<=.01*(mean(prey.density)), "yes", "no"),pred.quasi.ext.one=if_else(pred.density<=.01*(mean(pred.density)), "yes", "no"),
-             prey.ext=if_else(prey.density<=0, "yes", "no"),pred.ext=if_else(pred.density<=0, "yes", "no"),       
-             prey.ext.quant=if_else(prey.density<=0, 1, 0),pred.ext.quant=if_else(pred.density<=0, 1,0),
-             prey.meta.ext=sum(prey.ext.quant),pred.meta.ext=sum(pred.ext.quant),
-             prey.persistence=sum(ln.prey>1)/sampling.days,pred.persistence=sum(ln.pred>1)/sampling.days,                    #Number of days Persistence
-             prey.nmbr.ext.days=sum(prey.density<=0)/sampling.days,pred.nmbr.ext.days=sum(pred.density<=0)/sampling.days,                   #Number of days Persistence
-             prey.time.2.ext=first(day[ln.prey<=.05]),pred.time.2.ext=first(day[ln.pred<=.05]),
-             Sum.Zero.Prey.Densities.Locally=sum(ln.prey<1),Sum.Zero.Predator.Densities.Locally=sum(ln.pred<1),# Number of days  Zero
-             cv.prey=raster::cv(prey.density,na.rm = T), cv.pred=raster::cv(pred.density,na.rm = T))%>%
-  ungroup()%>%
-  mutate(log.number.bottles=log(number.bottles+1))%>%
-  mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
-  mutate(log.total.vol=log(total.vol+1))%>%
-  left_join(reg.ext, by="newID")%>%
-  dplyr::distinct(newBottleID,cv.prey,pred.meta.ext,bottle.number,reg.pred.ext,.keep_all = TRUE)
   
-loc.all$reg.pred.ext
 #Regional
-reg.ext<-reg.all%>%
-  ungroup()%>%
-  dplyr::select(c(newID,reg.prey.ext,reg.pred.ext))
-  
-
 reg.all<-Data %>%
   #filter(day > 5)%>%
   filter(day > 3 & day < 75)%>%
   #filter(media=="medium")%>%
   #filter(predator=="didinium")%>%
-  filter(number.bottles > 1)%>%
+  #filter(number.bottles > 1)%>%
   unite("newID", number.bottles:predator, remove=FALSE)%>%
   group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,day,volume.L,newID) %>%
   summarise(prey.dens=sum(ln.prey),pred.dens=sum(ln.pred),
@@ -154,6 +102,57 @@ reg.all<-Data %>%
   mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))%>%
   dplyr::distinct(newID,cv.prey,reg.pred.ext,prey.persistence,.keep_all = TRUE)
 
+#Regional Ext Data to add to Local data
+reg.ext<-reg.all%>%
+  ungroup()%>%
+  dplyr::select(c(newID,reg.prey.ext,reg.pred.ext))
+
+#Local
+loc.all<-Data %>%
+  #filter(day > 4)%>%
+  filter(day > 3 & day < 75)%>%
+  #filter(number.bottles > 1)%>%
+  unite("newID", number.bottles:predator, remove=FALSE)%>%
+  unite("newBottleID", number.bottles:predator,bottle, remove=FALSE)%>%
+  group_by(predator,prey,network.syn.lap,number.bottles, structure,replicate,media,year,bottle.number,nghbr.connect,productivity,newID,newBottleID)%>%
+  dplyr::summarize(sampling.days=n(),
+                   prod=mean(productivity),
+                   patch.degree=mean(connectivity),
+                   patch.deg2=mean(disp.connect),
+                   tubelength=mean(tube.length),
+                   connect.per=mean(Connectivity.per),
+                   total.vol=sum(volume.L),
+                   nghbr.connect=mean(nghbr.connect),
+                   prey.growth=mean(Prey.growth.rate),
+                   prey.size=mean(Prey.size),
+                   prey.k.cap=mean(Prey.K.cap),
+                   prey.disp=mean(Prey.disp.rate),
+                   pred.size=mean(Pred.size),
+                   pred.attack=mean(Pred.attack.rate),
+                   meta.size=mean(number.bottles),
+                   prey.oc=mean(prey.oc),pred.oc=mean(pred.oc),
+                   prey.minimia=min(prey.density),pred.minimia=min(pred.density),                                #Minima density
+                   day.prey.min=day[which.min(prey.density)],day.pred.min=day[which.min(pred.density)],          #Day of Minimia
+                   prey.amp=max(prey.density),pred.amp=max(pred.density),                                        #Amp density
+                   day.prey.max=day[which.max(prey.density)],day.pred.max=day[which.max(pred.density)],          #Day of Amp
+                   prey.den=mean(prey.density),pred.den=mean(pred.density),                                                #Mean Density
+                   prey.quasi.ext.ten=if_else(prey.density<=.1*(mean(prey.density)), "yes", "no"),pred.quasi.ext.ten=if_else(pred.density<=.1*(mean(pred.density)), "yes", "no"),
+                   prey.quasi.ext.five=if_else(prey.density<=.05*(mean(prey.density)), "yes", "no"),pred.quasi.ext.five=if_else(pred.density<=.05*(mean(pred.density)), "yes", "no"),
+                   prey.quasi.ext.one=if_else(prey.density<=.01*(mean(prey.density)), "yes", "no"),pred.quasi.ext.one=if_else(pred.density<=.01*(mean(pred.density)), "yes", "no"),
+                   prey.ext=if_else(prey.density<=0, "yes", "no"),pred.ext=if_else(pred.density<=0, "yes", "no"),       
+                   prey.ext.quant=if_else(prey.density<=0, 1, 0),pred.ext.quant=if_else(pred.density<=0, 1,0),
+                   prey.meta.ext=sum(prey.ext.quant),pred.meta.ext=sum(pred.ext.quant),
+                   prey.persistence=sum(ln.prey>1)/sampling.days,pred.persistence=sum(ln.pred>1)/sampling.days,                    #Number of days Persistence
+                   prey.nmbr.ext.days=sum(prey.density<=0)/sampling.days,pred.nmbr.ext.days=sum(pred.density<=0)/sampling.days,                   #Number of days Persistence
+                   prey.time.2.ext=first(day[ln.prey<=.05]),pred.time.2.ext=first(day[ln.pred<=.05]),
+                   Sum.Zero.Prey.Densities.Locally=sum(ln.prey<1),Sum.Zero.Predator.Densities.Locally=sum(ln.pred<1),# Number of days  Zero
+                   cv.prey=raster::cv(prey.density,na.rm = T), cv.pred=raster::cv(pred.density,na.rm = T))%>%
+  ungroup()%>%
+  mutate(log.number.bottles=log(number.bottles+1))%>%
+  mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
+  mutate(log.total.vol=log(total.vol+1))%>%
+  left_join(reg.ext, by="newID")%>%
+  dplyr::distinct(newBottleID,cv.prey,pred.meta.ext,bottle.number,reg.pred.ext,.keep_all = TRUE)
 ################################################################################################################################################################################################################################################################
 #Days to Extinction
 
