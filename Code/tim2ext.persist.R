@@ -98,11 +98,12 @@ loc.all%>%
   theme(legend.position = "none")+facet_grid(~var,scales="free")
 
 loc.all%>%
-  filter(reg.pred.ext=="yes")%>%
-  ggplot(aes(x=as.factor(productivity),y=pred.nmbr.ext.days, fill=as.factor(productivity)))+
+  #filter(reg.pred.ext=="yes")%>%
+  ggplot(aes(x=as.factor(productivity),y=prey.nmbr.ext.days, fill=as.factor(prey.ext)))+
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
-  ylab("Proportion of Predator Metacommunites Extinct")+xlab("Productivity")+
+  #ylab("Proportion of Predator Metacommunites Extinct")+
+  xlab("Productivity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 

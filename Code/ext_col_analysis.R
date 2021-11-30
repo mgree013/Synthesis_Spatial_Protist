@@ -298,7 +298,7 @@ r22<-as.data.frame(r2, ncol=1)
 r22
 
 ###pred colon
-y <- cbind(Ext_col_data$colonization_sum_pred, Ext_col_data$colonization_potenital_pred)
+y <- cbind(Ext_col_data$colonization_sum_prey, Ext_col_data$colonization_potenital_prey)
 
 mod0<-glm(y~as.factor(productivity),family=binomial(link = "logit"),data=Ext_col_data)
 mod1<-glm(y~log.number.bottles,family=binomial(link = "logit"),data=Ext_col_data)
