@@ -142,7 +142,7 @@ pred.col.plot<-Ext_col_data%>%
   geom_boxplot()+
   ggtitle("e)") +
   scale_fill_viridis(discrete=T)+
-  labs(x="Productivity",y="Predator Exctinction Probability")+
+  labs(x="Productivity",y="Predator Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
@@ -151,7 +151,7 @@ prey.col.plot<-Ext_col_data%>%
   geom_boxplot()+
   ggtitle("a)") +
   scale_fill_viridis(discrete=T)+
-  labs(x="Productivity",y="Prey Exctinction Probability")+
+  labs(x="Productivity",y="Prey Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
