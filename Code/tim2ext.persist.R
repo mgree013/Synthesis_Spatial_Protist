@@ -260,32 +260,61 @@ loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")#+facet_grid(~prod)
 
-loc.all%>%
+#Trophic Figs: Fig 8:
+trophic<-loc.all%>%filter(pred.persistence>0)%>%filter(pred.persistence<1)%>%
+  filter(prey.persistence>0)%>%filter(prey.persistence<1)%>%
+  filter(prey.oc>0)%>%filter(prey.oc<1)%>%filter(pred.oc>0)%>%filter(pred.oc<1)
+
+dog<-betareg(pred.persistence~prey.oc, data=trophic)
+dog1<-betareg(pred.persistence~1, data=trophic)
+reported.table2<-bbmle::AICtab(dog1,dog,weights=T)
+reported.table2
+performance::r2(dog)
+pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
+
+p0<-trophic%>%
   #filter(number.bottles !="8")%>%
   ggplot(aes(x=prey.oc,y=pred.persistence))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  annotate("text", x = 0.25, y = .95, label = "R^2 == 0.09", parse = TRUE) +
   xlab("Prey Occupancy")+ylab("Predator Persistence")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")#+facet_grid(prey~structure)
-                                             
-loc.all%>%
+
+dog<-betareg(prey.persistence~pred.oc, data=trophic)
+dog1<-betareg(prey.persistence~1, data=trophic)
+reported.table2<-bbmle::AICtab(dog1,dog,weights=T)
+reported.table2
+performance::r2(dog)
+
+p1<-trophic%>%
   #filter(number.bottles !="8")%>%
   ggplot(aes(x=pred.oc,y=prey.persistence))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  annotate("text", x = 0.15, y = .05, label = "R^2 == 0.16", parse = TRUE) +
   xlab("Predator Occupancy")+ylab("Prey Persistence")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(prey~structure)
+  theme(legend.position = "none")#+facet_grid(prey~structure)
 
-loc.all%>%
+dog<-betareg(prey.persistence~pred.persistence, data=trophic)
+dog1<-betareg(prey.persistence~1, data=trophic)
+reported.table2<-bbmle::AICtab(dog1,dog,weights=T)
+reported.table2
+performance::r2(dog)
+
+p2<-trophic%>%
   #filter(number.bottles !="8")%>%
   ggplot(aes(x=pred.persistence,y=prey.persistence))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  annotate("text", x = 0.10, y = .05, label = "R^2 == 0.13", parse = TRUE) +
   xlab("Predator Persistence")+ylab("Prey Persistence")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(prey~structure)
+  theme(legend.position = "none")#+facet_grid(prey~structure)
+
+plot_grid(p0,p1,p2,nrow=1)
 
 reg.all.plot%>%
   #filter(pred.ext=="no")%>%
