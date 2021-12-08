@@ -273,10 +273,10 @@ performance::r2(dog)
 pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
 
 p0<-trophic%>%
-  #filter(number.bottles !="8")%>%
   ggplot(aes(x=prey.oc,y=pred.persistence))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  ggtitle("a)") +
   annotate("text", x = 0.25, y = .95, label = "R^2 == 0.09", parse = TRUE) +
   xlab("Prey Occupancy")+ylab("Predator Persistence")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
@@ -289,10 +289,10 @@ reported.table2
 performance::r2(dog)
 
 p1<-trophic%>%
-  #filter(number.bottles !="8")%>%
   ggplot(aes(x=pred.oc,y=prey.persistence))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  ggtitle("b)") +
   annotate("text", x = 0.15, y = .05, label = "R^2 == 0.16", parse = TRUE) +
   xlab("Predator Occupancy")+ylab("Prey Persistence")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
@@ -305,14 +305,14 @@ reported.table2
 performance::r2(dog)
 
 p2<-trophic%>%
-  #filter(number.bottles !="8")%>%
   ggplot(aes(x=pred.persistence,y=prey.persistence))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  ggtitle("c)") +
   annotate("text", x = 0.10, y = .05, label = "R^2 == 0.13", parse = TRUE) +
   xlab("Predator Persistence")+ylab("Prey Persistence")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")#+facet_grid(prey~structure)
+  theme(legend.position = "none")
 
 plot_grid(p0,p1,p2,nrow=1)
 
