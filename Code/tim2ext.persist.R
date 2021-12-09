@@ -243,16 +243,16 @@ loc.all%>%
   theme(legend.position = "none")+facet_grid(~var,scales="free")
 
 ###Trophic
-loc.all%>%
+trophic%>%
  # filter(number.bottles !="8")%>%
   ggplot(aes(x=log(prey.den+1),y=pred.persistence))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~prod)
+  theme(legend.position = "none")#+facet_grid(~prod)
 
 
-loc.all%>%
+trophic%>%
   #filter(number.bottles !="8")%>%
   ggplot(aes(x=log(pred.den+1),y=prey.persistence))+
   geom_point()+geom_smooth(method = "lm")+
@@ -316,7 +316,7 @@ p2<-trophic%>%
 
 plot_grid(p0,p1,p2,nrow=1)
 
-reg.all.plot%>%
+reg.all%>%
   #filter(pred.ext=="no")%>%
   ggplot(aes(x=prey.oc,y=pred.persistence))+
   geom_point()+geom_smooth(method = "lm")+
@@ -324,12 +324,12 @@ reg.all.plot%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")#+facet_grid(as.factor(patch.degree)~prod)        
 
-reg.all.plot%>%
+reg.all%>%
   ggplot(aes(x=pred.oc,y=prey.persistence))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~prod)                                    
+  theme(legend.position = "none")#+facet_grid(~prod)                                    
      
 ################################################################################################################################################
 #Proportion of Metacommunity Extinctions

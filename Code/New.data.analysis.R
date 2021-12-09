@@ -90,12 +90,12 @@ reg.all<-Data %>%
              prey.quasi.ext.ten=if_else(prey.dens<=.1*(mean(prey.dens)), "yes", "no"),pred.quasi.ext.ten=if_else(pred.dens<=.1*(mean(pred.dens)), "yes", "no"),
              prey.quasi.ext.five=if_else(prey.dens<=.05*(mean(prey.dens)), "yes", "no"),pred.quasi.ext.five=if_else(pred.dens<=.05*(mean(pred.dens)), "yes", "no"),
              prey.quasi.ext.one=if_else(prey.dens<=.01*(mean(prey.dens)), "yes", "no"),pred.quasi.ext.one=if_else(pred.dens<=.01*(mean(pred.dens)), "yes", "no"),
-             reg.prey.ext=if_else(prey.dens<=0, "yes", "no"),reg.pred.ext=if_else(pred.dens<=0, "yes", "no"),
+             reg.prey.ext=if_else(prey.dens<=0, "Extinctions", "No Extinctions"),reg.pred.ext=if_else(pred.dens<=0, "Extinctions", "No Extinctions"),
              prey.minimia=min(prey.dens),pred.minimia=min(pred.dens),                                #Minima density
              day.prey.min=day[which.min(prey.dens)],day.pred.min=day[which.min(pred.dens)],          #Day of Minimia
              prey.amp=max(prey.dens),pred.amp=max(pred.dens),                                        #Amp density
              day.prey.max=day[which.max(prey.dens)],day.pred.max=day[which.max(pred.dens)],          #Day of Amp
-             prey.persistence=sum(prey.dens>1)/meta.size,pred.persistence=sum(pred.dens>1)/meta.size,                    #Number of days Persistence
+             prey.persistence=sum(prey.dens>1)/(meta.size+sampling.days),pred.persistence=sum(pred.dens>1)/(meta.size+sampling.days),                    #Number of days Persistence
              Sum.Zero.Prey.Densities.Locally=sum(prey.dens<1),Sum.Zero.Predator.Densities.Locally=sum(pred.dens<1),# Number of days  Zero
              prey.time.2.ext=first(day[prey.dens<=.4]),pred.time.2.ext=first(day[pred.dens<=.4]),
              cv.prey=raster::cv(prey.dens,na.rm=T), cv.pred=raster::cv(pred.dens,na.rm=T)) %>%
@@ -139,10 +139,10 @@ loc.all<-Data %>%
                    prey.quasi.ext.ten=if_else(prey.density<=.1*(mean(prey.density)), "yes", "no"),pred.quasi.ext.ten=if_else(pred.density<=.1*(mean(pred.density)), "yes", "no"),
                    prey.quasi.ext.five=if_else(prey.density<=.05*(mean(prey.density)), "yes", "no"),pred.quasi.ext.five=if_else(pred.density<=.05*(mean(pred.density)), "yes", "no"),
                    prey.quasi.ext.one=if_else(prey.density<=.01*(mean(prey.density)), "yes", "no"),pred.quasi.ext.one=if_else(pred.density<=.01*(mean(pred.density)), "yes", "no"),
-                   prey.ext=if_else(prey.density<=0, "yes", "no"),pred.ext=if_else(pred.density<=0, "yes", "no"),       
+                   prey.ext=if_else(prey.density<=0, "Extinctions", "No Extinctions"),pred.ext=if_else(pred.density<=0, "Extinctions", "No Extinctions"),       
                    prey.ext.quant=if_else(prey.density<=0, 1, 0),pred.ext.quant=if_else(pred.density<=0, 1,0),
                    prey.meta.ext=sum(prey.ext.quant),pred.meta.ext=sum(pred.ext.quant),
-                   prey.persistence=sum(ln.prey>1)/sampling.days,pred.persistence=sum(ln.pred>1)/sampling.days,                    #Number of days Persistence
+                   prey.persistence=sum(ln.prey>1)/(meta.size+sampling.days),pred.persistence=sum(ln.pred>1)/(meta.size+sampling.days),                    #Number of days Persistence
                    prey.nmbr.ext.days=sum(prey.density<=0)/sampling.days,pred.nmbr.ext.days=sum(pred.density<=0)/sampling.days,                   #Number of days Persistence
                    prey.time.2.ext=first(day[ln.prey<=.05]),pred.time.2.ext=first(day[ln.pred<=.05]),
                    Sum.Zero.Prey.Densities.Locally=sum(ln.prey<1),Sum.Zero.Predator.Densities.Locally=sum(ln.pred<1),# Number of days  Zero
