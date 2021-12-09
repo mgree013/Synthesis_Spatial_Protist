@@ -143,6 +143,7 @@ mod14<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(prod
 nullmod<-glm(y~1,family=binomial(link = "logit"),data=occupnacy)
 
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod6,mod7,mod9,mod13,nullmod,weights = TRUE, sort = F)
 reported.table2
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
@@ -188,7 +189,9 @@ mod14<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(prod
 nullmod<-glm(y~1,family=binomial(link = "logit"),data=occupnacy)
 
 summary(mod14)
-reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod6,mod7,mod9,mod13,nullmod,weights = TRUE, sort = F)
+
 reported.table2
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
