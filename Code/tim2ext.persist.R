@@ -245,20 +245,25 @@ loc.all%>%
 ###Trophic
 trophic%>%
  # filter(number.bottles !="8")%>%
-  ggplot(aes(x=log(prey.den+1),y=pred.persistence))+
+  ggplot(aes(x=prey.oc,y=pred.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")#+facet_grid(~prod)
 
+dog<-betareg(pred.persistence~log(prey.den+1), data=trophic)
+dog1<-betareg(pred.persistence~1, data=trophic)
+reported.table2<-bbmle::AICtab(dog1,dog,weights=T)
+reported.table2
+performance::r2(dog)
 
 trophic%>%
   #filter(number.bottles !="8")%>%
-  ggplot(aes(x=log(pred.den+1),y=prey.persistence))+
+  ggplot(aes(x=log(pred.den+1),y=log(prey.den+1)))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")#+facet_grid(~prod)
+  theme(legend.position = "none")#+facet_grid(predator~prod)
 
 #Trophic Figs: Fig 8:
 trophic<-loc.all%>%filter(pred.persistence>0)%>%filter(pred.persistence<1)%>%

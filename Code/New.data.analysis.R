@@ -145,7 +145,7 @@ loc.all<-Data %>%
                    prey.persistence=sum(ln.prey>1)/(meta.size+sampling.days),pred.persistence=sum(ln.pred>1)/(meta.size+sampling.days),                    #Number of days Persistence
                    prey.nmbr.ext.days=sum(prey.density<=0)/sampling.days,pred.nmbr.ext.days=sum(pred.density<=0)/sampling.days,                   #Number of days Persistence
                    prey.time.2.ext=first(day[ln.prey<=.05]),pred.time.2.ext=first(day[ln.pred<=.05]),
-                   Sum.Zero.Prey.Densities.Locally=sum(ln.prey<1),Sum.Zero.Predator.Densities.Locally=sum(ln.pred<1),# Number of days  Zero
+                   Sum.Zero.Prey.Densities.Locally=sum(ln.prey<1),Sum.Zero.Predator.Densities.Locally=sum(ln.pred<1)/sampling.days,# Number of days  Zero
                    cv.prey=raster::cv(prey.density,na.rm = T), cv.pred=raster::cv(pred.density,na.rm = T))%>%
   ungroup()%>%
   mutate(log.number.bottles=log(number.bottles+1))%>%
