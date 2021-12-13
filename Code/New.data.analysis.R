@@ -146,7 +146,9 @@ loc.all<-Data %>%
                    prey.nmbr.ext.days=sum(prey.density<=0)/sampling.days,pred.nmbr.ext.days=sum(pred.density<=0)/sampling.days,                   #Number of days Persistence
                    prey.time.2.ext=first(day[ln.prey<=.05]),pred.time.2.ext=first(day[ln.pred<=.05]),
                    Sum.Zero.Prey.Densities.Locally=sum(ln.prey<1),Sum.Zero.Predator.Densities.Locally=sum(ln.pred<1)/sampling.days,# Number of days  Zero
-                   cv.prey=raster::cv(prey.density,na.rm = T), cv.pred=raster::cv(pred.density,na.rm = T))%>%
+                   cv.prey=raster::cv(prey.density,na.rm = T), cv.pred=raster::cv(pred.density,na.rm = T),
+                   prey.cat.time.high.oc=if_else(prey.density>=.2*(mean(prey.density)), 1, 0),pred.cat.time.high.oc=if_else(pred.density<=.2*(mean(pred.density)), 1, 0),
+                   prey.time.high.oc=sum(prey.cat.time.high.oc),pred.time.high.oc=sum(pred.cat.time.high.oc))%>%
   ungroup()%>%
   mutate(log.number.bottles=log(number.bottles+1))%>%
   mutate(log.network.syn.lap=log(network.syn.lap+1))%>%

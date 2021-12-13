@@ -97,12 +97,99 @@ loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(~var,scales="free")
 
-loc.all%>%
-  #filter(reg.pred.ext=="yes")%>%
-  ggplot(aes(x=as.factor(productivity),y=prey.nmbr.ext.days, fill=as.factor(prey.ext)))+
+#Time to Ext Figs
+e1<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(productivity),y=prey.time.2.ext, fill=as.factor(productivity)))+
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
-  #ylab("Proportion of Predator Metacommunites Extinct")+
+  ggtitle("a)") +
+  ylab("Prey Time to Extinction")+
+  xlab("Productivity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+e5<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(productivity),y=pred.time.2.ext, fill=as.factor(productivity)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("e)") +
+  ylab("Predator Time to Extinction")+
+  xlab("Productivity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+e2<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=log.number.bottles,y=prey.time.2.ext))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  ggtitle("b)") +
+  xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+e3<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=log.network.syn.lap,y=prey.time.2.ext))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  ggtitle("c)") +
+  xlab("Network Synchrony")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+e4<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=nghbr.connect,y=prey.time.2.ext))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  ggtitle("d)") +
+  xlab("Nearest Neighboor Connectivity")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+e6<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=log.number.bottles,y=pred.time.2.ext))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  ggtitle("f)") +
+  xlab("Metacommunity Size")+ ylab("Predator Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+e7<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=log.network.syn.lap,y=pred.time.2.ext))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  ggtitle("g)") +
+  xlab("Network Synchrony")+ ylab("Predator Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+e8<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=nghbr.connect,y=pred.time.2.ext))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  ggtitle("h)") +
+  xlab("Nearest Neighboor Connectivity")+ ylab("Predator Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+plot_grid(e1,e2,e3,e4,e5,e6,e7,e8, nrow=2)
+
+
+
+
+loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=nghbr.connect,y=pred.time.high.oc))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
   xlab("Productivity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
@@ -265,6 +352,22 @@ trophic%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")#+facet_grid(predator~prod)
 
+trophic%>%
+  #filter(number.bottles !="8")%>%
+  ggplot(aes(x=log(pred.den+1),y=prey.time.2.ext))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")#+facet_grid(predator~prod)
+
+trophic%>%
+  #filter(number.bottles !="8")%>%
+  ggplot(aes(x=log(prey.den+1),y=pred.time.2.ext))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")#+facet_grid(predator~prod)
+
 #Trophic Figs: Fig 8:
 trophic<-loc.all%>%filter(pred.persistence>0)%>%filter(pred.persistence<1)%>%
   filter(prey.persistence>0)%>%filter(prey.persistence<1)%>%
@@ -285,7 +388,7 @@ p0<-trophic%>%
   annotate("text", x = 0.25, y = .95, label = "R^2 == 0.09", parse = TRUE) +
   xlab("Prey Occupancy")+ylab("Predator Persistence")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")#+facet_grid(prey~structure)
+  theme(legend.position = "none")+facet_grid(prey~predator)
 
 dog<-betareg(prey.persistence~pred.oc, data=trophic)
 dog1<-betareg(prey.persistence~1, data=trophic)
