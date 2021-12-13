@@ -181,99 +181,108 @@ e8<-loc.all%>%
   theme(legend.position = "none")
 
 plot_grid(e1,e2,e3,e4,e5,e6,e7,e8, nrow=2)
+############################################################################################################################################
 
 
+#Proportion of Time at High Occupnacy
 
-
-loc.all%>%
+o1<-loc.all%>%
   filter(number.bottles>1)%>%
-  ggplot(aes(x=nghbr.connect,y=pred.time.high.oc))+
-  geom_point()+geom_smooth(method = "lm")+
-  scale_color_viridis(discrete = TRUE)+
+  ggplot(aes(x=as.factor(productivity),y=prey.time.high.oc, fill=as.factor(productivity)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("a)") +
+  ylab("Prey Proportion of Time at High Occupancy")+
   xlab("Productivity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
-loc.all%>%
-  filter(prey.ext=="yes")%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=prey.nmbr.ext.days))+
-  geom_point()+geom_smooth(method = "lm")+
-  scale_color_viridis(discrete = TRUE)+
+o6<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(productivity),y=pred.time.high.oc, fill=as.factor(productivity)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("e)") +
+  ylab("Predator Proportion of Time at High Occupancy")+
+  xlab("Productivity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
+  theme(legend.position = "none")
 
-loc.all%>%
-  filter(pred.ext=="yes")%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=pred.nmbr.ext.days))+
-  geom_point()+geom_smooth(method = "lm")+
-  scale_color_viridis(discrete = TRUE)+
-  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
 
-loc.all%>%
-  filter(pred.ext=="no")%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=Sum.Zero.Predator.Densities.Locally))+
+o2<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=nghbr.connect,y=pred.time.high.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  xlab("Nearest Neighboor Connectivity")+ylab("Predator Proportion of Time at High Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
+  theme(legend.position = "none")
 
-loc.all%>%
-  filter(prey.ext=="no")%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=pred.persistence))+
+o3<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=total.vol,y=pred.time.high.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  xlab("Total Volume")+ylab("Predator Proportion of Time at High Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
+  theme(legend.position = "none")
 
-loc.all%>%
-  filter(prey.ext=="no")%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=prey.persistence))+
+o4<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=meta.size,y=pred.time.high.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  xlab("Metacommunity Size")+ylab("Predator Proportion of Time at High Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
+  theme(legend.position = "none")
 
-loc.all%>%
-  filter(prey.ext=="no")%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=day.prey.min))+
+o5<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=log.network.syn.lap,y=pred.time.high.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  xlab("Network Synchrony")+ylab("Predator Proportion of Time at High Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
+  theme(legend.position = "none")
 
-loc.all%>%
-  filter(pred.ext=="no")%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=day.pred.min))+
+o7<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=nghbr.connect,y=prey.time.high.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  xlab("Nearest Neighboor Connectivity")+ylab("Prey Proportion of Time at High Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
+  theme(legend.position = "none")
 
-loc.all%>%
-  filter(prey.ext=="no")%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=prey.minimia))+
+o8<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=total.vol,y=prey.time.high.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  xlab("Total Volume")+ylab("Prey Proportion of Time at High Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
+  theme(legend.position = "none")
 
-loc.all%>%
-  filter(pred.ext=="no")%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=pred.minimia))+
+o9<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=meta.size,y=prey.time.high.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  xlab("Metacommunity Size")+ylab("Prey Proportion of Time at High Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
+  theme(legend.position = "none")
+
+o10<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=log.network.syn.lap,y=prey.time.high.oc))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  xlab("Network Synchrony")+ylab("Prey Proportion of Time at High Occupancy")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+plot_grid(o1,o2,o3,o4,o5,o6,o7,o8,o9,o10,nrow=2)
+
 
 reg.all.plot%>%
   filter(pred.ext=="yes")%>%
