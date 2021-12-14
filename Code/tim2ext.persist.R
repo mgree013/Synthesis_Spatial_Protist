@@ -312,7 +312,7 @@ reg.oc<-Data %>%
              prey.occup.sum=sum(prey.net.oc>=0.75)/sampling.days,pred.occup.sum=sum(pred.net.oc>=0.75)/sampling.days,
              prey.time.2.ext=first(day[prey.net.oc<=0]),pred.time.2.ext=first(day[pred.net.oc<=0]),
              prey.last.high.oc=last(day[prey.net.oc>=0.75]),pred.last.high.oc=last(day[pred.net.oc>=0.75]),
-             prey.clpse.time=prey.time.2.ext-prey.last.high.oc,pred.clpse.time=pred.time.2.ext-pred.last.high.oc)%>%
+             prey.clpse.time=abs(prey.time.2.ext-prey.last.high.oc),pred.clpse.time=abs(pred.time.2.ext-pred.last.high.oc))%>%
   mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))%>%
   dplyr::distinct(newID,.keep_all = TRUE)
 
@@ -321,6 +321,7 @@ reg.oc%>%
   ggplot(aes(x=value,y=pred.occup.sum))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  ylab("Proportion of Time at High Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(~var,scales="free")
 
@@ -329,11 +330,12 @@ reg.oc%>%
   ggplot(aes(x=value,y=prey.occup.sum))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  ylab("Proportion of Time at High Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(~var,scales="free")
 
 reg.oc%>%
-  filter(pred.clpse.time>0)%>%
+ # filter(pred.clpse.time>0)%>%
   ggplot(aes(x=pred.occup.sum,y=pred.clpse.time))+
   geom_point()+
   stat_smooth(method = glm, method.args = list(family = poisson(link="log")),se=T)+
