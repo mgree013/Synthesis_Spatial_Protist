@@ -97,8 +97,9 @@ reg.all<-Data %>%
              day.prey.max=day[which.max(prey.dens)],day.pred.max=day[which.max(pred.dens)],          #Day of Amp
              prey.persistence=sum(prey.dens>1)/(meta.size+sampling.days),pred.persistence=sum(pred.dens>1)/(meta.size+sampling.days),                    #Number of days Persistence
              Sum.Zero.Prey.Densities.Locally=sum(prey.dens<1),Sum.Zero.Predator.Densities.Locally=sum(pred.dens<1),# Number of days  Zero
-             prey.time.2.ext=first(day[prey.dens<=.4]),pred.time.2.ext=first(day[pred.dens<=.4]),
-             cv.prey=raster::cv(prey.dens,na.rm=T), cv.pred=raster::cv(pred.dens,na.rm=T)) %>%
+             prey.time.2.ext=first(day[prey.dens<=0]),pred.time.2.ext=first(day[pred.dens<=0]),
+             cv.prey=raster::cv(prey.dens,na.rm=T), cv.pred=raster::cv(pred.dens,na.rm=T),
+             high.oc.prey=sum(prey.oc>0.75)/(meta.size+sampling.days)) %>%
   mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))%>%
   dplyr::distinct(newID,cv.prey,reg.pred.ext,prey.persistence,.keep_all = TRUE)
 
