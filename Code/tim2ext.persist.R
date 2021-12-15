@@ -311,8 +311,9 @@ reg.oc<-Data %>%
              meta.size=mean(number.bottles),
              prey.occup.sum=sum(prey.net.oc>=0.75)/sampling.days,pred.occup.sum=sum(pred.net.oc>=0.75)/sampling.days,
              prey.time.2.ext=first(day[prey.net.oc<=0]),pred.time.2.ext=first(day[pred.net.oc<=0]),
-             prey.last.high.oc=last(day[prey.net.oc>=0.75]),pred.last.high.oc=last(day[pred.net.oc>=0.75]),
-             prey.clpse.time=abs(prey.time.2.ext-prey.last.high.oc),pred.clpse.time=abs(pred.time.2.ext-pred.last.high.oc))%>%
+             prey.last.high.oc=last(day[prey.net.oc>=0.75]),pred.last.high.oc=last(day[pred.net.oc>=0.75]))%>%
+  mutate(prey.time.2.ext = ifelse(is.na(prey.time.2.ext), 75, prey.time.2.ext),pred.time.2.ext = ifelse(is.na(pred.time.2.ext), 75, pred.time.2.ext),
+         prey.clpse.time=(prey.time.2.ext-prey.last.high.oc),pred.clpse.time=(pred.time.2.ext-pred.last.high.oc))%>%
   mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))%>%
   dplyr::distinct(newID,.keep_all = TRUE)
 
@@ -340,9 +341,25 @@ reg.oc%>%
   geom_point()+
   stat_smooth(method = glm, method.args = list(family = poisson(link="log")),se=T)+
   #geom_smooth(method = "lm")+
+  xlab("Proportion of Time at High Occupancy")+
+  ylab("Collapse Time")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
+
+reg.oc%>%
+  # filter(pred.clpse.time>0)%>%
+  ggplot(aes(x=prey.occup.sum,y=prey.clpse.time))+
+  geom_point()+
+  stat_smooth(method = glm, method.args = list(family = poisson(link="log")),se=T)+
+  #geom_smooth(method = "lm")+
+  xlab("Proportion of Time at High Occupancy")+
+  ylab("Collapse Time")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+
 
 
 reg.all.plot%>%
