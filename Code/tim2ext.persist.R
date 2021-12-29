@@ -14,10 +14,10 @@ p1<-loc.all%>%
   ggplot(aes(x=prey.ext,fill=prey.ext))+
   geom_bar(stat="count")+
   stat_count(geom = "text", colour = "black", size = 3.5,
-             aes(label = ..count..),position=position_stack(vjust=0.5))+
+             aes(label = ..count..),position=position_dodge(width=0.9), vjust=-0.25)+
   scale_fill_viridis_d() +
   ggtitle("a)") +
-  xlab("Number of Local Prey Extinctions")+
+  ylab("Total Number of Local Prey Extinctions")+ylim(0,575)+xlab("")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
@@ -25,10 +25,10 @@ p2<-loc.all%>%
   ggplot(aes(x=pred.ext,fill=pred.ext))+
   geom_bar(stat="count")+
   stat_count(geom = "text", colour = "black", size = 3.5,
-             aes(label = ..count..),position=position_stack(vjust=0.5))+
+             aes(label = ..count..),position=position_dodge(width=0.9), vjust=-0.25)+
   scale_fill_viridis_d() +
   ggtitle("b)") +
-  xlab("Number of Local Predator Extinctions")+
+  ylab("Total Number of Local Predator Extinctions")+ylim(0,575)+xlab("")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
@@ -37,10 +37,10 @@ p3<-reg.all%>%
   ggplot(aes(x=reg.prey.ext,fill=reg.prey.ext))+
   geom_bar(stat="count")+
   stat_count(geom = "text", colour = "black", size = 3.5,
-             aes(label = ..count..),position=position_stack(vjust=0.5))+
+             aes(label = ..count..),position=position_dodge(width=0.9), vjust=-0.25)+
   scale_fill_viridis_d() +
   ggtitle("c)") +
-  xlab("Number of Regional Prey Extinctions")+
+  ylab("Total Number of Regional Prey Extinctions")+ylim(0,120)+xlab("")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
@@ -48,10 +48,10 @@ p4<-reg.all%>%
   ggplot(aes(x=reg.pred.ext,fill=reg.pred.ext))+
   geom_bar(stat="count")+
   stat_count(geom = "text", colour = "black", size = 3.5,
-             aes(label = ..count..),position=position_stack(vjust=0.5))+
+             aes(label = ..count..),position=position_dodge(width=0.9), vjust=-0.25)+
   scale_fill_viridis_d() +
   ggtitle("d)") +
-  xlab("Number of Regional Predator Extinctions")+
+  ylab("Total Number of Regional Predator Extinctions")+ylim(0,120)+xlab("")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
