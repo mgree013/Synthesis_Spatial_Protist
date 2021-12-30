@@ -48,21 +48,7 @@ loc.all<-Data %>%
 ####################################################################################################################################
 
 #Focus on extinctions
-loc.all%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=prey.time.2.ext))+
-  geom_point()+geom_smooth(method = "lm")+
-  scale_color_viridis(discrete = TRUE)+
-  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
 
-loc.all%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=pred.time.2.ext))+
-  geom_point()+geom_smooth(method = "lm")+
-  scale_color_viridis(discrete = TRUE)+
-  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
 
 #Time to Ext Figs
 e1<-loc.all%>%
@@ -81,7 +67,8 @@ e5<-loc.all%>%
   ggplot(aes(x=as.factor(productivity),y=pred.time.2.ext, fill=as.factor(productivity)))+
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
-  ggtitle("e)") +
+  #ggtitle("e)") +
+  ggtitle("d)") +
   ylab("Predator Time to Extinction")+
   xlab("Productivity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
@@ -112,7 +99,8 @@ e4<-loc.all%>%
   ggplot(aes(x=nghbr.connect,y=prey.time.2.ext))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
-  ggtitle("d)") +
+  #ggtitle("d)") +
+  ggtitle("c)") +
   xlab("Nearest Neighboor Connectivity")+ ylab("Prey Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
@@ -122,7 +110,8 @@ e6<-loc.all%>%
   ggplot(aes(x=log.number.bottles,y=pred.time.2.ext))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
-  ggtitle("f)") +
+  #ggtitle("f)") +
+  ggtitle("e)") +
   xlab("Metacommunity Size")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
@@ -142,12 +131,14 @@ e8<-loc.all%>%
   ggplot(aes(x=nghbr.connect,y=pred.time.2.ext))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
-  ggtitle("h)") +
+  #ggtitle("h)") +
+  ggtitle("f)") +
   xlab("Nearest Neighboor Connectivity")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
 plot_grid(e1,e2,e3,e4,e5,e6,e7,e8, nrow=2)
+plot_grid(e1,e2,e4,e5,e6,e8, nrow=2)
 
 ####################################################################################################################################
 #GLMS
@@ -172,8 +163,8 @@ mod13<-glm(y~log.number.bottles+as.factor(productivity)+nghbr.connect,family=poi
 mod14<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(productivity),family=poisson(link="log"),data=loc.all)
 nullmod<-glm(y~1,family=poisson(link="log"),data=occupnacy)
 
-reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
-#reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod6,mod7,mod9,mod13,nullmod,weights = TRUE, sort = F)
+#reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod6,mod7,mod9,mod13,nullmod,weights = TRUE, sort = F)
 reported.table2
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
@@ -193,7 +184,8 @@ pseudoR13 <- ((mod13$null.deviance-mod13$deviance)/mod13$null.deviance)
 pseudoR14 <- ((mod14$null.deviance-mod14$deviance)/mod14$null.deviance)
 pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.deviance)
 
-r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
+#r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
+r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR6,pseudoR7,pseudoR9,pseudoR13,pseudoRnullmod)
 r22<-as.data.frame(r2, ncol=1)
 r22
 
@@ -219,8 +211,8 @@ mod13<-glm(y~log.number.bottles+as.factor(productivity)+nghbr.connect,family=poi
 mod14<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(productivity),family=poisson(link="log"),data=loc.all)
 nullmod<-glm(y~1,family=poisson(link="log"),data=occupnacy)
 
-reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
-#reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod6,mod7,mod9,mod13,nullmod,weights = TRUE, sort = F)
+#reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod6,mod7,mod9,mod13,nullmod,weights = TRUE, sort = F)
 reported.table2
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
@@ -240,6 +232,7 @@ pseudoR13 <- ((mod13$null.deviance-mod13$deviance)/mod13$null.deviance)
 pseudoR14 <- ((mod14$null.deviance-mod14$deviance)/mod14$null.deviance)
 pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.deviance)
 
-r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
+#r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
+r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR6,pseudoR7,pseudoR9,pseudoR13,pseudoRnullmod)
 r22<-as.data.frame(r2, ncol=1)
 r22
