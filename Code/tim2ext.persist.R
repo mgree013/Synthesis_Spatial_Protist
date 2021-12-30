@@ -10,6 +10,7 @@ loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(~var)
 
+#Appendix S1 Figure 1
 p1<-loc.all%>%
   ggplot(aes(x=prey.ext,fill=prey.ext))+
   geom_bar(stat="count")+
@@ -58,50 +59,9 @@ p4<-reg.all%>%
 
 plot_grid(p1,p2,p3,p4, nrow=2)
 
-loc.all%>%
-  gather(prey.quasi.ext.ten,prey.quasi.ext.five,prey.quasi.ext.one,prey.ext, key = "var", value = "value") %>% 
-  ggplot(aes(x=value,fill=value))+
-  geom_bar(stat = "identity")+
-  scale_fill_viridis_d() +
-  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var)
-
-reg.all%>%
-  gather(pred.quasi.ext.ten,pred.quasi.ext.five,pred.quasi.ext.one,reg.pred.ext, key = "var", value = "value") %>% 
-  ggplot(aes(x=value,fill=value))+
-  geom_bar()+
-  scale_fill_viridis_d() +
-  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var)
-
-reg.all%>%
-  gather(prey.quasi.ext.ten,prey.quasi.ext.five,prey.quasi.ext.one,reg.prey.ext, key = "var", value = "value") %>% 
-  ggplot(aes(x=value,fill=value))+
-  geom_bar()+
-  scale_fill_viridis_d() +
-  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var)
-
-
 ################################################################################################################################################
 #Focus on extinctions
-loc.all%>%
-  filter(prey.ext=="yes")%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=prey.time.2.ext))+
-  geom_point()+geom_smooth(method = "lm")+
-  scale_color_viridis(discrete = TRUE)+
-  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
 
-loc.all%>%
-  filter(reg.pred.ext=="yes")%>%
-  gather(log.number.bottles,log.network.syn.lap,log.total.vol,nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=pred.time.2.ext))+
-  geom_point()+geom_smooth(method = "lm")+
-  scale_color_viridis(discrete = TRUE)+
-  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~var,scales="free")
 
 #Time to Ext Figs
 e1<-loc.all%>%
@@ -461,6 +421,83 @@ trophic%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")#+facet_grid(predator~prod)
 
+#persistnce Figures
+loc.all%>%
+  filter(number.bottles >1)%>%
+  ggplot(aes(x=as.factor(productivity),y=prey.persistence,fill=as.factor(productivity)))+ 
+  geom_boxplot()+
+  ggtitle("a)") +
+  scale_fill_viridis(discrete = TRUE)+
+  labs(x="Productivity (g)",y="Prey Persistence")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+loc.all%>%
+  filter(number.bottles >1)%>%
+  ggplot(aes(x=as.factor(productivity),y=pred.persistence,fill=as.factor(productivity)))+ 
+  geom_boxplot()+
+  ggtitle("a)") +
+  scale_fill_viridis(discrete = TRUE)+
+  labs(x="Productivity (g)",y="Predator Persistence")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+loc.all%>%
+  filter(number.bottles >1)%>%
+  ggplot(aes(x=log.number.bottles,y=prey.persistence))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  labs(x="Metacommunity Size",y="Prey Persistence")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+loc.all%>%
+  filter(number.bottles >1)%>%
+  ggplot(aes(x=log.network.syn.lap,y=prey.persistence))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  labs(x="Network Synchrony",y="Prey Persistence")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+loc.all%>%
+  filter(number.bottles >1)%>%
+  ggplot(aes(x=nghbr.connect,y=prey.persistence))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  labs(x="Nearest Neighboor Connectivity",y="Prey Persistence")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+loc.all%>%
+  filter(number.bottles >1)%>%
+  ggplot(aes(x=log.number.bottles,y=pred.persistence))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  labs(x="Metacommunity Size",y="Predator Persistence")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+loc.all%>%
+  filter(number.bottles >1)%>%
+  ggplot(aes(x=log.network.syn.lap,y=pred.persistence))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  labs(x="Network Synchrony",y="Predator Persistence")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+
+loc.all%>%
+  filter(number.bottles >1)%>%
+  ggplot(aes(x=nghbr.connect,y=pred.persistence))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  labs(x="Nearest Neighboor Connectivity",y="Predator Persistence")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+
 #Trophic Figs: Fig 8:
 trophic<-loc.all%>%filter(pred.persistence>0)%>%filter(pred.persistence<1)%>%
   filter(prey.persistence>0)%>%filter(prey.persistence<1)%>%
@@ -516,6 +553,20 @@ p2<-trophic%>%
   theme(legend.position = "none")
 
 plot_grid(p0,p1,p2,nrow=1)
+
+loc.all%>%
+  ggplot(aes(x=log(pred.den+1),y=prey.oc))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+loc.all%>%
+  ggplot(aes(x=log(prey.den+1),y=log(pred.den+1)))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")#+facet_grid(prey~prod)
 
 reg.all%>%
   #filter(pred.ext=="no")%>%
