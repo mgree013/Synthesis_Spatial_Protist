@@ -16,6 +16,9 @@ setwd("~/Dropbox/Protist Lab Data/Kurt_Matthew_Shared Data/Dendritic Data/Holist
 Data=read.csv("data/upd.datas.all.csv")
 summary(Data)
 str(Data)
+
+Data<-Data%>%
+  mutate(pred.prey.oc=if_else(pred.oc==1 &prey.oc==1,1,0))
 ########################################################################################################################
 #Plot Time Series
 Data%>%
@@ -84,7 +87,7 @@ reg.all<-Data %>%
              #prey.size=mean(Prey.size),
              #prey.k.cap=mean(Prey.K.cap),
             # prey.disp=mean(Prey.disp.rate),
-             prey.oc=mean(prey.net.oc),pred.oc=mean(pred.net.oc),
+             prey.oc=mean(prey.net.oc),pred.oc=mean(pred.net.oc),pred.prey.oc.mean=mean(pred.prey.oc),
              prey.dens=mean(prey.dens)/number.bottles,pred.dens=mean(pred.dens)/number.bottles,
             # prey.den=sum(ln.prey),pred.den=sum(ln.pred), 
              prey.quasi.ext.ten=if_else(prey.dens<=.1*(mean(prey.dens)), "yes", "no"),pred.quasi.ext.ten=if_else(pred.dens<=.1*(mean(pred.dens)), "yes", "no"),
@@ -131,7 +134,7 @@ loc.all<-Data %>%
                    pred.size=mean(Pred.size),
                    pred.attack=mean(Pred.attack.rate),
                    meta.size=mean(number.bottles),
-                   prey.oc=mean(prey.oc),pred.oc=mean(pred.oc),
+                   prey.oc=mean(prey.oc),pred.oc=mean(pred.oc),pred.prey.oc.mean=mean(pred.prey.oc),
                    prey.minimia=min(prey.density),pred.minimia=min(pred.density),                                #Minima density
                    day.prey.min=day[which.min(prey.density)],day.pred.min=day[which.min(pred.density)],          #Day of Minimia
                    prey.amp=max(prey.density),pred.amp=max(pred.density),                                        #Amp density
