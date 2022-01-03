@@ -33,13 +33,15 @@ p2<-loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
+reg.all$reg.prey.ext<-factor(reg.all$reg.prey.ext, levels = c( "Extinctions","No Extinctions"))
 
 p3<-reg.all%>%
   ggplot(aes(x=reg.prey.ext,fill=reg.prey.ext))+
   geom_bar(stat="count")+
+  scale_x_discrete(drop=FALSE)+
   stat_count(geom = "text", colour = "black", size = 3.5,
              aes(label = ..count..),position=position_dodge(width=0.9), vjust=-0.25)+
-  scale_fill_viridis_d() +
+  scale_fill_manual(values=c("#FDE725FF")) +
   ggtitle("c)") +
   ylab("Total Number of Regional Prey Extinctions")+ylim(0,120)+xlab("")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
