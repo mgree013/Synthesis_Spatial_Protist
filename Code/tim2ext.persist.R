@@ -557,6 +557,20 @@ p2<-trophic%>%
 plot_grid(p0,p1,p2,nrow=1)
 
 loc.all%>%
+  ggplot(aes(x=prey.oc,y=pred.oc))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+facet_grid(~prod)
+
+loc.all%>%
+  ggplot(aes(x=log(pred.den+1),y=log(prey.den+1)))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+facet_grid(predator~prod)
+
+loc.all%>%
   ggplot(aes(x=log(pred.den+1),y=prey.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+

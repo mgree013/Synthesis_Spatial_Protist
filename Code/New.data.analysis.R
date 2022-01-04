@@ -66,7 +66,7 @@ reg.all<-Data %>%
   filter(day > 3 & day < 75)%>%
   #filter(media=="medium")%>%
   #filter(predator=="didinium")%>%
-  #filter(number.bottles > 1)%>%
+  filter(number.bottles > 1)%>%
   unite("newID", number.bottles:predator, remove=FALSE)%>%
   group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,day,volume.L,newID) %>%
   summarise(prey.dens=sum(ln.prey),pred.dens=sum(ln.pred),
@@ -116,7 +116,7 @@ reg.ext<-reg.all%>%
 loc.all<-Data %>%
   #filter(day > 4)%>%
   filter(day > 3 & day < 75)%>%
-  #filter(number.bottles > 1)%>%
+  filter(number.bottles > 1)%>%
   unite("newID", number.bottles:predator, remove=FALSE)%>%
   unite("newBottleID", number.bottles:predator,bottle, remove=FALSE)%>%
   group_by(predator,prey,network.syn.lap,number.bottles, structure,replicate,media,year,bottle.number,nghbr.connect,productivity,newID,newBottleID)%>%
