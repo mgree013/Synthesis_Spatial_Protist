@@ -277,8 +277,10 @@ reg.oc<-Data %>%
              prod=mean(productivity),
              bottle.number=mean(number.bottles),
              meta.size=mean(number.bottles),
+             prey.oc=mean(prey.net.oc),pred.oc=mean(pred.net.oc),
+             reg.prey.ext=if_else(prey.dens<=0, "Extinctions", "No Extinctions"),reg.pred.ext=if_else(pred.dens<=0, "Extinctions", "No Extinctions"),
              prey.occup.sum=sum(prey.net.oc>=0.75)/sampling.days,pred.occup.sum=sum(pred.net.oc>=0.75)/sampling.days,
-             prey.time.2.ext=first(day[prey.net.oc<=0]),pred.time.2.ext=first(day[pred.net.oc<=0]),
+             prey.time.2.ext=last(day[prey.net.oc<=0]),pred.time.2.ext=last(day[pred.net.oc<=0]),
              prey.last.high.oc=last(day[prey.net.oc>=0.75]),pred.last.high.oc=last(day[pred.net.oc>=0.75]))%>%
   mutate(prey.time.2.ext = ifelse(is.na(prey.time.2.ext), 75, prey.time.2.ext),pred.time.2.ext = ifelse(is.na(pred.time.2.ext), 75, pred.time.2.ext),
          prey.clpse.time=(prey.time.2.ext-prey.last.high.oc),pred.clpse.time=(pred.time.2.ext-pred.last.high.oc))%>%
@@ -304,7 +306,17 @@ reg.oc%>%
   theme(legend.position = "none")+facet_grid(~var,scales="free")
 
 reg.oc%>%
- # filter(pred.clpse.time>0)%>%
+  filter(reg.pred.ext=="Extinctions")%>%
+  gather(log.number.bottles,log.network.syn.lap,log.total.vol,av.nghbr.connect, key = "var", value = "value")%>%
+  ggplot(aes(x=value,y=pred.clpse.time))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  ylab("Proportion of Time at High Occupancy")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+facet_grid(~var,scales="free")
+
+reg.oc%>%
+  filter(pred.clpse.time>0)%>%
   ggplot(aes(x=pred.occup.sum,y=pred.clpse.time))+
   geom_point()+
   stat_smooth(method = glm, method.args = list(family = poisson(link="log")),se=T)+
@@ -316,7 +328,7 @@ reg.oc%>%
   theme(legend.position = "none")
 
 reg.oc%>%
-  # filter(pred.clpse.time>0)%>%
+   filter(prey.clpse.time>0)%>%
   ggplot(aes(x=prey.occup.sum,y=prey.clpse.time))+
   geom_point()+
   stat_smooth(method = glm, method.args = list(family = poisson(link="log")),se=T)+
@@ -326,8 +338,6 @@ reg.oc%>%
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
-
-
 
 
 reg.all.plot%>%
@@ -342,7 +352,7 @@ reg.all.plot%>%
 reg.all.plot%>%
   filter(prey.ext=="yes")%>%
   gather(log.number.bottles,log.network.syn.lap,log.total.vol,av.nghbr.connect, key = "var", value = "value")%>%
-  ggplot(aes(x=value,y=prey.time.2.ext))+
+  ggplot(aes(x=value,y=p))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+

@@ -48,14 +48,14 @@ Data%>%
 Data%>%
   filter(connectivity>0)%>%
   filter(day > 3 & day < 75)%>%
-  dplyr::group_by(structure,day,year,media)%>%
-  dplyr::summarize(density.prey =mean(ln.prey), density.pred= mean(ln.pred))%>%
-  pivot_longer(cols=density.prey:density.pred,names_to = "species", values_to="density")%>%
+  dplyr::group_by(structure,day,year,media,replicate)%>%
+  dplyr::summarize(prey =mean(prey.oc), predator= mean(pred.oc))%>%
+  pivot_longer(cols=prey:predator,names_to = "species", values_to="density")%>%
   ggplot(mapping=aes(x=day,y=density, colour=species))+ 
   geom_line() +
-  labs(x="day",y="ln(density)+1")+
+  labs(x="Day",y="Occupancy")+
   scale_color_viridis(discrete = TRUE)+
-  facet_wrap(~interaction(year,media,structure))+
+  facet_wrap(~interaction(replicate,year,media,structure))+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())
 ################################################################################################################################################################################################################
