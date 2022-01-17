@@ -624,7 +624,7 @@ loc.all%>%
 
 reg.all%>%
   #filter(pred.ext=="no")%>%
-  ggplot(aes(x=prey.oc,y=pred.persistence))+
+  ggplot(aes(x=prey.oc,y=pred.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
