@@ -578,3 +578,4 @@ net_Ext_col_data%>%
   theme_bw()+theme_bw()+ theme(panel.grid.major = element_blank(),
                                panel.grid.minor = element_blank(),
                                panel.border = element_rect(colour = "black"))#+theme(legend.position = "none")
+

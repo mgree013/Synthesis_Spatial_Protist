@@ -249,7 +249,7 @@ Ext_col_data_network<-newer_pa_datas%>%
   #filter(day < 75)%>%
   #filter(day  > 75 & day < 150)%>%
   #filter(day  > 150)%>%
-  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,day,volume.L) %>%
+  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,day,volume.L,Pred.attack.rate) %>%
   summarise(prey.dens=sum(ln.prey),pred.dens=sum(ln.pred),
             total.vol=sum(volume.L),
             av.nghbr.connect=mean(nghbr.connect),
@@ -259,6 +259,7 @@ Ext_col_data_network<-newer_pa_datas%>%
          pred.unoccupied=if_else(pred.net.oc==1,0,1),pred.occupied=if_else(pred.net.oc==1,1,0))%>%
   group_by(structure,replicate, av.nghbr.connect,predator,prey, productivity,year,number.bottles,network.syn.lap)%>%
   summarise(n=n(),
+            predator.atk=mean(Pred.attack.rate),
             prey.occupany =sum(prey.occupied), prey.absence=sum(prey.unoccupied),
             pred.occupany =sum(pred.occupied), pred.absence=sum(pred.unoccupied),
             prey.oc=prey.occupany/n,pred.oc=pred.occupany/n,
@@ -290,6 +291,27 @@ pred.a<-Ext_col_data_network%>%
   ggtitle("d)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Productivity (g)",y="Predator Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+prey.atk.a<-Ext_col_data_network%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(predator.atk),y=prey.oc,fill=as.factor(predator.atk)))+ 
+  geom_boxplot()+
+  ggtitle("a)") +
+  scale_fill_viridis(discrete = TRUE)+
+  labs(x="Predator Attack Rate",y="Prey Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+pred.atk.a<-Ext_col_data_network%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(predator.atk),y=pred.oc,fill=as.factor(predator.atk)))+ 
+  geom_boxplot()+
+  #ggtitle("e)") +
+  ggtitle("d)") +
+  scale_fill_viridis(discrete = TRUE)+
+  labs(x="Predator Attack Rate",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
