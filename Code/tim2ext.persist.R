@@ -566,19 +566,40 @@ p2<-trophic%>%
 
 plot_grid(p0,p1,p2,nrow=1)
 
-loc.all%>%
-  ggplot(aes(x=prey.oc,y=pred.oc))+
+p0<-loc.all%>%
+  ggplot(aes(x=pred.oc,y=prey.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  xlab("Predator Occupancy")+ylab("Prey Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(~prod)
+  theme(legend.position = "none")+facet_grid(pred.attack~prod)
 
-loc.all%>%
+
+dog<-betareg(prey.persistence~pred.oc, data=trophic)
+dog1<-betareg(prey.persistence~1, data=trophic)
+reported.table2<-bbmle::AICtab(dog1,dog,weights=T)
+reported.table2
+performance::r2(dog)
+
+p1<-trophic%>%
+  ggplot(aes(x=pred.oc,y=prey.persistence))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  #ggtitle("b)") +
+  #annotate("text", x = 0.15, y = .05, label = "R^2 == 0.16", parse = TRUE) +
+  xlab("Predator Occupancy")+ylab("Prey Persistence")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+facet_grid(pred.attack~prod)
+
+p3<-loc.all%>%
   ggplot(aes(x=log(pred.den+1),y=log(prey.den+1)))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
+  xlab("Predator Density")+ylab("Prey Density")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(predator~prod)
+  theme(legend.position = "none")+facet_grid(pred.attack~prod)
+
+plot_grid(p0,p1,p3,nrow=1)
 
 loc.all%>%
   ggplot(aes(x=log(pred.den+1),y=prey.oc))+
@@ -588,13 +609,6 @@ loc.all%>%
   theme(legend.position = "none")
 
 loc.all%>%
-  ggplot(aes(x=log(prey.den+1),y=log(pred.den+1)))+
-  geom_point()+geom_smooth(method = "lm")+
-  scale_color_viridis(discrete = TRUE)+
-  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")#+facet_grid(prey~prod)
-
-loc.all%>%
   ggplot(aes(x=log(pred.den+1),y=cv.prey))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
@@ -602,7 +616,7 @@ loc.all%>%
   theme(legend.position = "none")#+facet_grid(prey~prod)
 
 loc.all%>%
-  ggplot(aes(x=prey.oc,y=Sum.Zero.Predator.Densities.Locally))+
+  ggplot(aes(x=prey.oc,y=prey.persistence))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+

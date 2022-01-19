@@ -45,12 +45,37 @@ loc.all<-Data %>%
   mutate(log.total.vol=log(total.vol+1))%>%
   left_join(reg.ext, by="newID")%>%
   dplyr::distinct(newBottleID,cv.prey,pred.meta.ext,bottle.number,reg.pred.ext,.keep_all = TRUE)
+
+loc.all$pred.attack<-as.factor(loc.all$pred.attack)
 ####################################################################################################################################
 
 #Focus on extinctions
 
 
 #Time to Ext Figs
+p1<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(pred.attack),y=prey.time.2.ext, fill=as.factor(pred.attack)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("a)") +
+  ylab("Prey Time to Extinction")+
+  xlab("Predator Attack Rate")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+p5<-loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(pred.attack),y=pred.time.2.ext, fill=as.factor(pred.attack)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  #ggtitle("e)") +
+  ggtitle("d)") +
+  ylab("Predator Time to Extinction")+
+  xlab("Predator Attack Rate")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
 e1<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=as.factor(productivity),y=prey.time.2.ext, fill=as.factor(productivity)))+
@@ -161,9 +186,11 @@ mod11<-glm(y~log.network.syn.lap+log.number.bottles+as.factor(productivity),fami
 mod12<-glm(y~log.network.syn.lap+as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod13<-glm(y~log.number.bottles+as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod14<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(productivity),family=poisson(link="log"),data=loc.all)
+mod15<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(productivity)+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+
 nullmod<-glm(y~1,family=poisson(link="log"),data=occupnacy)
 
-#reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,mod15,nullmod,weights = TRUE, sort = F)
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod6,mod7,mod9,mod13,nullmod,weights = TRUE, sort = F)
 reported.table2
 
@@ -182,6 +209,8 @@ pseudoR11 <- ((mod11$null.deviance-mod11$deviance)/mod11$null.deviance)
 pseudoR12 <- ((mod12$null.deviance-mod12$deviance)/mod12$null.deviance)
 pseudoR13 <- ((mod13$null.deviance-mod13$deviance)/mod13$null.deviance)
 pseudoR14 <- ((mod14$null.deviance-mod14$deviance)/mod14$null.deviance)
+pseudoR15 <- ((mod15$null.deviance-mod15$deviance)/mod15$null.deviance)
+
 pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.deviance)
 
 #r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
