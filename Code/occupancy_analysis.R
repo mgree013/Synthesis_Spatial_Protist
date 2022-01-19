@@ -8,6 +8,7 @@ occupnacy<-newer_pa_datas%>%
          pred.unoccupied=if_else(pred.oc==1,0,1),pred.occupied=if_else(pred.oc==1,1,0))%>%
   group_by(structure,replicate, connectivity, bottle,newID)%>%
   summarise(n=n(),
+            predator.atk=mean(Pred.attack.rate),
             prey.occupany =sum(prey.occupied), prey.absence=sum(prey.unoccupied),
             pred.occupany =sum(pred.occupied), pred.absence=sum(pred.unoccupied),
             prey.oc=prey.occupany/n,pred.oc=pred.occupany/n,
@@ -104,6 +105,27 @@ op2<-occupnacy%>%
   ggtitle("a)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Productivity (g)",y="Prey Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+opp1<-occupnacy%>%
+  filter(connectivity.x>0)%>%
+  ggplot(aes(x=as.factor(predator.atk),y=pred.oc,fill=as.factor(predator.atk)))+ 
+  geom_boxplot()+
+  #ggtitle("e)") +
+  ggtitle("d)") +
+  scale_fill_viridis(discrete = TRUE)+
+  labs(x="Predator Attack Rate",y="Predator Occupancy")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+opp2<-occupnacy%>%
+  filter(connectivity.x>0)%>%
+  ggplot(aes(x=as.factor(predator.atk),y=prey.oc,fill=as.factor(predator.atk)))+ 
+  geom_boxplot()+
+  ggtitle("a)") +
+  scale_fill_viridis(discrete = TRUE)+
+  labs(x="Predator Attack Rate",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 

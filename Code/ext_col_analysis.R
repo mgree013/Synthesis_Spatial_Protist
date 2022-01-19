@@ -38,6 +38,7 @@ Ext_col_data<-newer_pa_datas%>%
   replace(is.na(.), 0)%>%
   group_by(newID)%>%
   summarize(#prey.occupancy =sum(prey.oc)/sampling_days, pred.occupancy= sum(pred.oc)/sampling_days,
+    predator.atk=mean(Pred.attack.rate),
     colonization_sum_pred=sum(colonization_col_pred),non_colonization_sum_pred=sum(non_colonization_col_pred),extinction_sum_pred=sum(extinction_col_pred),non_extinction_sum_pred=sum(non_extinction_col_pred),
     colonization_potenital_pred=sum(colonization_col_pred+non_colonization_col_pred),colonization_potenital_prey=sum(colonization_col_prey+non_colonization_col_prey),
     extinction_potenital_pred=sum(extinction_col_pred+non_extinction_col_pred),extinction_potenital_prey=sum(extinction_col_prey+non_extinction_col_prey),
@@ -138,6 +139,26 @@ prey.ext.plot<-Ext_col_data%>%
   labs(x="Productivity",y="Prey Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+pred.ext.atk.plot<-Ext_col_data%>%
+  ggplot(aes(x=as.factor(predator.atk),y=extinction_prob_pred,fill=as.factor(predator.atk)))+ 
+  geom_boxplot()+
+  #ggtitle("e)") +
+  ggtitle("d)") +
+  scale_fill_viridis(discrete=T)+
+  labs(x="Predator Attack Rate",y="Predator Exctinction Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+prey.ext.atk.plot<-Ext_col_data%>%
+  ggplot(aes(x=as.factor(predator.atk),y=extinction_prob_prey,fill=as.factor(predator.atk)))+ 
+  geom_boxplot()+
+  ggtitle("a)") +
+  scale_fill_viridis(discrete=T)+
+  labs(x="Predator Attack Rate",y="Prey Exctinction Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
 
 plot_grid(a,b,c,d,e,f, nrow=2)
 plot_grid(prey.ext.plot,a,c,b,pred.ext.plot,d,f,e, nrow=2)
