@@ -131,6 +131,8 @@ opp2<-occupnacy%>%
 
 
 plot_grid(op2,a,b,c,op1,d,e,f,nrow=2)
+plot_grid(op2,opp2,a,b,c,op1,opp1,d,e,f,nrow=2)
+
 plot_grid(a,b,c,d,e,f,nrow=2)
 
 plot_grid(op2,a,c,op1,d,f,nrow=2)
@@ -382,6 +384,9 @@ plot_grid(a,b,c,d,e,f,nrow=2)
 plot_grid(prey.a,a,b,c,pred.a,d,e,f,nrow=2)
 
 plot_grid(prey.a,a,c,pred.a,d,f,nrow=2)
+plot_grid(prey.a,prey.atk.a,a,b,c,pred.a,pred.atk.a,d,e,f,nrow=2)
+
+
 ##########################################################################
 #2) Regional GLMs
 

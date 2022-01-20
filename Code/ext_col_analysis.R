@@ -164,6 +164,7 @@ plot_grid(a,b,c,d,e,f, nrow=2)
 plot_grid(prey.ext.plot,a,c,b,pred.ext.plot,d,f,e, nrow=2)
 
 plot_grid(prey.ext.plot,a,b,pred.ext.plot,d,e, nrow=2)
+plot_grid(prey.ext.plot,prey.ext.atk.plot,a,c,b,pred.ext.plot,pred.ext.atk.plot,d,f,e, nrow=2)
 
 #Colonization Plots
 
@@ -183,6 +184,25 @@ prey.col.plot<-Ext_col_data%>%
   ggtitle("a)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Productivity",y="Prey Colonization Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+pred.col.atk.plot<-Ext_col_data%>%
+  ggplot(aes(x=as.factor(predator.atk),y=colonization_prob_pred,fill=as.factor(predator.atk)))+ 
+  geom_boxplot()+
+  #ggtitle("e)") +
+  ggtitle("d)") +
+  scale_fill_viridis(discrete=T)+
+  labs(x="Predator Attack Rate",y="Predator Colonization Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+
+prey.col.atk.plot<-Ext_col_data%>%
+  ggplot(aes(x=as.factor(predator.atk),y=colonization_prob_prey, fill=as.factor(predator.atk)))+ 
+  geom_boxplot()+
+  ggtitle("a)") +
+  scale_fill_viridis(discrete=T)+
+  labs(x="Predator Attack Rate",y="Prey Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
@@ -254,6 +274,7 @@ plot_grid(a,b,c,d,e,f, nrow=2)
 plot_grid(prey.col.plot,a,c,b,pred.col.plot,d,f,e, nrow=2)
 
 plot_grid(prey.col.plot,a,b,pred.col.plot,d,e, nrow=2)
+plot_grid(prey.col.plot,prey.col.atk.plot,a,c,b,pred.col.plot,pred.col.atk.plot,d,f,e, nrow=2)
 
 
 Ext_col_data%>%
