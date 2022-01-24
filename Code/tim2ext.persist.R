@@ -608,6 +608,7 @@ loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
+
 loc.all%>%
   ggplot(aes(x=log(pred.den+1),y=cv.prey))+
   geom_point()+geom_smooth(method = "lm")+
