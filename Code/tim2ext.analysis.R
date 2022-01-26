@@ -187,11 +187,10 @@ mod11<-glm(y~log.network.syn.lap+log.number.bottles+as.factor(productivity),fami
 mod12<-glm(y~log.network.syn.lap+as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod13<-glm(y~log.number.bottles+as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod14<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(productivity),family=poisson(link="log"),data=loc.all)
-mod15<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(productivity)+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
 
 nullmod<-glm(y~1,family=poisson(link="log"),data=occupnacy)
 
-reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,mod15,nullmod,weights = TRUE, sort = F)
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod6,mod7,mod9,mod13,nullmod,weights = TRUE, sort = F)
 reported.table2
 
@@ -216,6 +215,88 @@ pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.devianc
 
 #r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
 r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR6,pseudoR7,pseudoR9,pseudoR13,pseudoRnullmod)
+r22<-as.data.frame(r2, ncol=1)
+r22
+
+#New Bigger model
+y<-loc.all$prey.time.2.ext
+
+mod0<-glm(y~as.factor(productivity),family=poisson(link="log"),data=loc.all)
+mod1<-glm(y~log.number.bottles,family=poisson(link="log"),data=loc.all)
+mod2<-glm(y~nghbr.connect,family=poisson(link="log"),data=loc.all)
+mod3<-glm(y~log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod4<-glm(y~as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+
+mod5<-glm(y~as.factor(productivity)+log.number.bottles,family=poisson(link="log"),data=loc.all)
+mod6<-glm(y~as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
+mod7<-glm(y~as.factor(productivity)+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod8<-glm(y~as.factor(productivity)+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod9<-glm(y~log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
+mod10<-glm(y~log.number.bottles+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod11<-glm(y~log.number.bottles+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod12<-glm(y~nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod13<-glm(y~nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod14<-glm(y~log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+
+mod15<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
+mod16<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod18<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod21<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+
+mod25<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+
+mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+nullmod<-glm(y~1,family=poisson(link="log"),data=loc.all)
+
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,mod15,mod16,mod17,mod18,mod19,mod20,mod21,mod22,mod23,mod24,mod25,mod26,mod27,mod28,mod29,mod30,nullmod,weights = TRUE, sort = F)
+reported.table2
+
+pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
+pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
+pseudoR2 <- ((mod2$null.deviance-mod2$deviance)/mod2$null.deviance)
+pseudoR3 <- ((mod3$null.deviance-mod3$deviance)/mod3$null.deviance)
+pseudoR4 <- ((mod4$null.deviance-mod4$deviance)/mod4$null.deviance)
+pseudoR5 <- ((mod5$null.deviance-mod5$deviance)/mod5$null.deviance)
+pseudoR6 <- ((mod6$null.deviance-mod6$deviance)/mod6$null.deviance)
+pseudoR7 <- ((mod7$null.deviance-mod7$deviance)/mod7$null.deviance)
+pseudoR8 <- ((mod8$null.deviance-mod8$deviance)/mod8$null.deviance)
+pseudoR9 <- ((mod9$null.deviance-mod9$deviance)/mod9$null.deviance)
+pseudoR10 <- ((mod10$null.deviance-mod10$deviance)/mod10$null.deviance)
+pseudoR11 <- ((mod11$null.deviance-mod11$deviance)/mod11$null.deviance)
+pseudoR12 <- ((mod12$null.deviance-mod12$deviance)/mod12$null.deviance)
+pseudoR13 <- ((mod13$null.deviance-mod13$deviance)/mod13$null.deviance)
+pseudoR14 <- ((mod14$null.deviance-mod14$deviance)/mod14$null.deviance)
+pseudoR15 <- ((mod15$null.deviance-mod15$deviance)/mod15$null.deviance)
+pseudoR16 <- ((mod16$null.deviance-mod16$deviance)/mod16$null.deviance)
+pseudoR17 <- ((mod17$null.deviance-mod17$deviance)/mod17$null.deviance)
+pseudoR18 <- ((mod18$null.deviance-mod18$deviance)/mod18$null.deviance)
+pseudoR19 <- ((mod19$null.deviance-mod19$deviance)/mod19$null.deviance)
+pseudoR20 <- ((mod20$null.deviance-mod20$deviance)/mod20$null.deviance)
+pseudoR21 <- ((mod21$null.deviance-mod21$deviance)/mod21$null.deviance)
+pseudoR22 <- ((mod22$null.deviance-mod22$deviance)/mod22$null.deviance)
+pseudoR23 <- ((mod23$null.deviance-mod23$deviance)/mod23$null.deviance)
+pseudoR24 <- ((mod24$null.deviance-mod24$deviance)/mod24$null.deviance)
+pseudoR25 <- ((mod25$null.deviance-mod25$deviance)/mod25$null.deviance)
+pseudoR26 <- ((mod26$null.deviance-mod26$deviance)/mod26$null.deviance)
+pseudoR27 <- ((mod27$null.deviance-mod27$deviance)/mod27$null.deviance)
+pseudoR28 <- ((mod28$null.deviance-mod28$deviance)/mod28$null.deviance)
+pseudoR29 <- ((mod29$null.deviance-mod29$deviance)/mod29$null.deviance)
+pseudoR30 <- ((mod30$null.deviance-mod30$deviance)/mod30$null.deviance)
+pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.deviance)
+
+r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoR15,pseudoR16,pseudoR17,pseudoR18,pseudoR19,pseudoR20,pseudoR21,pseudoR22,pseudoR23,pseudoR24,pseudoR25,pseudoR26,pseudoR27,pseudoR28,pseudoR29,pseudoR30,pseudoRnullmod)
+#r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
+#r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR6,pseudoR7,pseudoR9,pseudoR13,pseudoRnullmod)
 r22<-as.data.frame(r2, ncol=1)
 r22
 
@@ -264,5 +345,87 @@ pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.devianc
 
 #r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
 r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR6,pseudoR7,pseudoR9,pseudoR13,pseudoRnullmod)
+r22<-as.data.frame(r2, ncol=1)
+r22
+
+#New Bigger model
+y<-loc.all$pred.time.2.ext
+
+mod0<-glm(y~as.factor(productivity),family=poisson(link="log"),data=loc.all)
+mod1<-glm(y~log.number.bottles,family=poisson(link="log"),data=loc.all)
+mod2<-glm(y~nghbr.connect,family=poisson(link="log"),data=loc.all)
+mod3<-glm(y~log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod4<-glm(y~as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+
+mod5<-glm(y~as.factor(productivity)+log.number.bottles,family=poisson(link="log"),data=loc.all)
+mod6<-glm(y~as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
+mod7<-glm(y~as.factor(productivity)+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod8<-glm(y~as.factor(productivity)+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod9<-glm(y~log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
+mod10<-glm(y~log.number.bottles+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod11<-glm(y~log.number.bottles+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod12<-glm(y~nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod13<-glm(y~nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod14<-glm(y~log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+
+mod15<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
+mod16<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod18<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod21<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+
+mod25<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
+mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+
+mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+nullmod<-glm(y~1,family=poisson(link="log"),data=loc.all)
+
+reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,mod15,mod16,mod17,mod18,mod19,mod20,mod21,mod22,mod23,mod24,mod25,mod26,mod27,mod28,mod29,mod30,nullmod,weights = TRUE, sort = F)
+reported.table2
+
+pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
+pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
+pseudoR2 <- ((mod2$null.deviance-mod2$deviance)/mod2$null.deviance)
+pseudoR3 <- ((mod3$null.deviance-mod3$deviance)/mod3$null.deviance)
+pseudoR4 <- ((mod4$null.deviance-mod4$deviance)/mod4$null.deviance)
+pseudoR5 <- ((mod5$null.deviance-mod5$deviance)/mod5$null.deviance)
+pseudoR6 <- ((mod6$null.deviance-mod6$deviance)/mod6$null.deviance)
+pseudoR7 <- ((mod7$null.deviance-mod7$deviance)/mod7$null.deviance)
+pseudoR8 <- ((mod8$null.deviance-mod8$deviance)/mod8$null.deviance)
+pseudoR9 <- ((mod9$null.deviance-mod9$deviance)/mod9$null.deviance)
+pseudoR10 <- ((mod10$null.deviance-mod10$deviance)/mod10$null.deviance)
+pseudoR11 <- ((mod11$null.deviance-mod11$deviance)/mod11$null.deviance)
+pseudoR12 <- ((mod12$null.deviance-mod12$deviance)/mod12$null.deviance)
+pseudoR13 <- ((mod13$null.deviance-mod13$deviance)/mod13$null.deviance)
+pseudoR14 <- ((mod14$null.deviance-mod14$deviance)/mod14$null.deviance)
+pseudoR15 <- ((mod15$null.deviance-mod15$deviance)/mod15$null.deviance)
+pseudoR16 <- ((mod16$null.deviance-mod16$deviance)/mod16$null.deviance)
+pseudoR17 <- ((mod17$null.deviance-mod17$deviance)/mod17$null.deviance)
+pseudoR18 <- ((mod18$null.deviance-mod18$deviance)/mod18$null.deviance)
+pseudoR19 <- ((mod19$null.deviance-mod19$deviance)/mod19$null.deviance)
+pseudoR20 <- ((mod20$null.deviance-mod20$deviance)/mod20$null.deviance)
+pseudoR21 <- ((mod21$null.deviance-mod21$deviance)/mod21$null.deviance)
+pseudoR22 <- ((mod22$null.deviance-mod22$deviance)/mod22$null.deviance)
+pseudoR23 <- ((mod23$null.deviance-mod23$deviance)/mod23$null.deviance)
+pseudoR24 <- ((mod24$null.deviance-mod24$deviance)/mod24$null.deviance)
+pseudoR25 <- ((mod25$null.deviance-mod25$deviance)/mod25$null.deviance)
+pseudoR26 <- ((mod26$null.deviance-mod26$deviance)/mod26$null.deviance)
+pseudoR27 <- ((mod27$null.deviance-mod27$deviance)/mod27$null.deviance)
+pseudoR28 <- ((mod28$null.deviance-mod28$deviance)/mod28$null.deviance)
+pseudoR29 <- ((mod29$null.deviance-mod29$deviance)/mod29$null.deviance)
+pseudoR30 <- ((mod30$null.deviance-mod30$deviance)/mod30$null.deviance)
+pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.deviance)
+
+r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoR15,pseudoR16,pseudoR17,pseudoR18,pseudoR19,pseudoR20,pseudoR21,pseudoR22,pseudoR23,pseudoR24,pseudoR25,pseudoR26,pseudoR27,pseudoR28,pseudoR29,pseudoR30,pseudoRnullmod)
+#r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
+#r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR6,pseudoR7,pseudoR9,pseudoR13,pseudoRnullmod)
 r22<-as.data.frame(r2, ncol=1)
 r22
