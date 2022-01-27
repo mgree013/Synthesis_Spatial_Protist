@@ -22,6 +22,7 @@ loc.all<-Data %>%
                    pred.size=mean(Pred.size),
                    pred.attack=mean(Pred.attack.rate),
                    meta.size=mean(number.bottles),
+                   prey.sum.oc=sum(prey.oc), pred.sum.oc=sum(pred.oc),
                    prey.oc=mean(prey.oc),pred.oc=mean(pred.oc),pred.prey.oc.mean=mean(pred.prey.oc),
                    prey.minimia=min(prey.density),pred.minimia=min(pred.density),                                #Minima density
                    day.prey.min=day[which.min(prey.density)],day.pred.min=day[which.min(pred.density)],          #Day of Minimia
@@ -61,13 +62,49 @@ loc.all%>%
   theme(legend.position = "none")+facet_grid(pred.attack~prod)
 
 #take2
-e1<-eup_tetra_low%>%
+d1<-did_para_high%>%
   ggplot(aes(x=pred.oc,y=prey.oc))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   xlab("Predator Occupancy")+ylab("Prey Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
+
+d2<-did_para_low%>%
+  ggplot(aes(x=pred.oc,y=prey.oc))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  xlab("Predator Occupancy")+ylab("Prey Occupancy")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+d3<-did_colp_med%>%
+  ggplot(aes(x=pred.oc,y=prey.oc))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  xlab("Predator Occupancy")+ylab("Prey Occupancy")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+e1<-eup_tetra_high%>%
+  ggplot(aes(x=pred.oc,y=prey.oc))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  xlab("Predator Occupancy")+ylab("Prey Occupancy")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+e2<-eup_tetra_low%>%
+  ggplot(aes(x=pred.oc,y=prey.oc))+
+  geom_point()+geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  xlab("Predator Occupancy")+ylab("Prey Occupancy")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+
+
+plot_grid(d1,d2,d3,e1,e2, nrow=2)
 ##############################################################################################################################
 
 #Analysis
@@ -75,11 +112,11 @@ e1<-eup_tetra_low%>%
 #Organaize pred/prod combos
 did_para_high<-loc.all%>%
   filter(productivity==1.28)%>%
-  filter(pred.attack==0.486274509803922)
+  filter(pred.attack>0.48)
 
 did_para_low<-loc.all%>%
   filter(productivity=="0.56")%>%
-  filter(pred.attack=="0.486274509803922")
+  filter(pred.attack>0.48)
 
 did_colp_med<-loc.all%>%
   filter(productivity=="0.76")%>%
@@ -95,10 +132,57 @@ eup_tetra_low<-loc.all%>%
 
 
 #GLMS
-y <- cbind(did_para_high$prey.oc, did_para_high$sampling.days)
+#Did Para High
+y <- cbind(did_para_high$prey.sum.oc, did_para_high$sampling.days)
 glm1<-glm(y~pred.oc, family=binomial(link="logit"),data=did_para_high)
 nullglm<-glm(y~1, family=binomial(link="logit"),data=did_para_high)
 
 reported.table2 <- bbmle::AICtab(glm1,nullglm,weights = TRUE, sort = F)
 reported.table2
 
+pseudoR0 <- ((glm1$null.deviance-glm1$deviance)/glm1$null.deviance)
+pseudoR0
+
+#Did Para Low
+y <- cbind(did_para_low$prey.sum.oc, did_para_low$sampling.days)
+glm1<-glm(y~pred.oc, family=binomial(link="logit"),data=did_para_low)
+nullglm<-glm(y~1, family=binomial(link="logit"),data=did_para_low)
+
+reported.table2 <- bbmle::AICtab(glm1,nullglm,weights = TRUE, sort = F)
+reported.table2
+
+pseudoR0 <- ((glm1$null.deviance-glm1$deviance)/glm1$null.deviance)
+pseudoR0
+
+#Did Col Med
+y <- cbind(did_colp_med$prey.sum.oc, did_colp_med$sampling.days)
+glm1<-glm(y~pred.oc, family=binomial(link="logit"),data=did_colp_med)
+nullglm<-glm(y~1, family=binomial(link="logit"),data=did_colp_med)
+
+reported.table2 <- bbmle::AICtab(glm1,nullglm,weights = TRUE, sort = F)
+reported.table2
+
+pseudoR0 <- ((glm1$null.deviance-glm1$deviance)/glm1$null.deviance)
+pseudoR0
+
+#Eup tetra high
+y <- cbind(eup_tetra_high$prey.sum.oc, eup_tetra_high$sampling.days)
+glm1<-glm(y~pred.oc, family=binomial(link="logit"),data=eup_tetra_high)
+nullglm<-glm(y~1, family=binomial(link="logit"),data=eup_tetra_high)
+
+reported.table2 <- bbmle::AICtab(glm1,nullglm,weights = TRUE, sort = F)
+reported.table2
+
+pseudoR0 <- ((glm1$null.deviance-glm1$deviance)/glm1$null.deviance)
+pseudoR0
+
+#Eup tetra low
+y <- cbind(eup_tetra_low$prey.sum.oc, eup_tetra_low$sampling.days)
+glm1<-glm(y~pred.oc, family=binomial(link="logit"),data=eup_tetra_low)
+nullglm<-glm(y~1, family=binomial(link="logit"),data=eup_tetra_low)
+
+reported.table2 <- bbmle::AICtab(glm1,nullglm,weights = TRUE, sort = F)
+reported.table2
+
+pseudoR0 <- ((glm1$null.deviance-glm1$deviance)/glm1$null.deviance)
+pseudoR0
