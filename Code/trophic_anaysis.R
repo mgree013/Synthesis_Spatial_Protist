@@ -71,23 +71,34 @@ e1<-eup_tetra_low%>%
 ##############################################################################################################################
 
 #Analysis
+
+#Organaize pred/prod combos
 did_para_high<-loc.all%>%
-  filter(prod=="1.28")%>%
-  filter(pred.attack=="0.486274509803922")
+  filter(productivity==1.28)%>%
+  filter(pred.attack==0.486274509803922)
 
 did_para_low<-loc.all%>%
-  filter(prod=="0.56")%>%
+  filter(productivity=="0.56")%>%
   filter(pred.attack=="0.486274509803922")
 
 did_colp_med<-loc.all%>%
-  filter(prod=="0.76")%>%
+  filter(productivity=="0.76")%>%
   filter(pred.attack=="0.4272")
 
 eup_tetra_high<-loc.all%>%
-  filter(prod=="1.28")%>%
+  filter(productivity=="1.28")%>%
   filter(pred.attack=="0.31925")
 
 eup_tetra_low<-loc.all%>%
-  filter(prod=="0.56")%>%
+  filter(productivity=="0.56")%>%
   filter(pred.attack=="0.31925")
+
+
+#GLMS
+y <- cbind(did_para_high$prey.oc, did_para_high$sampling.days)
+glm1<-glm(y~pred.oc, family=binomial(link="logit"),data=did_para_high)
+nullglm<-glm(y~1, family=binomial(link="logit"),data=did_para_high)
+
+reported.table2 <- bbmle::AICtab(glm1,nullglm,weights = TRUE, sort = F)
+reported.table2
 
