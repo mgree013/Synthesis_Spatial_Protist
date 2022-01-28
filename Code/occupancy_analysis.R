@@ -92,7 +92,7 @@ op1<-occupnacy%>%
   ggplot(aes(x=as.factor(productivity),y=pred.oc,fill=as.factor(productivity)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
-  ggtitle("d)") +
+  ggtitle("b)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Productivity (g)",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -110,7 +110,7 @@ op2<-occupnacy%>%
 
 opp1<-occupnacy%>%
   filter(connectivity.x>0)%>%
-  ggplot(aes(x=as.factor(predator.atk),y=pred.oc,fill=as.factor(predator.atk)))+ 
+  ggplot(aes(x=as.factor(pred.attack),y=pred.oc,fill=as.factor(pred.attack)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
   ggtitle("d)") +
@@ -121,9 +121,9 @@ opp1<-occupnacy%>%
 
 opp2<-occupnacy%>%
   filter(connectivity.x>0)%>%
-  ggplot(aes(x=as.factor(predator.atk),y=prey.oc,fill=as.factor(predator.atk)))+ 
+  ggplot(aes(x=as.factor(pred.attack),y=prey.oc,fill=as.factor(pred.attack)))+ 
   geom_boxplot()+
-  ggtitle("a)") +
+  ggtitle("b)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Predator Attack Rate",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -137,6 +137,7 @@ plot_grid(a,b,c,d,e,f,nrow=2)
 
 plot_grid(op2,a,c,op1,d,f,nrow=2)
 
+plot_grid(op2,opp2,op1,opp1,nrow=2)
 
 
 occupnacy%>%
@@ -462,7 +463,7 @@ pred.a<-Ext_col_data_network%>%
   ggplot(aes(x=as.factor(productivity),y=pred.oc,fill=as.factor(productivity)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
-  ggtitle("d)") +
+  ggtitle("f)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Productivity (g)",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -470,9 +471,9 @@ pred.a<-Ext_col_data_network%>%
 
 prey.atk.a<-Ext_col_data_network%>%
   filter(number.bottles>1)%>%
-  ggplot(aes(x=as.factor(predator.atk),y=prey.oc,fill=as.factor(predator.atk)))+ 
+  ggplot(aes(x=as.factor(pred.attack),y=prey.oc,fill=as.factor(pred.attack)))+ 
   geom_boxplot()+
-  ggtitle("a)") +
+  ggtitle("b)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Predator Attack Rate",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -480,10 +481,10 @@ prey.atk.a<-Ext_col_data_network%>%
 
 pred.atk.a<-Ext_col_data_network%>%
   filter(number.bottles>1)%>%
-  ggplot(aes(x=as.factor(predator.atk),y=pred.oc,fill=as.factor(predator.atk)))+ 
+  ggplot(aes(x=as.factor(pred.attack),y=pred.oc,fill=as.factor(pred.attack)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
-  ggtitle("d)") +
+  ggtitle("g)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Predator Attack Rate",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -492,7 +493,7 @@ pred.atk.a<-Ext_col_data_network%>%
 a<-Ext_col_data_network%>%
   ggplot(aes(x=log.number.bottles,y=prey.oc))+ 
   geom_point()+
-  ggtitle("a)") +
+  ggtitle("c)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Prey Occupancy")+
@@ -502,7 +503,7 @@ a<-Ext_col_data_network%>%
 b<-Ext_col_data_network%>%
   ggplot(aes(x=log.network.syn.lap,y=prey.oc))+ 
   geom_point()+
-  ggtitle("b)") +
+  ggtitle("d)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Netwokr Synchrony",y="Prey Occupancy")+
@@ -513,7 +514,7 @@ c<-Ext_col_data_network%>%
   ggplot(aes(x=av.nghbr.connect,y=prey.oc))+ 
   geom_point()+
   #ggtitle("d)") +
-  ggtitle("c)") +
+  ggtitle("e)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Prey Occupancy")+
@@ -524,7 +525,7 @@ d<-Ext_col_data_network%>%
   ggplot(aes(x=log.number.bottles,y=pred.oc))+ 
   geom_point()+
   #ggtitle("f)") +
-  ggtitle("d)") +
+  ggtitle("h)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Predator Occupancy")+
@@ -534,7 +535,7 @@ d<-Ext_col_data_network%>%
 e<-Ext_col_data_network%>%
   ggplot(aes(x=log.network.syn.lap,y=pred.oc))+ 
   geom_point()+
-  ggtitle("e)") +
+  ggtitle("i)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Network Synchrony",y="Predator Occupancy")+
@@ -545,7 +546,7 @@ f<-Ext_col_data_network%>%
   ggplot(aes(x=av.nghbr.connect,y=pred.oc))+ 
   geom_point()+
   #ggtitle("h)") +
-  ggtitle("f)") +
+  ggtitle("j)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Predator Occupancy")+
@@ -558,6 +559,7 @@ plot_grid(prey.a,a,b,c,pred.a,d,e,f,nrow=2)
 plot_grid(prey.a,a,c,pred.a,d,f,nrow=2)
 plot_grid(prey.a,prey.atk.a,a,b,c,pred.a,pred.atk.a,d,e,f,nrow=2)
 
+plot_grid(prey.a,prey.atk.a,pred.a,pred.atk.a,nrow=2)
 
 ##########################################################################
 #2) Regional GLMs
