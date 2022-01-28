@@ -125,7 +125,7 @@ pred.ext.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=extinction_prob_pred,fill=as.factor(productivity)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
-  ggtitle("d)") +
+  ggtitle("c)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Productivity",y="Predator Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -141,7 +141,7 @@ prey.ext.plot<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 pred.ext.atk.plot<-Ext_col_data%>%
-  ggplot(aes(x=as.factor(predator.atk),y=extinction_prob_pred,fill=as.factor(predator.atk)))+ 
+  ggplot(aes(x=as.factor(pred.attack),y=extinction_prob_pred,fill=as.factor(pred.attack)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
   ggtitle("d)") +
@@ -151,9 +151,9 @@ pred.ext.atk.plot<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 prey.ext.atk.plot<-Ext_col_data%>%
-  ggplot(aes(x=as.factor(predator.atk),y=extinction_prob_prey,fill=as.factor(predator.atk)))+ 
+  ggplot(aes(x=as.factor(pred.attack),y=extinction_prob_prey,fill=as.factor(pred.attack)))+ 
   geom_boxplot()+
-  ggtitle("a)") +
+  ggtitle("b)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Predator Attack Rate",y="Prey Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -166,13 +166,15 @@ plot_grid(prey.ext.plot,a,c,b,pred.ext.plot,d,f,e, nrow=2)
 plot_grid(prey.ext.plot,a,b,pred.ext.plot,d,e, nrow=2)
 plot_grid(prey.ext.plot,prey.ext.atk.plot,a,c,b,pred.ext.plot,pred.ext.atk.plot,d,f,e, nrow=2)
 
+plot_grid(prey.ext.plot,prey.ext.atk.plot,pred.ext.plot,pred.ext.atk.plot, nrow=2)
+
 #Colonization Plots
 
 pred.col.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=colonization_prob_pred,fill=as.factor(productivity)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
-  ggtitle("d)") +
+  ggtitle("c)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Productivity",y="Predator Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -188,7 +190,7 @@ prey.col.plot<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 pred.col.atk.plot<-Ext_col_data%>%
-  ggplot(aes(x=as.factor(predator.atk),y=colonization_prob_pred,fill=as.factor(predator.atk)))+ 
+  ggplot(aes(x=as.factor(pred.attack),y=colonization_prob_pred,fill=as.factor(pred.attack)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
   ggtitle("d)") +
@@ -198,9 +200,9 @@ pred.col.atk.plot<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 prey.col.atk.plot<-Ext_col_data%>%
-  ggplot(aes(x=as.factor(predator.atk),y=colonization_prob_prey, fill=as.factor(predator.atk)))+ 
+  ggplot(aes(x=as.factor(pred.attack),y=colonization_prob_prey, fill=as.factor(pred.attack)))+ 
   geom_boxplot()+
-  ggtitle("a)") +
+  ggtitle("b)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Predator Attack Rate",y="Prey Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -275,6 +277,8 @@ plot_grid(prey.col.plot,a,c,b,pred.col.plot,d,f,e, nrow=2)
 
 plot_grid(prey.col.plot,a,b,pred.col.plot,d,e, nrow=2)
 plot_grid(prey.col.plot,prey.col.atk.plot,a,c,b,pred.col.plot,pred.col.atk.plot,d,f,e, nrow=2)
+
+plot_grid(prey.col.plot,prey.col.atk.plot,pred.col.plot,pred.col.atk.plot, nrow=2)
 
 
 Ext_col_data%>%
