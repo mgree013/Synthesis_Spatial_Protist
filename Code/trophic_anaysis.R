@@ -75,6 +75,10 @@ loc.all.plot%>%
   geom_smooth(data=filter(loc.all.plot,productivity=="Low"& pred.attack=="Didinium-Paramecium"),  method = "lm")+
   geom_smooth(data=filter(loc.all.plot,productivity=="High"& pred.attack=="Didinium-Paramecium"),  method = "lm")+
   geom_smooth(data=filter(loc.all.plot,productivity=="Medium"& pred.attack=="Didinium-Colpidium"),  method = "lm")+
+  geom_text(data=filter(loc.all.plot,productivity=="Low"& pred.attack=="Euplotes-Tetrahymena"),x = .3, y = .2, label = "R^2 == 0.28", parse = TRUE, colour="black")+
+  geom_text(data=filter(loc.all.plot,productivity=="Low"& pred.attack=="Didinium-Paramecium"),x = .3, y = .2, label = "R^2 == 0.50", parse = TRUE, colour="black")+
+  geom_text(data=filter(loc.all.plot,productivity=="High"& pred.attack=="Didinium-Paramecium"),x = .3, y = .2, label = "R^2 == 0.28", parse = TRUE, colour="black")+
+  geom_text(data=filter(loc.all.plot,productivity=="Medium"& pred.attack=="Didinium-Colpidium"),x = .3, y = .2, label = "R^2 == 0.32", parse = TRUE, colour="black")+
   #geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   xlab("Predator Occupancy")+ylab("Prey Occupancy")+
