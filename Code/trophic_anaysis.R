@@ -61,6 +61,27 @@ loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+facet_grid(pred.attack~prod)
 
+loc.all.plot<-loc.all%>%
+  mutate(productivity=if_else(productivity ==  "0.56","Low",if_else(productivity ==  "0.76","Medium", "High")))%>%
+  mutate(pred.attack=if_else(pred.attack ==  "0.31925","Euplotes-Tetrahymena",if_else(pred.attack ==  "0.4272","Didinium-Colpidium", "Didinium-Paramecium")))
+
+loc.all.plot$productivity = factor(loc.all.plot$productivity, levels=c('Low','Medium','High'))
+loc.all.plot$pred.attack = factor(loc.all.plot$pred.attack, levels=c('Euplotes-Tetrahymena','Didinium-Colpidium','Didinium-Paramecium'))
+
+loc.all.plot%>%
+  ggplot(aes(x=pred.oc,y=prey.oc, colour=interaction(productivity,pred.attack)))+
+  geom_point()+
+  geom_smooth(data=filter(loc.all.plot,productivity=="Low"& pred.attack=="Euplotes-Tetrahymena"),  method = "lm")+
+  geom_smooth(data=filter(loc.all.plot,productivity=="Low"& pred.attack=="Didinium-Paramecium"),  method = "lm")+
+  geom_smooth(data=filter(loc.all.plot,productivity=="High"& pred.attack=="Didinium-Paramecium"),  method = "lm")+
+  geom_smooth(data=filter(loc.all.plot,productivity=="Medium"& pred.attack=="Didinium-Colpidium"),  method = "lm")+
+  #geom_smooth(method = "lm")+
+  scale_color_viridis(discrete = TRUE)+
+  xlab("Predator Occupancy")+ylab("Prey Occupancy")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+facet_grid(pred.attack~productivity)
+
+  
 #take2
 d1<-did_para_high%>%
   ggplot(aes(x=pred.oc,y=prey.oc))+
