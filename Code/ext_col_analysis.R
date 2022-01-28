@@ -60,7 +60,7 @@ Ext_col_data$log.network.syn.lap
 a<-Ext_col_data%>%
   ggplot(aes(x=log.number.bottles,y=extinction_prob_prey))+ 
   geom_point()+
-  ggtitle("b)") +
+  ggtitle("a)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Prey Exctinction Probability")+
@@ -68,6 +68,16 @@ a<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 b<-Ext_col_data%>%
+  ggplot(aes(x=log.network.syn.lap,y=extinction_prob_prey))+ 
+  geom_point()+
+  ggtitle("b)") +
+  geom_smooth(method = "lm",se=F)+
+  scale_color_viridis_d()+
+  labs(x="Network Synchrony",y="Prey Exctinction Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+
+c<-Ext_col_data%>%
   ggplot(aes(x=nghbr.connect,y=extinction_prob_prey))+ 
   geom_point()+
   #ggtitle("d)") +
@@ -78,21 +88,11 @@ b<-Ext_col_data%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
-c<-Ext_col_data%>%
-  ggplot(aes(x=log.network.syn.lap,y=extinction_prob_prey))+ 
-  geom_point()+
-  ggtitle("c)") +
-  geom_smooth(method = "lm",se=F)+
-  scale_color_viridis_d()+
-  labs(x="Network Synchrony",y="Prey Exctinction Probability")+
-  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
-
 d<-Ext_col_data%>%
   ggplot(aes(x=log.number.bottles,y=extinction_prob_pred))+ 
   geom_point()+
   #ggtitle("f)") +
-  ggtitle("e)") +
+  ggtitle("d)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Predator Exctinction Probability")+
@@ -100,6 +100,16 @@ d<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 e<-Ext_col_data%>%
+  ggplot(aes(x=log.network.syn.lap,y=extinction_prob_pred))+ 
+  geom_point()+
+  ggtitle("e)") +
+  geom_smooth(method = "lm",se=F)+
+  scale_color_viridis_d()+
+  labs(x="Network Synchrony",y="Predator Exctinction Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+
+f<-Ext_col_data%>%
   ggplot(aes(x=nghbr.connect,y=extinction_prob_pred))+ 
   geom_point()+
   #ggtitle("h)") +
@@ -107,16 +117,6 @@ e<-Ext_col_data%>%
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Predator Exctinction Probability")+
-  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
-
-f<-Ext_col_data%>%
-  ggplot(aes(x=log.network.syn.lap,y=extinction_prob_pred))+ 
-  geom_point()+
-  ggtitle("g)") +
-  geom_smooth(method = "lm",se=F)+
-  scale_color_viridis_d()+
-  labs(x="Network Synchrony",y="Predator Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
@@ -210,7 +210,7 @@ prey.col.atk.plot<-Ext_col_data%>%
 a<-Ext_col_data%>%
   ggplot(aes(x=log.number.bottles,y=colonization_prob_prey))+ 
   geom_point()+
-  ggtitle("b)") +
+  ggtitle("a)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Prey Colonization Probability")+
@@ -218,6 +218,16 @@ a<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 b<-Ext_col_data%>%
+  ggplot(aes(x=log.network.syn.lap,y=colonization_prob_prey))+ 
+  geom_point()+
+  ggtitle("b)") +
+  geom_smooth(method = "lm",se=F)+
+  scale_color_viridis_d()+
+  labs(x="Network Synchrony",y="Prey Colonization Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+
+c<-Ext_col_data%>%
   ggplot(aes(x=nghbr.connect,y=colonization_prob_prey))+ 
   geom_point()+
   #ggtitle("d)") +
@@ -228,21 +238,11 @@ b<-Ext_col_data%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
-c<-Ext_col_data%>%
-  ggplot(aes(x=log.network.syn.lap,y=colonization_prob_prey))+ 
-  geom_point()+
-  ggtitle("c)") +
-  geom_smooth(method = "lm",se=F)+
-  scale_color_viridis_d()+
-  labs(x="Network Synchrony",y="Prey Colonization Probability")+
-  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
-
 d<-Ext_col_data%>%
   ggplot(aes(x=log.number.bottles,y=colonization_prob_pred))+ 
   geom_point()+
   #ggtitle("f)") +
-  ggtitle("e)") +
+  ggtitle("d)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Predator Colonization Probability")+
@@ -250,6 +250,16 @@ d<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 e<-Ext_col_data%>%
+  ggplot(aes(x=log.network.syn.lap,y=colonization_prob_pred))+ 
+  geom_point()+
+  ggtitle("e)") +
+  geom_smooth(method = "lm",se=F)+
+  scale_color_viridis_d()+
+  labs(x="Network Synchrony",y="Predator Colonization Probability")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
+
+f<-Ext_col_data%>%
   ggplot(aes(x=nghbr.connect,y=colonization_prob_pred))+ 
   geom_point()+
   #ggtitle("h)") +
@@ -257,16 +267,6 @@ e<-Ext_col_data%>%
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Predator Colonization Probability")+
-  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
-
-f<-Ext_col_data%>%
-  ggplot(aes(x=log.network.syn.lap,y=colonization_prob_pred))+ 
-  geom_point()+
-  ggtitle("g)") +
-  geom_smooth(method = "lm",se=F)+
-  scale_color_viridis_d()+
-  labs(x="Network Synchrony",y="Predator Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
