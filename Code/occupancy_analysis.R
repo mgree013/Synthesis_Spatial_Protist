@@ -27,7 +27,7 @@ occupnacy<-newer_pa_datas%>%
 a<-occupnacy%>%
   ggplot(aes(x=log.number.bottles,y=prey.oc))+ 
   geom_point()+
-  ggtitle("b)") +
+  ggtitle("a)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Prey Occupancy")+
@@ -37,7 +37,7 @@ a<-occupnacy%>%
 b<-occupnacy%>%
   ggplot(aes(x=log.network.syn.lap,y=prey.oc))+ 
   geom_point()+
-  ggtitle("c)") +
+  ggtitle("b)") +
   #geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Network Synchrony",y="Prey Occupancy")+
@@ -59,7 +59,7 @@ d<-occupnacy%>%
   ggplot(aes(x=log.number.bottles,y=pred.oc))+ 
   geom_point()+
   #ggtitle("f)") +
-  ggtitle("e)") +
+  ggtitle("d)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Predator Occupancy")+
@@ -69,7 +69,7 @@ d<-occupnacy%>%
 e<-occupnacy%>%
   ggplot(aes(x=log.network.syn.lap,y=pred.oc))+ 
   geom_point()+
-  ggtitle("g)") +
+  ggtitle("e)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Network Synchrony",y="Predator Occupancy")+

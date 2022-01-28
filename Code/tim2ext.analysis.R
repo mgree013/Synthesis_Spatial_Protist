@@ -104,7 +104,7 @@ e2<-loc.all%>%
   ggplot(aes(x=log.number.bottles,y=prey.time.2.ext))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
-  ggtitle("b)") +
+  ggtitle("a)") +
   xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
@@ -114,7 +114,7 @@ e3<-loc.all%>%
   ggplot(aes(x=log.network.syn.lap,y=prey.time.2.ext))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
-  ggtitle("c)") +
+  ggtitle("b)") +
   xlab("Network Synchrony")+ ylab("Prey Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
@@ -136,7 +136,7 @@ e6<-loc.all%>%
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   #ggtitle("f)") +
-  ggtitle("e)") +
+  ggtitle("d)") +
   xlab("Metacommunity Size")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
@@ -146,7 +146,7 @@ e7<-loc.all%>%
   ggplot(aes(x=log.network.syn.lap,y=pred.time.2.ext))+
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
-  ggtitle("g)") +
+  ggtitle("e)") +
   xlab("Network Synchrony")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
@@ -161,6 +161,9 @@ e8<-loc.all%>%
   xlab("Nearest Neighboor Connectivity")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
+
+plot_grid(e2,e3,e4,e6,e7,e8, nrow=2)
+
 
 plot_grid(e1,e2,e3,e4,e5,e6,e7,e8, nrow=2)
 plot_grid(e1,e2,e4,e5,e6,e8, nrow=2)
