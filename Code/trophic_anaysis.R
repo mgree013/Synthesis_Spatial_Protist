@@ -83,7 +83,7 @@ loc.all.plot%>%
   scale_color_viridis(discrete = TRUE)+
   xlab("Predator Occupancy")+ylab("Prey Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(pred.attack~productivity)
+  theme(legend.position = "none")+facet_grid(pred.attack~productivity)+ theme(strip.text.y = element_text(face = "italic"))
 
   
 #take2
