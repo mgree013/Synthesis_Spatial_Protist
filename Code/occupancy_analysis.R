@@ -21,6 +21,8 @@ occupnacy<-newer_pa_datas%>%
   mutate(prey.size=log(Prey.size+1))%>%
   filter(connectivity.x>0)
 
+occupnacy$pred.attack<-as.factor(occupnacy$pred.attack)
+occupnacy$productivity<-as.factor(occupnacy$productivity)
 
 ########################################################################
 #Plots
@@ -245,6 +247,8 @@ nullmod<-glm(y~1,family=binomial(link="logit"),data=occupnacy)
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,mod15,mod16,mod17,mod18,mod19,mod20,mod21,mod22,mod23,mod24,mod25,mod26,mod27,mod28,mod29,mod30,nullmod,weights = TRUE, sort = F)
 reported.table2
 
+plot_model(mod30)
+
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
 pseudoR2 <- ((mod2$null.deviance-mod2$deviance)/mod2$null.deviance)
@@ -373,7 +377,13 @@ nullmod<-glm(y~1,family=binomial(link="logit"),data=occupnacy)
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,mod15,mod16,mod17,mod18,mod19,mod20,mod21,mod22,mod23,mod24,mod25,mod26,mod27,mod28,mod29,mod30,nullmod,weights = TRUE, sort = F)
 reported.table2
 
-plot_model(mod30,transform = "plogis")
+summary(mod15)
+plot_model(mod15)
+check_collinearity(mod15)
+
+summary(mod23)
+plot_model(mod23)
+check_collinearity(mod30)
 
 #reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod6,mod7,mod9,mod13,nullmod,weights = TRUE, sort = F)

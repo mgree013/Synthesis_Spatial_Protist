@@ -11,6 +11,8 @@ library(viridis)
 library(lme4)
 library(cowplot)
 library(betareg)
+library(sjPlot)
+library(performance)
 ########################################################################################################################
 setwd("~/Dropbox/Protist Lab Data/Kurt_Matthew_Shared Data/Dendritic Data/Holistic/Data/All.Matt/")
 
