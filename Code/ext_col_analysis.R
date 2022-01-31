@@ -1,8 +1,9 @@
 #Part 2: Ext-Col Analysis
-
+library(DataCombine)
 #Local and Regional GLMS
 
 Datazz<-Data%>%
+  filter(year > 2010)%>%
   unite("newID", media:predator,bottle, remove=FALSE)
 
 all_pa_dataz<-Datazz%>%
