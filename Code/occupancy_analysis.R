@@ -512,7 +512,7 @@ b<-Ext_col_data_network%>%
   ggtitle("d)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
-  labs(x="Netwokr Synchrony",y="Prey Occupancy")+
+  labs(x="Network Synchrony",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
