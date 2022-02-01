@@ -21,7 +21,8 @@ summary(Data)
 str(Data)
 
 Data<-Data%>%
-  mutate(pred.prey.oc=if_else(pred.oc==1 &prey.oc==1,1,0))
+  mutate(pred.prey.oc=if_else(pred.oc==1 &prey.oc==1,1,0))%>%
+  mutate(predator=if_else(predator=="didinium", "Didinium", "Euplotes"))
 ########################################################################################################################
 #Plot Time Series
 Data%>%

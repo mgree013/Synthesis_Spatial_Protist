@@ -21,7 +21,6 @@ occupnacy<-newer_pa_datas%>%
   mutate(prey.size=log(Prey.size+1))%>%
   filter(connectivity.x>0)
 
-occupnacy$pred.attack<-as.factor(occupnacy$pred.attack)
 occupnacy$productivity<-as.factor(occupnacy$productivity)
 
 ########################################################################
@@ -119,7 +118,7 @@ opp1<-occupnacy%>%
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Predator Identity",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
 opp2<-occupnacy%>%
   filter(connectivity.x>0)%>%
@@ -129,7 +128,7 @@ opp2<-occupnacy%>%
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Predator Identity",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
 
 plot_grid(op2,a,b,c,op1,d,e,f,nrow=2)
@@ -484,7 +483,7 @@ prey.atk.a<-Ext_col_data_network%>%
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Predator Identity",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
 pred.atk.a<-Ext_col_data_network%>%
   filter(number.bottles>1)%>%
@@ -495,7 +494,7 @@ pred.atk.a<-Ext_col_data_network%>%
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Predator Identity",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
 a<-Ext_col_data_network%>%
   ggplot(aes(x=log.number.bottles,y=prey.oc))+ 

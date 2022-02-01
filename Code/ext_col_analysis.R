@@ -149,7 +149,7 @@ pred.ext.atk.plot<-Ext_col_data%>%
   scale_fill_viridis(discrete=T)+
   labs(x="Predator Identity",y="Predator Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
 prey.ext.atk.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(predator),y=extinction_prob_prey,fill=as.factor(predator)))+ 
@@ -158,7 +158,7 @@ prey.ext.atk.plot<-Ext_col_data%>%
   scale_fill_viridis(discrete=T)+
   labs(x="Predator Identity",y="Prey Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
 
 plot_grid(a,b,c,d,e,f, nrow=2)
@@ -198,7 +198,7 @@ pred.col.atk.plot<-Ext_col_data%>%
   scale_fill_viridis(discrete=T)+
   labs(x="Predator Identity",y="Predator Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
 prey.col.atk.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(predator),y=colonization_prob_prey, fill=as.factor(predator)))+ 
@@ -207,7 +207,7 @@ prey.col.atk.plot<-Ext_col_data%>%
   scale_fill_viridis(discrete=T)+
   labs(x="Predator Identity",y="Prey Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
+        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
 #COL PLOTS
 a<-Ext_col_data%>%
@@ -275,10 +275,8 @@ f<-Ext_col_data%>%
 
 plot_grid(a,b,c,d,e,f, nrow=2)
 plot_grid(prey.col.plot,a,c,b,pred.col.plot,d,f,e, nrow=2)
-
 plot_grid(prey.col.plot,a,b,pred.col.plot,d,e, nrow=2)
 plot_grid(prey.col.plot,prey.col.atk.plot,a,c,b,pred.col.plot,pred.col.atk.plot,d,f,e, nrow=2)
-
 plot_grid(prey.col.plot,prey.col.atk.plot,pred.col.plot,pred.col.atk.plot, nrow=2)
 
 
@@ -290,29 +288,7 @@ Ext_col_data%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
-Ext_col_data%>%
-  ggplot(aes(x=as.factor(productivity),y=colonization_prob_prey, fill=as.factor(productivity)))+ 
-  geom_boxplot()+
-  scale_fill_viridis(discrete = TRUE)+
-  labs(x="Productivity (g)",y="Prey Colonization Probability")+
-  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
-Ext_col_data%>%
-  ggplot(aes(x=as.factor(productivity),y=extinction_prob_pred, fill=as.factor(productivity)))+ 
-  geom_boxplot()+
-  scale_fill_viridis(discrete = TRUE)+
-  labs(x="Productivity (g)",y="Pred Ext. Probability")+
-  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
-
-Ext_col_data%>%
-  ggplot(aes(x=as.factor(productivity),y=extinction_prob_prey, fill=as.factor(productivity)))+ 
-  geom_boxplot()+
-  scale_fill_viridis(discrete = TRUE)+
-  labs(x="Productivity (g)",y="Prey Ext. Probability")+
-  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 ################################################################################################################################################
 ################################################################################################################################################
 #MODELS
@@ -830,105 +806,4 @@ r22<-as.data.frame(r2, ncol=1)
 r22
 
 ########################################################################################################################
-
-#Gilarranz, L. J., and J. Bascompte. 2012. 
-#https://www.sciencedirect.com/science/article/pii/S0022519311005972
-
-
-
-Ext_col_data%>%
-  filter(pred.occupancy<1)%>%
-  filter(number.bottles>5)%>%
-  filter(ext_colon_ratio_pred< 20)%>%
-  ggplot(aes(x=ext_colon_ratio_pred, y=pred.occupancy,shape=prey,colour=as.factor(structure)))+
-  geom_point()+
-  geom_smooth( method="loess")+
-  scale_color_viridis_d()+
-  ylab("Average Predator Occupancy")+xlab("Predator Extinction to Colonization Ratio")+
-  #facet_grid(prey~structure)+
-  ylim(0,1)+
-  theme_bw()+theme_bw()+ theme(panel.grid.major = element_blank(),
-                               panel.grid.minor = element_blank(),
-                               panel.border = element_rect(colour = "black"))#+theme(legend.position = "none")
-
-Ext_col_data%>%
-  filter(prey.occupancy<1)%>%
-  filter(number.bottles>5)%>%
-  filter(ext_colon_ratio_prey< 6.5)%>%
-  ggplot(aes(x=ext_colon_ratio_prey, y=prey.occupancy, shape=prey,colour=as.factor(structure)))+
-  geom_point()+
-  geom_smooth(method = "loess")+  scale_color_viridis_d()+
-  ylim(0,1)+
-  #facet_grid(prey~structure)+
-  ylab("Average Prey Occupancy")+xlab("Prey Extinction to Colonization Ratio")+
-  theme_bw()+theme_bw()+ theme(panel.grid.major = element_blank(),
-                               panel.grid.minor = element_blank(),
-                               panel.border = element_rect(colour = "black"))#+theme(legend.position = "none")
-
-
-Ext_col_data%>%
-  filter(nghbr.connect>0)%>%
-  ggplot(aes(x=nghbr.connect, y=prey.occupancy))+#, colour=as.factor(connectivity)))+
-  geom_point()+
-  #geom_smooth(method = "loess")+  scale_color_viridis_d()+
-  stat_smooth(method = "lm", formula = y ~ sqrt(x), size = 1)+
-  ylim(0,1)+
-  #facet_grid(prey~structure)+
-  ylab("Average Prey Occupancy")+xlab("Average Nearest Neighboors Connectivity")+
-  theme_bw()+theme_bw()+ theme(panel.grid.major = element_blank(),
-                               panel.grid.minor = element_blank(),
-                               panel.border = element_rect(colour = "black"))#+theme(legend.position = "none")
-
-Ext_col_data%>%
-  filter(nghbr.connect>0)%>%
-  ggplot(aes(x=nghbr.connect, y=pred.occupancy))+#, colour=as.factor(connectivity)))+
-  geom_point()+
-  #geom_smooth(method="lm", formula= (y ~ exp(x)), se=FALSE, linetype = 1) +
-  #geom_smooth(method = "loess")+  scale_color_viridis_d()+
-  #stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1)+
-  stat_smooth(method = "lm", formula = y ~ sqrt(x), size = 1)+
-  ylim(0,1)+
-  #facet_grid(prey~structure)+
-  ylab("Average Predator Occupancy")+xlab("Average Nearest Neighboors Connectivity")+
-  theme_bw()+theme_bw()+ theme(panel.grid.major = element_blank(),
-                               panel.grid.minor = element_blank(),
-                               panel.border = element_rect(colour = "black"))#+theme(legend.position = "none")
-
-
-net_Ext_col_data<-Ext_col_data%>%
-  filter(number.bottles>1)%>%
-  group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year)%>%
-  summarise(av.ext_colon_ratio_pred=mean(ext_colon_ratio_pred),av.ext_colon_ratio_prey=mean(ext_colon_ratio_prey),
-            av.nghbr.connect=mean(nghbr.connect),
-            av.connect=mean(connectivity),
-            mean.prey.oc=mean(prey.occupancy),mean.pred.oc=mean(pred.occupancy),
-            total.vol=sum(volume.L))
-
-
-net_Ext_col_data%>%
-  ggplot(aes(x=av.nghbr.connect, y=mean.prey.oc))+#, colour=as.factor(connectivity)))+
-  geom_point()+
-  #geom_smooth(method = "loess")+  scale_color_viridis_d()+
-  stat_smooth(method = "lm", formula = y ~ sqrt(x), size = 1)+
-  ylim(0,1)+
-  #facet_grid(prey~structure)+
-  ylab("Average Prey Occupancy")+xlab("Average Nearest Neighboors Connectivity")+
-  theme_bw()+theme_bw()+ theme(panel.grid.major = element_blank(),
-                               panel.grid.minor = element_blank(),
-                               panel.border = element_rect(colour = "black"))#+theme(legend.position = "none")
-
-net_Ext_col_data%>%
-  ggplot(aes(x=av.nghbr.connect, y=mean.pred.oc)) +#, colour=as.factor(av.connect)))+
-  geom_point()+
-  #geom_smooth(method="lm", formula= (y ~ exp(x)), se=FALSE, linetype = 1) +
- # geom_smooth(method = "loess")+  
-  scale_color_viridis_d()+
-  #stat_smooth(method = "lm", formula = y ~ x + I(x^2), size = 1)+
-  stat_smooth(method = "glm", formula = y ~ sqrt(x), size = 1)+
-  ylim(0,1)+
-  #facet_grid(prey~structure)+
-  ylab("Average Predator Occupancy")+xlab("Average Nearest Neighboors Connectivity")+
-  theme_bw()+theme_bw()+ theme(panel.grid.major = element_blank(),
-                               panel.grid.minor = element_blank(),
-                               panel.border = element_rect(colour = "black"))#+theme(legend.position = "none")
 

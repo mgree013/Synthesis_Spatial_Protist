@@ -48,9 +48,6 @@ loc.all<-Data %>%
 
 ####################################################################################################################################
 
-#Focus on extinctions
-
-
 #Time to Ext Figs
 p1<-loc.all%>%
   filter(number.bottles>1)%>%
@@ -61,7 +58,7 @@ p1<-loc.all%>%
   ylab("Prey Time to Extinction")+
   xlab("Predator Idendity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
 p5<-loc.all%>%
   filter(number.bottles>1)%>%
@@ -73,7 +70,7 @@ p5<-loc.all%>%
   ylab("Predator Time to Extinction")+
   xlab("Predator Identity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
 e1<-loc.all%>%
   filter(number.bottles>1)%>%
