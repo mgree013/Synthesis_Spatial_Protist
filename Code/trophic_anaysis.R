@@ -1,7 +1,7 @@
 #Trophic Analysis
 
 loc.all<-Data %>%
-  filter(year > 2010)%>%
+  #filter(year > 2010)%>%
   filter(day > 3 & day < 75)%>%
   filter(number.bottles > 1)%>%
   unite("newID", number.bottles:predator, remove=FALSE)%>%
