@@ -201,7 +201,7 @@ pred.col.atk.plot<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 prey.col.atk.plot<-Ext_col_data%>%
-  ggplot(aes(x=as.factor(pred.attack),y=colonization_prob_prey, fill=as.factor(predator)))+ 
+  ggplot(aes(x=as.factor(predator),y=colonization_prob_prey, fill=as.factor(predator)))+ 
   geom_boxplot()+
   ggtitle("b)") +
   scale_fill_viridis(discrete=T)+

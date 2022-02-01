@@ -46,7 +46,6 @@ loc.all<-Data %>%
   left_join(reg.ext, by="newID")%>%
   dplyr::distinct(newBottleID,cv.prey,pred.meta.ext,bottle.number,reg.pred.ext,.keep_all = TRUE)
 
-loc.all$pred.attack<-as.factor(loc.all$pred.attack)
 ####################################################################################################################################
 
 #Focus on extinctions
