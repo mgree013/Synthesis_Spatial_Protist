@@ -39,7 +39,7 @@ b<-occupnacy%>%
   ggplot(aes(x=log.network.syn.lap,y=prey.oc))+ 
   geom_point()+
   ggtitle("b)") +
-  #geom_smooth(method = "lm",se=F)+
+  geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Network Synchrony",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
