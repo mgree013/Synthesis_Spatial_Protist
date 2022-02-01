@@ -3,7 +3,7 @@ library(DataCombine)
 #Local and Regional GLMS
 
 Datazz<-Data%>%
-  filter(year > 2010)%>%
+  #filter(year > 2010)%>%
   unite("newID", media:predator,bottle, remove=FALSE)
 
 all_pa_dataz<-Datazz%>%
@@ -142,21 +142,21 @@ prey.ext.plot<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 pred.ext.atk.plot<-Ext_col_data%>%
-  ggplot(aes(x=as.factor(pred.attack),y=extinction_prob_pred,fill=as.factor(pred.attack)))+ 
+  ggplot(aes(x=as.factor(predator),y=extinction_prob_pred,fill=as.factor(predator)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
   ggtitle("d)") +
   scale_fill_viridis(discrete=T)+
-  labs(x="Predator Attack Rate",y="Predator Exctinction Probability")+
+  labs(x="Predator Identity",y="Predator Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 prey.ext.atk.plot<-Ext_col_data%>%
-  ggplot(aes(x=as.factor(pred.attack),y=extinction_prob_prey,fill=as.factor(pred.attack)))+ 
+  ggplot(aes(x=as.factor(predator),y=extinction_prob_prey,fill=as.factor(predator)))+ 
   geom_boxplot()+
   ggtitle("b)") +
   scale_fill_viridis(discrete=T)+
-  labs(x="Predator Attack Rate",y="Prey Exctinction Probability")+
+  labs(x="Predator Identity",y="Prey Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
@@ -191,21 +191,21 @@ prey.col.plot<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 pred.col.atk.plot<-Ext_col_data%>%
-  ggplot(aes(x=as.factor(pred.attack),y=colonization_prob_pred,fill=as.factor(pred.attack)))+ 
+  ggplot(aes(x=as.factor(predator),y=colonization_prob_pred,fill=as.factor(predator)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
   ggtitle("d)") +
   scale_fill_viridis(discrete=T)+
-  labs(x="Predator Attack Rate",y="Predator Colonization Probability")+
+  labs(x="Predator Identity",y="Predator Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 prey.col.atk.plot<-Ext_col_data%>%
-  ggplot(aes(x=as.factor(pred.attack),y=colonization_prob_prey, fill=as.factor(pred.attack)))+ 
+  ggplot(aes(x=as.factor(pred.attack),y=colonization_prob_prey, fill=as.factor(predator)))+ 
   geom_boxplot()+
   ggtitle("b)") +
   scale_fill_viridis(discrete=T)+
-  labs(x="Predator Attack Rate",y="Prey Colonization Probability")+
+  labs(x="Predator Identity",y="Prey Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
@@ -369,41 +369,42 @@ mod0<-glm(y~as.factor(productivity),family=binomial(link="logit"),data=Ext_col_d
 mod1<-glm(y~log.number.bottles,family=binomial(link="logit"),data=Ext_col_data)
 mod2<-glm(y~nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod3<-glm(y~log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod4<-glm(y~as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod4<-glm(y~as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
 mod5<-glm(y~as.factor(productivity)+log.number.bottles,family=binomial(link="logit"),data=Ext_col_data)
 mod6<-glm(y~as.factor(productivity)+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod7<-glm(y~as.factor(productivity)+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod8<-glm(y~as.factor(productivity)+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod8<-glm(y~as.factor(productivity)+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod9<-glm(y~log.number.bottles+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod10<-glm(y~log.number.bottles+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod11<-glm(y~log.number.bottles+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod11<-glm(y~log.number.bottles+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod12<-glm(y~nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod13<-glm(y~nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod14<-glm(y~log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod13<-glm(y~nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod14<-glm(y~log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
 mod15<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod16<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod18<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod21<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
 mod25<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
-mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 nullmod<-glm(y~1,family=binomial(link="logit"),data=Ext_col_data)
 
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,mod15,mod16,mod17,mod18,mod19,mod20,mod21,mod22,mod23,mod24,mod25,mod26,mod27,mod28,mod29,mod30,nullmod,weights = TRUE, sort = F)
 reported.table2
+plot_model(mod30)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
@@ -497,37 +498,37 @@ mod0<-glm(y~as.factor(productivity),family=binomial(link="logit"),data=Ext_col_d
 mod1<-glm(y~log.number.bottles,family=binomial(link="logit"),data=Ext_col_data)
 mod2<-glm(y~nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod3<-glm(y~log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod4<-glm(y~as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod4<-glm(y~as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
 mod5<-glm(y~as.factor(productivity)+log.number.bottles,family=binomial(link="logit"),data=Ext_col_data)
 mod6<-glm(y~as.factor(productivity)+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod7<-glm(y~as.factor(productivity)+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod8<-glm(y~as.factor(productivity)+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod8<-glm(y~as.factor(productivity)+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod9<-glm(y~log.number.bottles+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod10<-glm(y~log.number.bottles+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod11<-glm(y~log.number.bottles+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod11<-glm(y~log.number.bottles+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod12<-glm(y~nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod13<-glm(y~nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod14<-glm(y~log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod13<-glm(y~nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod14<-glm(y~log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
 mod15<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod16<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod18<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod21<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
 mod25<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
-mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 nullmod<-glm(y~1,family=binomial(link="logit"),data=Ext_col_data)
 
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,mod15,mod16,mod17,mod18,mod19,mod20,mod21,mod22,mod23,mod24,mod25,mod26,mod27,mod28,mod29,mod30,nullmod,weights = TRUE, sort = F)
@@ -625,37 +626,37 @@ mod0<-glm(y~as.factor(productivity),family=binomial(link="logit"),data=Ext_col_d
 mod1<-glm(y~log.number.bottles,family=binomial(link="logit"),data=Ext_col_data)
 mod2<-glm(y~nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod3<-glm(y~log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod4<-glm(y~as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod4<-glm(y~as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
 mod5<-glm(y~as.factor(productivity)+log.number.bottles,family=binomial(link="logit"),data=Ext_col_data)
 mod6<-glm(y~as.factor(productivity)+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod7<-glm(y~as.factor(productivity)+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod8<-glm(y~as.factor(productivity)+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod8<-glm(y~as.factor(productivity)+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod9<-glm(y~log.number.bottles+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod10<-glm(y~log.number.bottles+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod11<-glm(y~log.number.bottles+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod11<-glm(y~log.number.bottles+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod12<-glm(y~nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod13<-glm(y~nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod14<-glm(y~log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod13<-glm(y~nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod14<-glm(y~log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
 mod15<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod16<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod18<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod21<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
 mod25<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
-mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 nullmod<-glm(y~1,family=binomial(link="logit"),data=Ext_col_data)
 
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,mod15,mod16,mod17,mod18,mod19,mod20,mod21,mod22,mod23,mod24,mod25,mod26,mod27,mod28,mod29,mod30,nullmod,weights = TRUE, sort = F)
@@ -753,37 +754,37 @@ mod0<-glm(y~as.factor(productivity),family=binomial(link="logit"),data=Ext_col_d
 mod1<-glm(y~log.number.bottles,family=binomial(link="logit"),data=Ext_col_data)
 mod2<-glm(y~nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod3<-glm(y~log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod4<-glm(y~as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod4<-glm(y~as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
 mod5<-glm(y~as.factor(productivity)+log.number.bottles,family=binomial(link="logit"),data=Ext_col_data)
 mod6<-glm(y~as.factor(productivity)+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod7<-glm(y~as.factor(productivity)+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod8<-glm(y~as.factor(productivity)+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod8<-glm(y~as.factor(productivity)+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod9<-glm(y~log.number.bottles+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod10<-glm(y~log.number.bottles+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod11<-glm(y~log.number.bottles+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod11<-glm(y~log.number.bottles+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod12<-glm(y~nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod13<-glm(y~nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod14<-glm(y~log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod13<-glm(y~nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod14<-glm(y~log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
 mod15<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data)
 mod16<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod18<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 mod21<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
 mod25<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap,family=binomial(link="logit"),data=Ext_col_data)
-mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
-mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
+mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 
-mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=binomial(link="logit"),data=Ext_col_data)
+mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data)
 nullmod<-glm(y~1,family=binomial(link="logit"),data=Ext_col_data)
 
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,mod15,mod16,mod17,mod18,mod19,mod20,mod21,mod22,mod23,mod24,mod25,mod26,mod27,mod28,mod29,mod30,nullmod,weights = TRUE, sort = F)

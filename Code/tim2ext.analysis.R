@@ -55,24 +55,24 @@ loc.all$pred.attack<-as.factor(loc.all$pred.attack)
 #Time to Ext Figs
 p1<-loc.all%>%
   filter(number.bottles>1)%>%
-  ggplot(aes(x=as.factor(pred.attack),y=prey.time.2.ext, fill=as.factor(pred.attack)))+
+  ggplot(aes(x=as.factor(predator),y=prey.time.2.ext, fill=as.factor(predator)))+
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
   ggtitle("b)") +
   ylab("Prey Time to Extinction")+
-  xlab("Predator Attack Rate")+
+  xlab("Predator Idendity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
 p5<-loc.all%>%
   filter(number.bottles>1)%>%
-  ggplot(aes(x=as.factor(pred.attack),y=pred.time.2.ext, fill=as.factor(pred.attack)))+
+  ggplot(aes(x=as.factor(predator),y=pred.time.2.ext, fill=as.factor(predator)))+
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
   #ggtitle("e)") +
   ggtitle("d)") +
   ylab("Predator Time to Extinction")+
-  xlab("Predator Attack Rate")+
+  xlab("Predator Identity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
@@ -229,37 +229,37 @@ mod0<-glm(y~as.factor(productivity),family=poisson(link="log"),data=loc.all)
 mod1<-glm(y~log.number.bottles,family=poisson(link="log"),data=loc.all)
 mod2<-glm(y~nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod3<-glm(y~log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod4<-glm(y~as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod4<-glm(y~as.factor(predator),family=poisson(link="log"),data=loc.all)
 
 mod5<-glm(y~as.factor(productivity)+log.number.bottles,family=poisson(link="log"),data=loc.all)
 mod6<-glm(y~as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod7<-glm(y~as.factor(productivity)+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod8<-glm(y~as.factor(productivity)+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod8<-glm(y~as.factor(productivity)+as.factor(predator),family=poisson(link="log"),data=loc.all)
 mod9<-glm(y~log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod10<-glm(y~log.number.bottles+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod11<-glm(y~log.number.bottles+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod11<-glm(y~log.number.bottles+as.factor(predator),family=poisson(link="log"),data=loc.all)
 mod12<-glm(y~nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod13<-glm(y~nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod14<-glm(y~log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod13<-glm(y~nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod14<-glm(y~log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
 mod15<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod16<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(predator),family=poisson(link="log"),data=loc.all)
 mod18<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
 mod21<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
 mod25<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
-mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
 nullmod<-glm(y~1,family=poisson(link="log"),data=loc.all)
 
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,mod15,mod16,mod17,mod18,mod19,mod20,mod21,mod22,mod23,mod24,mod25,mod26,mod27,mod28,mod29,mod30,nullmod,weights = TRUE, sort = F)
@@ -362,37 +362,37 @@ mod0<-glm(y~as.factor(productivity),family=poisson(link="log"),data=loc.all)
 mod1<-glm(y~log.number.bottles,family=poisson(link="log"),data=loc.all)
 mod2<-glm(y~nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod3<-glm(y~log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod4<-glm(y~as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod4<-glm(y~as.factor(predator),family=poisson(link="log"),data=loc.all)
 
 mod5<-glm(y~as.factor(productivity)+log.number.bottles,family=poisson(link="log"),data=loc.all)
 mod6<-glm(y~as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod7<-glm(y~as.factor(productivity)+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod8<-glm(y~as.factor(productivity)+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod8<-glm(y~as.factor(productivity)+as.factor(predator),family=poisson(link="log"),data=loc.all)
 mod9<-glm(y~log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod10<-glm(y~log.number.bottles+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod11<-glm(y~log.number.bottles+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod11<-glm(y~log.number.bottles+as.factor(predator),family=poisson(link="log"),data=loc.all)
 mod12<-glm(y~nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod13<-glm(y~nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod14<-glm(y~log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod13<-glm(y~nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod14<-glm(y~log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
 mod15<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod16<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod17<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(predator),family=poisson(link="log"),data=loc.all)
 mod18<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod19<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod20<-glm(y~as.factor(productivity)+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
 mod21<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod22<-glm(y~log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod23<-glm(y~log.number.bottles+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod24<-glm(y~nghbr.connect+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
 mod25<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
-mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod26<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod27<-glm(y~as.factor(productivity)+log.number.bottles+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod28<-glm(y~as.factor(productivity)+nghbr.connect+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod29<-glm(y~log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
-mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(pred.attack),family=poisson(link="log"),data=loc.all)
+mod30<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+log.network.syn.lap+as.factor(predator),family=poisson(link="log"),data=loc.all)
 nullmod<-glm(y~1,family=poisson(link="log"),data=loc.all)
 
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,mod15,mod16,mod17,mod18,mod19,mod20,mod21,mod22,mod23,mod24,mod25,mod26,mod27,mod28,mod29,mod30,nullmod,weights = TRUE, sort = F)
