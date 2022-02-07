@@ -206,6 +206,7 @@ pred_network<-newer_pa_datas%>%
   replace(is.na(.), 0)%>%
   group_by(predator,prey,productivity,network.syn.lap,number.bottles,replicate,structure,media,year,lambda_m)%>%
   summarize(
+    prey.oc=mean(prey.oc),pred.oc=mean(pred.oc),
     colonization_sum_pred=sum(colonization_col_pred),non_colonization_sum_pred=sum(non_colonization_col_pred),extinction_sum_pred=sum(extinction_col_pred),non_extinction_sum_pred=sum(non_extinction_col_pred),
     colonization_potenital_pred=sum(colonization_col_pred+non_colonization_col_pred),colonization_potenital_prey=sum(colonization_col_prey+non_colonization_col_prey),
     extinction_potenital_pred=sum(extinction_col_pred+non_extinction_col_pred),extinction_potenital_prey=sum(extinction_col_prey+non_extinction_col_prey),
@@ -214,8 +215,8 @@ pred_network<-newer_pa_datas%>%
     colonization_prob_prey=colonization_sum_prey/colonization_potenital_prey, extinction_prob_prey=extinction_sum_prey/extinction_potenital_prey,
     ext_colon_ratio_pred=(extinction_prob_pred/colonization_prob_pred),ext_colon_ratio_prey=(extinction_prob_prey/colonization_prob_prey),
     pred.prey.oc=1-((extinction_prob_prey/colonization_prob_prey)/lambda_m),pred.pred.oc=1-((extinction_prob_pred/colonization_prob_pred)/lambda_m))%>%
-  left_join(reg.all, by=c("predator","prey","productivity","network.syn.lap","number.bottles","replicate","structure","media","year"))%>%
-  distinct(structure,replicate, .keep_all = T)#%>%
+  full_join(reg.all, by=c("predator","prey","productivity","network.syn.lap","number.bottles","replicate","structure","media","year", "prey.oc", "pred.oc"))%>%
+  dplyr::distinct(structure,replicate, .keep_all = T)#%>%
 #filter(pred.prey.oc>0 & pred.prey.oc<1)%>%
 #filter(pred.pred.oc>0 & pred.pred.oc<1)
 
@@ -228,8 +229,9 @@ preda_net<-pred_network%>%
   geom_point()+
   ggtitle("a)") +
   #geom_smooth(method = "lm",se=F)+
-  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.67", parse = TRUE) +
-  stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
+  #geom_line(aes(y = predict(dog, Ext_col_data_network_analysis),colour = "logit", linetype = "logit")) +
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.8", parse = TRUE) +
+  stat_smooth(method = glm, method.args = list(family = poisson(link = "log")),se=F)+
   scale_color_viridis_d()+
   labs(x="Prey Predicted Occupancy",y="Prey Observed Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -241,8 +243,9 @@ predb_net<-pred_network%>%
   geom_point()+
   ggtitle("b)") +
   #geom_smooth(method = "lm",se=F)+
-  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.64", parse = TRUE) +
-  stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.85", parse = TRUE) +
+  stat_smooth(method = glm, method.args = list(family = poisson(link = "log")),se=F)+
+  #stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Predator Predicted Occupancy",y="Predator ObservedOccupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -251,22 +254,24 @@ predb_net<-pred_network%>%
 plot_grid(preda_net,predb_net)
 
 Ext_col_data_network_analysis<-pred_network%>%
-  #filter(pred.prey.oc>0 & pred.prey.oc<1)%>%
+  filter(pred.prey.oc>0 & pred.prey.oc<1)
   #filter(prey.oc>0 & prey.oc<1)
-  filter(pred.pred.oc>0 & pred.pred.oc<1)
+  #filter(pred.pred.oc>0 & pred.pred.oc<1)
   
 dog<-betareg(pred.prey.oc~prey.oc, data=Ext_col_data_network_analysis)
 dog1<-betareg(pred.prey.oc~1, data=Ext_col_data_network_analysis)
-reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2<-bbmle::AICtab(dog1,dog,weights=T)
 reported.table2
 performance::r2(dog)
 pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
 
 dog<-betareg(pred.pred.oc~pred.oc, data=Ext_col_data_network_analysis)
 dog1<-betareg(pred.pred.oc~1, data=Ext_col_data_network_analysis)
-reported.table2<-bbmle::AICtab(dog1,dog)
+reported.table2<-bbmle::AICtab(dog1,dog,weights=T)
 reported.table2
 performance::r2(dog)
 pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
 
 #Predicted prey and predator occupancy at network level and local  scales
+
+plot_grid(preda_net,predb_net,preda,predb,predc,predd,prede,predf,nrow=4)

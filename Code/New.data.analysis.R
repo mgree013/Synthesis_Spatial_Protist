@@ -14,7 +14,6 @@ library(betareg)
 library(DataCombine)
 library(performance)
 ########################################################################################################################
-setwd("~/Dropbox/Protist Lab Data/Kurt_Matthew_Shared Data/Dendritic Data/Holistic/Data/All.Matt/")
 
 Data=read.csv("data/upd.datas.all.csv")
 summary(Data)
