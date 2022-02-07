@@ -71,42 +71,42 @@ pred_Ext_col_data<-Ext_col_data%>%
   filter(extinction_prob_pred>0)%>%
   filter(extinction_prob_prey<1)
 
-dog<-betareg(pred.prey.oc~prey.oc, data=pred_Ext_col_data)
-dog1<-betareg(pred.prey.oc~1, data=pred_Ext_col_data)
-reported.table2<-bbmle::AICtab(dog1,dog,weights = TRUE, sort = F)
+dog<-betareg(prey.oc~pred.prey.oc, data=pred_Ext_col_data)
+dog1<-betareg(prey.oc~1, data=pred_Ext_col_data)
+reported.table2<-bbmle::AICtab(dog1,dog,weights = TRUE, sort = T)
 reported.table2
 performance::r2(dog)
 pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
 
 preda<-pred_Ext_col_data%>%
-  ggplot(aes(x=prey.oc,y=pred.prey.oc))+ 
+  ggplot(aes(x=pred.prey.oc ,y=prey.oc))+ 
   geom_point()+
   ggtitle("c)") +
   #geom_smooth(method = "lm",se=F)+
-  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.80", parse = TRUE) +
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.85", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
-  labs(x="Prey Observed Occupancy",y="Prey Predicted Occupancy")+
+  labs(x="Prey Predicted Occupancy",y="Prey Observed Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 
-dog<-betareg(pred.pred.oc~pred.oc, data=pred_Ext_col_data)
-dog1<-betareg(pred.prey.oc~1, data=pred_Ext_col_data)
+dog<-betareg(pred.oc~pred.pred.oc, data=pred_Ext_col_data)
+dog1<-betareg(pred.oc~1, data=pred_Ext_col_data)
 reported.table2<-bbmle::AICtab(dog1,dog,weights=T)
 reported.table2
 performance::r2(dog)
 pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
 
 predb<-pred_Ext_col_data%>%
-  ggplot(aes(x=pred.oc,y=pred.pred.oc))+ 
+  ggplot(aes(x=pred.pred.oc,y=pred.oc))+ 
   geom_point()+
   ggtitle("d)") +
   #geom_smooth(method = "lm",se=F)+
-  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.91", parse = TRUE) +
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.93", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
-  labs(x="Predator Observed Occupancy",y="Predator Predicted Occupancy")+
+  labs(x="Predator Predicted Occupancy",y="Predator Observed Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
@@ -123,7 +123,7 @@ predc<-pred_Ext_col_data%>%
   geom_point()+
   ggtitle("e)") +
   #geom_smooth(method = "lm",se=F)+
-  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.34", parse = TRUE) +
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.51", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Prey Observed Occupancy",y="Prey Colonization Probability")+
@@ -162,7 +162,7 @@ prede<-pred_Ext_col_data%>%
   geom_point()+
   ggtitle("g)") +
   #geom_smooth(method = "lm",se=F)+
-  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.58", parse = TRUE) +
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.47", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Prey Observed Occupancy",y="Prey Extinction Probability")+
@@ -181,7 +181,7 @@ predf<-pred_Ext_col_data%>%
   geom_point()+
   ggtitle("h)") +
   #geom_smooth(method = "lm",se=F)+
-  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.55", parse = TRUE) +
+  annotate("text", x = 0.4, y = .95, label = "R^2 == 0.68", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
   labs(x="Predator Observed Occupancy",y="Predator Extinction Probability")+
@@ -224,27 +224,27 @@ pred_network<-newer_pa_datas%>%
 #Predicted Occupnacy
 preda_net<-pred_network%>%
   filter(pred.prey.oc>0)%>%
-  ggplot(aes(x=prey.oc,y=pred.prey.oc))+ 
+  ggplot(aes(x=pred.prey.oc ,y=prey.oc))+ 
   geom_point()+
   ggtitle("a)") +
   #geom_smooth(method = "lm",se=F)+
   annotate("text", x = 0.4, y = .95, label = "R^2 == 0.67", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
-  labs(x="Prey Observed Occupancy",y="Prey Predicted Occupancy")+
+  labs(x="Prey Predicted Occupancy",y="Prey Observed Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 predb_net<-pred_network%>%
   filter(pred.pred.oc>0)%>%
-  ggplot(aes(x=pred.oc,y=pred.pred.oc))+ 
+  ggplot(aes(x=pred.pred.oc,y= pred.oc))+ 
   geom_point()+
   ggtitle("b)") +
   #geom_smooth(method = "lm",se=F)+
   annotate("text", x = 0.4, y = .95, label = "R^2 == 0.64", parse = TRUE) +
   stat_smooth(method = glm, method.args = list(family = binomial(link = "logit")),se=F)+
   scale_color_viridis_d()+
-  labs(x="Predator Observed Occupancy",y="Predator Predicted Occupancy")+
+  labs(x="Predator Predicted Occupancy",y="Predator ObservedOccupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
