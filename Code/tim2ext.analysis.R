@@ -170,55 +170,7 @@ plot_grid(e1,p1,e5,p5, nrow=2)
 #GLMS
 
 #Prey
-y<-loc.all$prey.time.2.ext
 
-mod0<-glm(y~as.factor(productivity),family=poisson(link="log"),data=loc.all)
-mod1<-glm(y~log.number.bottles,family=poisson(link="log"),data=loc.all)
-mod2<-glm(y~(nghbr.connect),family=poisson(link="log"),data=loc.all)
-mod3<-glm(y~log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod4<-glm(y~log.network.syn.lap+log.number.bottles,family=poisson(link="log"),data=loc.all)
-mod5<-glm(y~log.network.syn.lap+nghbr.connect,family=poisson(link="log"),data=loc.all)
-mod6<-glm(y~(nghbr.connect)+log.number.bottles,family=poisson(link="log"),data=loc.all)
-mod7<-glm(y~(nghbr.connect)+as.factor(productivity),family=poisson(link="log"),data=loc.all)
-mod8<-glm(y~(log.network.syn.lap)+as.factor(productivity),family=poisson(link="log"),data=loc.all)
-mod9<-glm(y~log.number.bottles+as.factor(productivity),family=poisson(link="log"),data=loc.all)
-mod10<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
-mod11<-glm(y~log.network.syn.lap+log.number.bottles+as.factor(productivity),family=poisson(link="log"),data=loc.all)
-mod12<-glm(y~log.network.syn.lap+as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
-mod13<-glm(y~log.number.bottles+as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
-mod14<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(productivity),family=poisson(link="log"),data=loc.all)
-
-nullmod<-glm(y~1,family=poisson(link="log"),data=occupnacy)
-
-reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
-reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod6,mod7,mod9,mod13,nullmod,weights = TRUE, sort = F)
-reported.table2
-
-pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
-pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
-pseudoR2 <- ((mod2$null.deviance-mod2$deviance)/mod2$null.deviance)
-pseudoR3 <- ((mod3$null.deviance-mod3$deviance)/mod3$null.deviance)
-pseudoR4 <- ((mod4$null.deviance-mod4$deviance)/mod4$null.deviance)
-pseudoR5 <- ((mod5$null.deviance-mod5$deviance)/mod5$null.deviance)
-pseudoR6 <- ((mod6$null.deviance-mod6$deviance)/mod6$null.deviance)
-pseudoR7 <- ((mod7$null.deviance-mod7$deviance)/mod7$null.deviance)
-pseudoR8 <- ((mod8$null.deviance-mod8$deviance)/mod8$null.deviance)
-pseudoR9 <- ((mod9$null.deviance-mod9$deviance)/mod9$null.deviance)
-pseudoR10 <- ((mod10$null.deviance-mod10$deviance)/mod10$null.deviance)
-pseudoR11 <- ((mod11$null.deviance-mod11$deviance)/mod11$null.deviance)
-pseudoR12 <- ((mod12$null.deviance-mod12$deviance)/mod12$null.deviance)
-pseudoR13 <- ((mod13$null.deviance-mod13$deviance)/mod13$null.deviance)
-pseudoR14 <- ((mod14$null.deviance-mod14$deviance)/mod14$null.deviance)
-pseudoR15 <- ((mod15$null.deviance-mod15$deviance)/mod15$null.deviance)
-
-pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.deviance)
-
-#r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
-r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR6,pseudoR7,pseudoR9,pseudoR13,pseudoRnullmod)
-r22<-as.data.frame(r2, ncol=1)
-r22
-
-#New Bigger model
 y<-loc.all$prey.time.2.ext
 
 mod0<-glm(y~as.factor(productivity),family=poisson(link="log"),data=loc.all)
@@ -272,52 +224,7 @@ r22
 
 ############################################################################################################
 #Pred
-y<-loc.all$pred.time.2.ext
 
-mod0<-glm(y~as.factor(productivity),family=poisson(link="log"),data=loc.all)
-mod1<-glm(y~log.number.bottles,family=poisson(link="log"),data=loc.all)
-mod2<-glm(y~(nghbr.connect),family=poisson(link="log"),data=loc.all)
-mod3<-glm(y~log.network.syn.lap,family=poisson(link="log"),data=loc.all)
-mod4<-glm(y~log.network.syn.lap+log.number.bottles,family=poisson(link="log"),data=loc.all)
-mod5<-glm(y~log.network.syn.lap+nghbr.connect,family=poisson(link="log"),data=loc.all)
-mod6<-glm(y~(nghbr.connect)+log.number.bottles,family=poisson(link="log"),data=loc.all)
-mod7<-glm(y~(nghbr.connect)+as.factor(productivity),family=poisson(link="log"),data=loc.all)
-mod8<-glm(y~(log.network.syn.lap)+as.factor(productivity),family=poisson(link="log"),data=loc.all)
-mod9<-glm(y~log.number.bottles+as.factor(productivity),family=poisson(link="log"),data=loc.all)
-mod10<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
-mod11<-glm(y~log.network.syn.lap+log.number.bottles+as.factor(productivity),family=poisson(link="log"),data=loc.all)
-mod12<-glm(y~log.network.syn.lap+as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
-mod13<-glm(y~log.number.bottles+as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
-mod14<-glm(y~log.network.syn.lap+log.number.bottles+nghbr.connect+as.factor(productivity),family=poisson(link="log"),data=loc.all)
-nullmod<-glm(y~1,family=poisson(link="log"),data=occupnacy)
-
-#reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
-reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod6,mod7,mod9,mod13,nullmod,weights = TRUE, sort = F)
-reported.table2
-
-pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
-pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
-pseudoR2 <- ((mod2$null.deviance-mod2$deviance)/mod2$null.deviance)
-pseudoR3 <- ((mod3$null.deviance-mod3$deviance)/mod3$null.deviance)
-pseudoR4 <- ((mod4$null.deviance-mod4$deviance)/mod4$null.deviance)
-pseudoR5 <- ((mod5$null.deviance-mod5$deviance)/mod5$null.deviance)
-pseudoR6 <- ((mod6$null.deviance-mod6$deviance)/mod6$null.deviance)
-pseudoR7 <- ((mod7$null.deviance-mod7$deviance)/mod7$null.deviance)
-pseudoR8 <- ((mod8$null.deviance-mod8$deviance)/mod8$null.deviance)
-pseudoR9 <- ((mod9$null.deviance-mod9$deviance)/mod9$null.deviance)
-pseudoR10 <- ((mod10$null.deviance-mod10$deviance)/mod10$null.deviance)
-pseudoR11 <- ((mod11$null.deviance-mod11$deviance)/mod11$null.deviance)
-pseudoR12 <- ((mod12$null.deviance-mod12$deviance)/mod12$null.deviance)
-pseudoR13 <- ((mod13$null.deviance-mod13$deviance)/mod13$null.deviance)
-pseudoR14 <- ((mod14$null.deviance-mod14$deviance)/mod14$null.deviance)
-pseudoRnullmod <- ((nullmod$null.deviance-nullmod$deviance)/nullmod$null.deviance)
-
-#r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR3,pseudoR4,pseudoR5,pseudoR6,pseudoR7,pseudoR8,pseudoR9,pseudoR10,pseudoR11,pseudoR12,pseudoR13,pseudoR14,pseudoRnullmod)
-r2<-c(pseudoR0,pseudoR1,pseudoR2,pseudoR6,pseudoR7,pseudoR9,pseudoR13,pseudoRnullmod)
-r22<-as.data.frame(r2, ncol=1)
-r22
-
-#New Bigger model
 y<-loc.all$pred.time.2.ext
 
 mod0<-glm(y~as.factor(productivity),family=poisson(link="log"),data=loc.all)
