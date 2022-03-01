@@ -66,7 +66,7 @@ p5<-loc.all%>%
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
   #ggtitle("e)") +
-  ggtitle("d)") +
+  ggtitle("f)") +
   ylab("Predator Time to Extinction")+
   xlab("Predator Identity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
@@ -89,7 +89,7 @@ e5<-loc.all%>%
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
   #ggtitle("e)") +
-  ggtitle("c)") +
+  ggtitle("e)") +
   ylab("Predator Time to Extinction")+
   xlab("Productivity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
@@ -121,7 +121,7 @@ e4<-loc.all%>%
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   #ggtitle("d)") +
-  ggtitle("e)") +
+  ggtitle("d)") +
   xlab("Nearest Neighboor Connectivity")+ ylab("Prey Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
@@ -132,7 +132,7 @@ e6<-loc.all%>%
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   #ggtitle("f)") +
-  ggtitle("h)") +
+  ggtitle("g)") +
   xlab("Metacommunity Size")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
@@ -153,19 +153,13 @@ e8<-loc.all%>%
   geom_point()+geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   #ggtitle("h)") +
-  ggtitle("j)") +
+  ggtitle("h)") +
   xlab("Nearest Neighboor Connectivity")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
-plot_grid(e2,e3,e4,e6,e7,e8, nrow=2)
+plot_grid(e1,p1,e2,e4,e5,p5,e6,e8, nrow=2)
 
-
-plot_grid(e1,e2,e3,e4,e5,e6,e7,e8, nrow=2)
-plot_grid(e1,e2,e4,e5,e6,e8, nrow=2)
-plot_grid(e1,p1,e2,e3,e4,e5,p5,e6,e7,e8, nrow=2)
-
-plot_grid(e1,p1,e5,p5, nrow=2)
 ####################################################################################################################################
 #GLMS
 
