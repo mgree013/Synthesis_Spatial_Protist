@@ -59,7 +59,7 @@ Ext_col_data$log.network.syn.lap
 a<-Ext_col_data%>%
   ggplot(aes(x=log.number.bottles,y=extinction_prob_prey))+ 
   geom_point()+
-  ggtitle("a)") +
+  ggtitle("c)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Prey Exctinction Probability")+
@@ -80,7 +80,7 @@ c<-Ext_col_data%>%
   ggplot(aes(x=nghbr.connect,y=extinction_prob_prey))+ 
   geom_point()+
   #ggtitle("d)") +
-  ggtitle("c)") +
+  ggtitle("d)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Prey Exctinction Probability")+
@@ -91,7 +91,7 @@ d<-Ext_col_data%>%
   ggplot(aes(x=log.number.bottles,y=extinction_prob_pred))+ 
   geom_point()+
   #ggtitle("f)") +
-  ggtitle("d)") +
+  ggtitle("g)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Predator Exctinction Probability")+
@@ -112,7 +112,7 @@ f<-Ext_col_data%>%
   ggplot(aes(x=nghbr.connect,y=extinction_prob_pred))+ 
   geom_point()+
   #ggtitle("h)") +
-  ggtitle("f)") +
+  ggtitle("h)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Predator Exctinction Probability")+
@@ -124,7 +124,7 @@ pred.ext.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=extinction_prob_pred,fill=as.factor(productivity)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
-  ggtitle("c)") +
+  ggtitle("e)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Productivity",y="Predator Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -143,7 +143,7 @@ pred.ext.atk.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(predator),y=extinction_prob_pred,fill=as.factor(predator)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
-  ggtitle("d)") +
+  ggtitle("f)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Predator Identity",y="Predator Exctinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -158,14 +158,7 @@ prey.ext.atk.plot<-Ext_col_data%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
-
-plot_grid(a,b,c,d,e,f, nrow=2)
-plot_grid(prey.ext.plot,a,c,b,pred.ext.plot,d,f,e, nrow=2)
-
-plot_grid(prey.ext.plot,a,b,pred.ext.plot,d,e, nrow=2)
-plot_grid(prey.ext.plot,prey.ext.atk.plot,a,c,b,pred.ext.plot,pred.ext.atk.plot,d,f,e, nrow=2)
-
-plot_grid(prey.ext.plot,prey.ext.atk.plot,pred.ext.plot,pred.ext.atk.plot, nrow=2)
+plot_grid(prey.ext.plot,prey.ext.atk.plot,a,c,pred.ext.plot,pred.ext.atk.plot,d,f, nrow=2)
 
 #Colonization Plots
 
@@ -173,7 +166,7 @@ pred.col.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=colonization_prob_pred,fill=as.factor(productivity)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
-  ggtitle("c)") +
+  ggtitle("e)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Productivity",y="Predator Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -192,7 +185,7 @@ pred.col.atk.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(predator),y=colonization_prob_pred,fill=as.factor(predator)))+ 
   geom_boxplot()+
   #ggtitle("e)") +
-  ggtitle("d)") +
+  ggtitle("f)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Predator Identity",y="Predator Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -211,7 +204,7 @@ prey.col.atk.plot<-Ext_col_data%>%
 a<-Ext_col_data%>%
   ggplot(aes(x=log.number.bottles,y=colonization_prob_prey))+ 
   geom_point()+
-  ggtitle("a)") +
+  ggtitle("c)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Prey Colonization Probability")+
@@ -232,7 +225,7 @@ c<-Ext_col_data%>%
   ggplot(aes(x=nghbr.connect,y=colonization_prob_prey))+ 
   geom_point()+
   #ggtitle("d)") +
-  ggtitle("c)") +
+  ggtitle("d)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Prey Colonization Probability")+
@@ -243,7 +236,7 @@ d<-Ext_col_data%>%
   ggplot(aes(x=log.number.bottles,y=colonization_prob_pred))+ 
   geom_point()+
   #ggtitle("f)") +
-  ggtitle("d)") +
+  ggtitle("g)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Predator Colonization Probability")+
@@ -264,28 +257,14 @@ f<-Ext_col_data%>%
   ggplot(aes(x=nghbr.connect,y=colonization_prob_pred))+ 
   geom_point()+
   #ggtitle("h)") +
-  ggtitle("f)") +
+  ggtitle("h)") +
   geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Predator Colonization Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
-plot_grid(a,b,c,d,e,f, nrow=2)
-plot_grid(prey.col.plot,a,c,b,pred.col.plot,d,f,e, nrow=2)
-plot_grid(prey.col.plot,a,b,pred.col.plot,d,e, nrow=2)
-plot_grid(prey.col.plot,prey.col.atk.plot,a,c,b,pred.col.plot,pred.col.atk.plot,d,f,e, nrow=2)
-plot_grid(prey.col.plot,prey.col.atk.plot,pred.col.plot,pred.col.atk.plot, nrow=2)
-
-
-Ext_col_data%>%
-  ggplot(aes(x=as.factor(productivity),y=colonization_prob_pred, fill=as.factor(productivity)))+ 
-  geom_boxplot()+
-  scale_fill_viridis(discrete = TRUE)+
-  labs(x="Productivity (g)",y="Predator Colonization Probability")+
-  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
-
+plot_grid(prey.col.plot,prey.col.atk.plot,a,c,pred.col.plot,pred.col.atk.plot,d,f, nrow=2)
 
 ################################################################################################################################################
 ################################################################################################################################################
