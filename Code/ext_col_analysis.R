@@ -298,6 +298,7 @@ reported.table2
 
 plot_model(mod14)
 check_collinearity(mod14)
+summary(mod14)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
@@ -349,6 +350,7 @@ reported.table2
 
 plot_model(mod14)
 check_collinearity(mod14)
+summary(mod14)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
@@ -400,6 +402,7 @@ reported.table2
 
 plot_model(mod14)
 check_collinearity(mod14)
+summary(mod14)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
@@ -451,6 +454,7 @@ reported.table2
 
 plot_model(mod14)
 check_collinearity(mod14)
+summary(mod14)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
