@@ -392,22 +392,22 @@ y <- cbind(Ext_col_data_network$prey.occupany, Ext_col_data_network$prey.absence
 
 mod0<-glm(y~as.factor(productivity),family=binomial(link="logit"),data=Ext_col_data_network)
 mod1<-glm(y~log.number.bottles,family=binomial(link="logit"),data=Ext_col_data_network)
-mod2<-glm(y~nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
+mod2<-glm(y~av.nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
 mod3<-glm(y~as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
 
 mod4<-glm(y~as.factor(productivity)+log.number.bottles,family=binomial(link="logit"),data=Ext_col_data_network)
-mod5<-glm(y~as.factor(productivity)+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
+mod5<-glm(y~as.factor(productivity)+av.nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
 mod6<-glm(y~as.factor(productivity)+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
-mod7<-glm(y~log.number.bottles+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
+mod7<-glm(y~log.number.bottles+av.nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
 mod8<-glm(y~log.number.bottles+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
-mod9<-glm(y~nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
+mod9<-glm(y~av.nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
 
-mod10<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
+mod10<-glm(y~as.factor(productivity)+log.number.bottles+av.nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
 mod11<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
-mod12<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
-mod13<-glm(y~log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
+mod12<-glm(y~as.factor(productivity)+av.nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
+mod13<-glm(y~log.number.bottles+av.nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
 
-mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
+mod14<-glm(y~as.factor(productivity)+log.number.bottles+av.nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
 
 nullmod<-glm(y~1,family=binomial(link="logit"),data=Ext_col_data_network)
 
@@ -447,22 +447,22 @@ y <- cbind(Ext_col_data_network$pred.occupany, Ext_col_data_network$pred.absence
 
 mod0<-glm(y~as.factor(productivity),family=binomial(link="logit"),data=Ext_col_data_network)
 mod1<-glm(y~log.number.bottles,family=binomial(link="logit"),data=Ext_col_data_network)
-mod2<-glm(y~nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
+mod2<-glm(y~av.nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
 mod3<-glm(y~as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
 
 mod4<-glm(y~as.factor(productivity)+log.number.bottles,family=binomial(link="logit"),data=Ext_col_data_network)
-mod5<-glm(y~as.factor(productivity)+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
+mod5<-glm(y~as.factor(productivity)+av.nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
 mod6<-glm(y~as.factor(productivity)+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
-mod7<-glm(y~log.number.bottles+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
+mod7<-glm(y~log.number.bottles+av.nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
 mod8<-glm(y~log.number.bottles+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
-mod9<-glm(y~nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
+mod9<-glm(y~av.nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
 
-mod10<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
+mod10<-glm(y~as.factor(productivity)+log.number.bottles+av.nghbr.connect,family=binomial(link="logit"),data=Ext_col_data_network)
 mod11<-glm(y~as.factor(productivity)+log.number.bottles+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
-mod12<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
-mod13<-glm(y~log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
+mod12<-glm(y~as.factor(productivity)+av.nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
+mod13<-glm(y~log.number.bottles+av.nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
 
-mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
+mod14<-glm(y~as.factor(productivity)+log.number.bottles+av.nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=Ext_col_data_network)
 
 nullmod<-glm(y~1,family=binomial(link="logit"),data=Ext_col_data_network)
 
@@ -471,6 +471,7 @@ reported.table2
 
 plot_model(mod14)
 check_collinearity(mod14)
+summary(mod11)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
