@@ -98,7 +98,8 @@ e5<-loc.all%>%
 e2<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=log.number.bottles,y=prey.time.2.ext))+
-  geom_point()+geom_smooth(method = "lm")+
+  geom_point()+#geom_smooth(method = "lm")+
+  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
   scale_color_viridis(discrete = TRUE)+
   ggtitle("c)") +
   xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
@@ -108,7 +109,8 @@ e2<-loc.all%>%
 e3<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=log.network.syn.lap,y=prey.time.2.ext))+
-  geom_point()+geom_smooth(method = "lm")+
+  geom_point()+#geom_smooth(method = "lm")+
+  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
   scale_color_viridis(discrete = TRUE)+
   ggtitle("d)") +
   xlab("Network Synchrony")+ ylab("Prey Time to Extinction")+
@@ -118,7 +120,8 @@ e3<-loc.all%>%
 e4<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=nghbr.connect,y=prey.time.2.ext))+
-  geom_point()+geom_smooth(method = "lm")+
+  geom_point()+#geom_smooth(method = "lm")+
+  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
   scale_color_viridis(discrete = TRUE)+
   #ggtitle("d)") +
   ggtitle("d)") +
@@ -129,7 +132,8 @@ e4<-loc.all%>%
 e6<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=log.number.bottles,y=pred.time.2.ext))+
-  geom_point()+geom_smooth(method = "lm")+
+  geom_point()+#geom_smooth(method = "lm")+
+  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
   scale_color_viridis(discrete = TRUE)+
   #ggtitle("f)") +
   ggtitle("g)") +
@@ -140,7 +144,8 @@ e6<-loc.all%>%
 e7<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=log.network.syn.lap,y=pred.time.2.ext))+
-  geom_point()+geom_smooth(method = "lm")+
+  geom_point()+#geom_smooth(method = "lm")+
+  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
   scale_color_viridis(discrete = TRUE)+
   ggtitle("i)") +
   xlab("Network Synchrony")+ ylab("Predator Time to Extinction")+
@@ -150,7 +155,8 @@ e7<-loc.all%>%
 e8<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=nghbr.connect,y=pred.time.2.ext))+
-  geom_point()+geom_smooth(method = "lm")+
+  geom_point()+#geom_smooth(method = "lm")+
+  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
   scale_color_viridis(discrete = TRUE)+
   #ggtitle("h)") +
   ggtitle("h)") +

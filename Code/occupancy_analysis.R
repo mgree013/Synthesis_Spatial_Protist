@@ -29,7 +29,9 @@ a<-occupnacy%>%
   ggplot(aes(x=log.number.bottles,y=prey.oc))+ 
   geom_point()+
   ggtitle("c)") +
-  geom_smooth(method = "lm",se=F)+
+  #geom_smooth(method = "lm",se=F)+
+  stat_smooth(method="glm", method.args=list(family="gaussian")) +
+  #stat_smooth(method = "glm", method.args = list(family = "binomial"))+  
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -39,7 +41,8 @@ b<-occupnacy%>%
   ggplot(aes(x=log.network.syn.lap,y=prey.oc))+ 
   geom_point()+
   ggtitle("b)") +
-  geom_smooth(method = "lm",se=F)+
+  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
+  #geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Network Synchrony",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -50,7 +53,8 @@ c<-occupnacy%>%
   geom_point()+
   #ggtitle("d)") +
   ggtitle("d)") +
-  geom_smooth(method = "lm",se=F)+
+  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
+  #geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -61,7 +65,8 @@ d<-occupnacy%>%
   geom_point()+
   #ggtitle("f)") +
   ggtitle("g)") +
-  geom_smooth(method = "lm",se=F)+
+  #geom_smooth(method = "lm",se=F)+
+  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -71,7 +76,8 @@ e<-occupnacy%>%
   ggplot(aes(x=log.network.syn.lap,y=pred.oc))+ 
   geom_point()+
   ggtitle("e)") +
-  geom_smooth(method = "lm",se=F)+
+  #geom_smooth(method = "lm",se=F)+
+  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Network Synchrony",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -82,7 +88,8 @@ f<-occupnacy%>%
   geom_point()+
   #ggtitle("h)") +
   ggtitle("h)") +
-  geom_smooth(method = "lm",se=F)+
+  #geom_smooth(method = "lm",se=F)+
+  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
