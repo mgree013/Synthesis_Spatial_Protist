@@ -26,12 +26,11 @@ occupnacy$productivity<-as.factor(occupnacy$productivity)
 ########################################################################
 #Plots
 a<-occupnacy%>%
-  ggplot(aes(x=log.number.bottles,y=prey.oc))+ 
+  ggplot(aes(x=log.number.bottles,y=prey.oc, weight=(n)))+ 
   geom_point()+
   ggtitle("c)") +
   #geom_smooth(method = "lm",se=F)+
-  stat_smooth(method="glm", method.args=list(family="gaussian")) +
-  #stat_smooth(method = "glm", method.args = list(family = "binomial"))+  
+  stat_smooth(method = "glm", method.args = list(family = "binomial"))+  
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -173,6 +172,11 @@ reported.table2
 plot_model(mod14)
 check_collinearity(mod14)
 summary(mod14)
+summary(mod0)
+summary(mod1)
+summary(mod2)
+summary(mod3)
+
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
@@ -226,7 +230,10 @@ reported.table2
 plot_model(mod14)
 check_collinearity(mod14)
 summary(mod14)
-
+summary(mod0)
+summary(mod1)
+summary(mod2)
+summary(mod3)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
@@ -424,6 +431,10 @@ reported.table2
 plot_model(mod14)
 check_collinearity(mod14)
 summary(mod14)
+summary(mod0)
+summary(mod1)
+summary(mod2)
+summary(mod3)
 
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
@@ -478,6 +489,10 @@ reported.table2
 plot_model(mod14)
 check_collinearity(mod14)
 summary(mod14)
+summary(mod0)
+summary(mod1)
+summary(mod2)
+summary(mod3)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)

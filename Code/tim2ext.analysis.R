@@ -200,6 +200,10 @@ reported.table2
 plot_model(mod14)
 check_collinearity(mod14)
 summary(mod14)
+summary(mod0)
+summary(mod1)
+summary(mod2)
+summary(mod3)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
@@ -225,7 +229,6 @@ r22
 
 ############################################################################################################
 #Pred
-
 y<-loc.all$pred.time.2.ext
 
 mod0<-glm(y~as.factor(productivity),family=poisson(link="log"),data=loc.all)
@@ -255,6 +258,10 @@ reported.table2
 plot_model(mod14)
 check_collinearity(mod14)
 summary(mod14)
+summary(mod0)
+summary(mod1)
+summary(mod2)
+summary(mod3)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
