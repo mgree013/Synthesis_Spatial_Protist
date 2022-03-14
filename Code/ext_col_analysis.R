@@ -299,6 +299,10 @@ reported.table2
 plot_model(mod14)
 check_collinearity(mod14)
 summary(mod14)
+summary(mod0)
+summary(mod1)
+summary(mod2)
+summary(mod3)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
@@ -349,8 +353,11 @@ reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mo
 reported.table2
 
 plot_model(mod14)
-check_collinearity(mod14)
 summary(mod14)
+summary(mod0)
+summary(mod1)
+summary(mod2)
+summary(mod3)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
@@ -403,6 +410,10 @@ reported.table2
 plot_model(mod14)
 check_collinearity(mod14)
 summary(mod14)
+summary(mod0)
+summary(mod1)
+summary(mod2)
+summary(mod3)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
@@ -455,6 +466,10 @@ reported.table2
 plot_model(mod14)
 check_collinearity(mod14)
 summary(mod14)
+summary(mod0)
+summary(mod1)
+summary(mod2)
+summary(mod3)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
