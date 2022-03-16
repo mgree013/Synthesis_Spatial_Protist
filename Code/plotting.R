@@ -4,18 +4,30 @@
 library(jtools)
 y<-loc.all$prey.time.2.ext
 mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
-mod14<-glm(y~log.number.bottles+nghbr.connect+as.factor(productivity),family=poisson(link="log"),data=loc.all)
+mod14<-glm(y~log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
 
 summary(mod14)
-effect_plot(mod14, pred = log.number.bottles)
-effect_plot(mod14, pred = nghbr.connect)
 
+prepplot <- as.data.frame(matrix(ncol = 3, nrow = 10000))
+colnames(prepplot) <- c("log.number.bottles", "nghbr.connect", "est.y")
 
-#define new observation
-newdata = data.frame(disp=200, hp= 100)
-#use model to predict value of am
-predict(model, newdata, type="response")
-prediction<-predict(mod14)
+range(loc.all$log.number.bottles)
+range(loc.all$nghbr.connect)
+
+prepplot$log.number.bottles <- rep(seq(1.098612, 3.258097, length.out = 100), 100)
+prepplot <- prepplot[order(prepplot$log.number.bottles),]
+prepplot$nghbr.connect <- rep(seq(1,8, length.out = 100), 100)
+prepplot$est.y<-predict(mod14,prepplot, type="response")
+
+ggplot(prepplot, aes(nghbr.connect, log.number.bottles, fill = est.y)) + 
+  geom_tile() +
+  ggtitle("A)") +
+  xlab("Connectivity") + ylab("Metacommunity Size") +
+  scale_fill_viridis_c()+
+  scale_x_continuous(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0))+
+  labs(fill = "Est. Prey Time to Ext.")
+
 
 
 
@@ -80,24 +92,21 @@ ggplot(prepplot, aes(wt, hp, fill = est.mpg)) +
   scale_y_continuous(expand = c(0,0))
 ################################################################################################################################################################################################
 
-lm.mod <- lm(prey.time.2.ext ~ log.number.bottles+nghbr.connect, data = eup.tetra.high)
+lm.mod <- lm(prey.time.2.ext ~ log.number.bottles+nghbr.connect, data = did.colp.med)
 summary(lm.mod)
 
 prepplot <- as.data.frame(matrix(ncol = 3, nrow = 10000))
-colnames(prepplot) <- c("meta.size", "connect", "est.prey.ext")
+colnames(prepplot) <- c("nghbr.connect","log.number.bottles",  "est.prey.ext")
 
-range(eup.tetra.high$meta.size)
-range(eup.tetra.high$nghbr.connect)
+range(did.colp.med$meta.size)
+range(did.colp.med$nghbr.connect)
 
+prepplot$nghbr.connect <- rep(seq(1,8, length.out = 100), 100)
+prepplot <- prepplot[order(prepplot$nghbr.connect),]
+prepplot$log.number.bottles <- rep(seq(2,25, length.out = 100), 100)
+prepplot$est.prey.ext<-predict(lm.mod,prepplot, type="response")
 
-prepplot$connect <- rep(seq(1.666667, 4.000000, length.out = 100), 100)
-prepplot <- prepplot[order(prepplot$connect),]
-prepplot$meta.size <- rep(seq(15,15, length.out = 100), 100)
-prepplot$est.prey.ext <- 49.80842 - 8.21662*prepplot$meta.size - 0.12010*prepplot$connect + 
-  0.02785*prepplot$meta.size*prepplot$connect
-prepplot$est.mpg<-predict(lm.mod,prepplot, type="response")
-
-ggplot(prepplot, aes(meta.size, connect, fill = est.prey.ext)) + 
+ggplot(prepplot, aes(log.number.bottles, nghbr.connect, fill = est.prey.ext)) + 
   geom_tile() +
   ggtitle("A)") +
   xlab("meta.size") + ylab("Connectivity") +
