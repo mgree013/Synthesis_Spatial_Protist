@@ -43,9 +43,11 @@ loc.all<-Data %>%
   mutate(log.number.bottles=log(number.bottles+1))%>%
   mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
   mutate(log.total.vol=log(total.vol+1))%>%
+  mutate(pred.prey.prod = paste(predator, prey,productivity, sep = "_"))%>%
   left_join(reg.ext, by="newID")%>%
   dplyr::distinct(newBottleID,cv.prey,pred.meta.ext,bottle.number,reg.pred.ext,.keep_all = TRUE)
 
+loc.all$pred.prey.prod<-as.factor(loc.all$pred.prey.prod)
 ####################################################################################################################################
 
 #Time to Ext Figs
