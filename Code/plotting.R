@@ -1,3 +1,26 @@
+#Take 3
+##################################################################################################################################
+#Prey.ext
+library(jtools)
+y<-loc.all$prey.time.2.ext
+mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod14<-glm(y~log.number.bottles+nghbr.connect+as.factor(productivity),family=poisson(link="log"),data=loc.all)
+
+summary(mod14)
+effect_plot(mod14, pred = log.number.bottles)
+effect_plot(mod14, pred = nghbr.connect)
+
+
+#define new observation
+newdata = data.frame(disp=200, hp= 100)
+#use model to predict value of am
+predict(model, newdata, type="response")
+prediction<-predict(mod14)
+
+
+
+
+##################################################################################################################################
 #plotting take 2: Interactions
 #Prod=0.56,0.76,1.28
 #prey=colpidium,paramecium,tetra
@@ -57,19 +80,19 @@ ggplot(prepplot, aes(wt, hp, fill = est.mpg)) +
   scale_y_continuous(expand = c(0,0))
 ################################################################################################################################################################################################
 
-lm.mod <- lm(prey.time.2.ext ~ log.number.bottles+nghbr.connect, data = eup.tetra.low)
+lm.mod <- lm(prey.time.2.ext ~ log.number.bottles+nghbr.connect, data = eup.tetra.high)
 summary(lm.mod)
 
 prepplot <- as.data.frame(matrix(ncol = 3, nrow = 10000))
 colnames(prepplot) <- c("meta.size", "connect", "est.prey.ext")
 
-range(eup.tetra.low$meta.size)
-range(eup.tetra.low$nghbr.connect)
+range(eup.tetra.high$meta.size)
+range(eup.tetra.high$nghbr.connect)
 
 
-prepplot$connect <- rep(seq(1.333333, 4.000000, length.out = 100), 100)
+prepplot$connect <- rep(seq(1.666667, 4.000000, length.out = 100), 100)
 prepplot <- prepplot[order(prepplot$connect),]
-prepplot$meta.size <- rep(seq(7,7, length.out = 100), 100)
+prepplot$meta.size <- rep(seq(15,15, length.out = 100), 100)
 prepplot$est.prey.ext <- 49.80842 - 8.21662*prepplot$meta.size - 0.12010*prepplot$connect + 
   0.02785*prepplot$meta.size*prepplot$connect
 prepplot$est.mpg<-predict(lm.mod,prepplot, type="response")
@@ -89,45 +112,8 @@ fit <- glm(prey.time.2.ext ~ as.factor(pred.prey.prod)+log.number.bottles+nghbr.
 # select only levels 30, 50 and 70 from continuous variable Barthel-Index
 tab_model((fit))
 get_model_data(fit, type = "pred",terms = c("nghbr.connect" ,"predator [Didinium, Euplotes]","log.number.bottles", "productivity [0.56,0.76,1.28]"))
-plot_model(fit, type = "pred",terms = c("nghbr.connect" ,"pred.prey.prod [Didinium_colpidium_0.76, Didinium_paramecium_0.56, Didinium_paramecium_1.28,Euplotes_tetra_0.56,Euplotes_tetra_1.28 ]","log.number.bottles"))
+plot_model(fit, type = "pred",terms = c("nghbr.connect" ,"log.number.bottles","pred.prey.prod [Didinium_colpidium_0.76, Didinium_paramecium_0.56, Didinium_paramecium_1.28,Euplotes_tetra_0.56,Euplotes_tetra_1.28 ]"))
 
 
 
-#######
-dat <- data.frame(X1=runif(100,-2,2),X2=runif(100,-2,2),F1=gl(n = 2,k = 50))
-modmat <- model.matrix(~X1*X2*F1,dat)
-betas <- runif(8,-2,2)
-dat$y <- rnorm(100,modmat%*%betas,1)
 
-m <- lm(y~X1*X2*F1,dat)
-#model prediction
-pred <- expand.grid(X1=c(min(dat$X1),0,max(dat$X1)),X2=c(min(dat$X2),0,max(dat$X2)),F1=factor(1:2))
-pred$y <- predict(m,pred)
-#understanding the estimates: the intercept
-#X1=0 & X2=0 & F1=1
-coef(m)[1]
-#X1=0 & X2=0 & F1=2
-coef(m)[1] + coef(m)[4]
-
-#understanding the estimate: the slopes
-#slope of X1 when X2=0 and F1=1
-coef(m)[2]
-#slope of X1 when X2=0 and F1=2
-coef(m)[2] + coef(m)[6]
-#slope of X1 when X2= -1 and F1=1
-coef(m)[2] + coef(m)[5] * -1 #note here that the effect of the interaction term on the X1 slope depend on the value of X2
-#slope of X1 when X2=2 and F1=2
-coef(m)[2] + coef(m)[5] * 2 + coef(m)[6] + coef(m)[8] * 2
-
-#plot
-ggplot(dat,aes(x=X1,y=y,color=X2))+geom_point()+facet_grid(~F1)+
-  geom_line(data=pred,aes(group=X2))
-
-
-#####
-library(ggiraphExtra)
-fit <- glm(prey.time.2.ext ~ (pred.prey.prod)+log.number.bottles+nghbr.connect,family=poisson(link="log"), data = loc.all)
-summary(fit)
-ggPredict(fit,interactive = T)
-require(moonBook)
-str(radial)

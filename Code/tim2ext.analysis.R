@@ -48,6 +48,7 @@ loc.all<-Data %>%
   dplyr::distinct(newBottleID,cv.prey,pred.meta.ext,bottle.number,reg.pred.ext,.keep_all = TRUE)
 
 loc.all$pred.prey.prod<-as.factor(loc.all$pred.prey.prod)
+levels(loc.all$pred.prey.prod)
 ####################################################################################################################################
 
 #Time to Ext Figs
@@ -206,6 +207,8 @@ summary(mod0)
 summary(mod1)
 summary(mod2)
 summary(mod3)
+
+predict<-predict(mod14)
 
 pseudoR0 <- ((mod0$null.deviance-mod0$deviance)/mod0$null.deviance)
 pseudoR1 <- ((mod1$null.deviance-mod1$deviance)/mod1$null.deviance)
