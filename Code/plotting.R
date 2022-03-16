@@ -122,3 +122,12 @@ coef(m)[2] + coef(m)[5] * 2 + coef(m)[6] + coef(m)[8] * 2
 #plot
 ggplot(dat,aes(x=X1,y=y,color=X2))+geom_point()+facet_grid(~F1)+
   geom_line(data=pred,aes(group=X2))
+
+
+#####
+library(ggiraphExtra)
+fit <- glm(prey.time.2.ext ~ (pred.prey.prod)+log.number.bottles+nghbr.connect,family=poisson(link="log"), data = loc.all)
+summary(fit)
+ggPredict(fit,interactive = T)
+require(moonBook)
+str(radial)
