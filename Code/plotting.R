@@ -24,7 +24,7 @@ prey.con<-ggplot(data = loc.all,
        aes(x = nghbr.connect, y = prey.time.2.ext)) +
   geom_point() +
   stat_smooth(data=new_data,method = glm,method.args = list(family = poisson(link = "log")))+
-  ggtitle("c)") +
+  ggtitle("d)") +
   xlab("Connectivity")+ ylab("Prey Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
 
@@ -80,6 +80,7 @@ loc.all%>%
 #Predator Time to ext
 y<-loc.all$pred.time.2.ext
 mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+summary(mod14)
 
 new_data <- data.frame(productivity = factor(rep(c("0.56","0.76","1.28"), each = 400)),
                        predator=factor(rep(c("Euplotes","Didinium"), each = 600)),
@@ -93,16 +94,17 @@ pred.meta<-ggplot(data = loc.all,
        aes(x = log.number.bottles, y = pred.time.2.ext)) +
   geom_point() +
   stat_smooth(data=new_data,method = glm,method.args = list(family = poisson(link = "log")))+
-  ggtitle("c)") +
-  xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
+  ggtitle("g)") +
+  xlab("Metacommunity Size")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
 
 pred.con<-ggplot(data = loc.all, 
        aes(x = nghbr.connect, y = pred.time.2.ext)) +
   geom_point() +
+  #geom_smooth(method="lm")+
   stat_smooth(data=new_data,method = glm,method.args = list(family = poisson(link = "log")))+
-  ggtitle("c)") +
-  xlab("Connectivity")+ ylab("Prey Time to Extinction")+
+  ggtitle("h)") +
+  xlab("Connectivity")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
 
 pred.pred<-loc.all%>%
@@ -111,7 +113,7 @@ pred.pred<-loc.all%>%
   geom_point()+
   geom_boxplot(data=new_data)+
   scale_fill_viridis(discrete=T)+
-  ggtitle("b)") +
+  ggtitle("f)") +
   ylab("Predator Time to Extinction")+
   xlab("Predator Idendity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
@@ -133,7 +135,7 @@ prod.pred<-loc.all%>%
   geom_point()+
   geom_boxplot(data=new_data)+
   scale_fill_viridis(discrete=T)+
-  ggtitle("a)") +
+  ggtitle("e)") +
   ylab("Predator Time to Extinction")+
   xlab("Productivity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
@@ -151,8 +153,6 @@ loc.all%>%
   theme(legend.position = "none")
 
 plot_grid(prod.prey,pred.prey,prey.meta,prey.con,prod.pred,pred.pred,pred.meta,pred.con,nrow=2)
-plot_grid(prod.prey,pred.prey,prod.pred,pred.pred,nrow=2)
-
 #
 
 
