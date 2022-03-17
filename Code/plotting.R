@@ -29,7 +29,30 @@ ggplot(prepplot, aes(nghbr.connect, log.number.bottles, fill = est.y)) +
   labs(fill = "Est. Prey Time to Ext.")
 
 
+####
+y<-loc.all$prey.time.2.ext
+mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
+## generate prediction frame
+PredProb=predict(mod14,type='response')
+
+par(mfrow=c(2,2))
+for(i in names(loc.all)){
+  plot(loc.all[,i],PredProb,xlab=i)
+}
+
+
+
+loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=log.number.bottles,y=prey.time.2.ext))+
+  geom_point()+#geom_smooth(method = "lm")+
+  #stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
+  scale_color_viridis(discrete = TRUE)+
+  ggtitle("c)") +
+  xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
 
 
 ##################################################################################################################################
@@ -113,6 +136,24 @@ ggplot(prepplot, aes(log.number.bottles, nghbr.connect, fill = est.prey.ext)) +
   scale_fill_gradientn(colours = c("#b2182b","#d6604d","#f4a582","#fddbc7","#f7f7f7","#d1e5f0","#92c5de","#4393c3","#2166ac")) +
   scale_x_continuous(expand = c(0,0)) +
   scale_y_continuous(expand = c(0,0))
+
+
+######
+range(did.colp.med$meta.size)
+range(did.colp.med$nghbr.connect)
+
+
+range(eup.tetra.high$meta.size)
+range(eup.tetra.high$nghbr.connect)
+
+range(eup.tetra.low$meta.size)
+range(eup.tetra.low$nghbr.connect)
+
+range(did.par.high$meta.size)
+range(did.par.high$nghbr.connect)
+
+range(did.par.low$meta.size)
+range(did.par.low$nghbr.connect)
 
 # fit model with 3-way-interaction
 library(sjPlot)
