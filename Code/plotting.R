@@ -1,35 +1,7 @@
 #Take 3
 ##################################################################################################################################
-#Prey.ext
-library(jtools)
-y<-loc.all$prey.time.2.ext
-mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
-mod14<-glm(y~log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
-
-summary(mod14)
-
-prepplot <- as.data.frame(matrix(ncol = 3, nrow = 10000))
-colnames(prepplot) <- c("log.number.bottles", "nghbr.connect", "est.y")
-
-range(loc.all$log.number.bottles)
-range(loc.all$nghbr.connect)
-
-prepplot$log.number.bottles <- rep(seq(1.098612, 3.258097, length.out = 100), 100)
-prepplot <- prepplot[order(prepplot$log.number.bottles),]
-prepplot$nghbr.connect <- rep(seq(1,8, length.out = 100), 100)
-prepplot$est.y<-predict(mod14,prepplot, type="response")
-
-ggplot(prepplot, aes(nghbr.connect, log.number.bottles, fill = est.y)) + 
-  geom_tile() +
-  ggtitle("A)") +
-  xlab("Connectivity") + ylab("Metacommunity Size") +
-  scale_fill_viridis_c()+
-  scale_x_continuous(expand = c(0,0)) +
-  scale_y_continuous(expand = c(0,0))+
-  labs(fill = "Est. Prey Time to Ext.")
-
-
 ####
+#Prey Time to ext
 y<-loc.all$prey.time.2.ext
 mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
@@ -47,7 +19,7 @@ ggplot(data = loc.all,
   ggtitle("c)") +
   xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
-  
+
 ggplot(data = loc.all, 
        aes(x = nghbr.connect, y = prey.time.2.ext)) +
   geom_point() +
@@ -103,6 +75,122 @@ loc.all%>%
 
 plot_grid()
 #
+
+####
+#Predator Time to ext
+y<-loc.all$pred.time.2.ext
+mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+
+new_data <- data.frame(productivity = factor(rep(c("0.56","0.76","1.28"), each = 400)),
+                       predator=factor(rep(c("Euplotes","Didinium"), each = 600)),
+                       log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                       nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data$pred.time.2.ext <- predict(mod14, newdata = new_data, type = "response")
+ 
+
+ggplot(data = loc.all, 
+       aes(x = log.number.bottles, y = pred.time.2.ext)) +
+  geom_point() +
+  stat_smooth(data=new_data,method = glm,method.args = list(family = poisson(link = "log")))+
+  ggtitle("c)") +
+  xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
+
+ggplot(data = loc.all, 
+       aes(x = nghbr.connect, y = pred.time.2.ext)) +
+  geom_point() +
+  stat_smooth(data=new_data,method = glm,method.args = list(family = poisson(link = "log")))+
+  ggtitle("c)") +
+  xlab("Connectivity")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
+
+loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(predator),y=pred.time.2.ext, fill=as.factor(predator)))+
+  geom_point()+
+  geom_boxplot(data=new_data)+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("b)") +
+  ylab("Prey Time to Extinction")+
+  xlab("Predator Idendity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
+
+loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(predator),y=pred.time.2.ext, fill=as.factor(predator)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("b)") +
+  ylab("Prey Time to Extinction")+
+  xlab("Predator Idendity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
+
+loc.all%>%
+  ggplot(aes(x=as.factor(productivity),y=pred.time.2.ext, fill=as.factor(productivity)))+
+  geom_point()+
+  geom_boxplot(data=new_data)+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("a)") +
+  ylab("Prey Time to Extinction")+
+  xlab("Productivity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+loc.all%>%
+  ggplot(aes(x=as.factor(productivity),y=pred.time.2.ext, fill=as.factor(productivity)))+
+  geom_point()+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("a)") +
+  ylab("Prey Time to Extinction")+
+  xlab("Productivity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+plot_grid()
+#
+
+
+
+
+
+
+
+
+
+
+#Prey.ext
+library(jtools)
+y<-loc.all$prey.time.2.ext
+mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod14<-glm(y~log.number.bottles+nghbr.connect,family=poisson(link="log"),data=loc.all)
+
+summary(mod14)
+
+prepplot <- as.data.frame(matrix(ncol = 3, nrow = 10000))
+colnames(prepplot) <- c("log.number.bottles", "nghbr.connect", "est.y")
+
+range(loc.all$log.number.bottles)
+range(loc.all$nghbr.connect)
+
+prepplot$log.number.bottles <- rep(seq(1.098612, 3.258097, length.out = 100), 100)
+prepplot <- prepplot[order(prepplot$log.number.bottles),]
+prepplot$nghbr.connect <- rep(seq(1,8, length.out = 100), 100)
+prepplot$est.y<-predict(mod14,prepplot, type="response")
+
+ggplot(prepplot, aes(nghbr.connect, log.number.bottles, fill = est.y)) + 
+  geom_tile() +
+  ggtitle("A)") +
+  xlab("Connectivity") + ylab("Metacommunity Size") +
+  scale_fill_viridis_c()+
+  scale_x_continuous(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0))+
+  labs(fill = "Est. Prey Time to Ext.")
+
+
 
 
 
