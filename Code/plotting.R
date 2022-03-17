@@ -12,7 +12,7 @@ new_data <- data.frame(productivity = factor(rep(c("0.56","0.76","1.28"), each =
 
 new_data$prey.time.2.ext <- predict(mod14, newdata = new_data, type = "response")
 
-ggplot(data = loc.all, 
+prey.meta<-ggplot(data = loc.all, 
        aes(x = log.number.bottles, y = prey.time.2.ext)) +
   geom_point() +
   stat_smooth(data=new_data,method = glm,method.args = list(family = poisson(link = "log")))+
@@ -20,7 +20,7 @@ ggplot(data = loc.all,
   xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
 
-ggplot(data = loc.all, 
+prey.con<-ggplot(data = loc.all, 
        aes(x = nghbr.connect, y = prey.time.2.ext)) +
   geom_point() +
   stat_smooth(data=new_data,method = glm,method.args = list(family = poisson(link = "log")))+
@@ -28,7 +28,7 @@ ggplot(data = loc.all,
   xlab("Connectivity")+ ylab("Prey Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
 
-loc.all%>%
+pred.prey<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=as.factor(predator),y=prey.time.2.ext, fill=as.factor(predator)))+
   geom_point()+
@@ -51,7 +51,7 @@ loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
-loc.all%>%
+prod.prey<-loc.all%>%
   ggplot(aes(x=as.factor(productivity),y=prey.time.2.ext, fill=as.factor(productivity)))+
   geom_point()+
   geom_boxplot(data=new_data)+
@@ -73,7 +73,7 @@ loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
-plot_grid()
+
 #
 
 ####
@@ -89,7 +89,7 @@ new_data <- data.frame(productivity = factor(rep(c("0.56","0.76","1.28"), each =
 new_data$pred.time.2.ext <- predict(mod14, newdata = new_data, type = "response")
  
 
-ggplot(data = loc.all, 
+pred.meta<-ggplot(data = loc.all, 
        aes(x = log.number.bottles, y = pred.time.2.ext)) +
   geom_point() +
   stat_smooth(data=new_data,method = glm,method.args = list(family = poisson(link = "log")))+
@@ -97,7 +97,7 @@ ggplot(data = loc.all,
   xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
 
-ggplot(data = loc.all, 
+pred.con<-ggplot(data = loc.all, 
        aes(x = nghbr.connect, y = pred.time.2.ext)) +
   geom_point() +
   stat_smooth(data=new_data,method = glm,method.args = list(family = poisson(link = "log")))+
@@ -105,14 +105,14 @@ ggplot(data = loc.all,
   xlab("Connectivity")+ ylab("Prey Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
 
-loc.all%>%
+pred.pred<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=as.factor(predator),y=pred.time.2.ext, fill=as.factor(predator)))+
   geom_point()+
   geom_boxplot(data=new_data)+
   scale_fill_viridis(discrete=T)+
   ggtitle("b)") +
-  ylab("Prey Time to Extinction")+
+  ylab("Predator Time to Extinction")+
   xlab("Predator Idendity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
@@ -123,18 +123,18 @@ loc.all%>%
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
   ggtitle("b)") +
-  ylab("Prey Time to Extinction")+
+  ylab("Predator Time to Extinction")+
   xlab("Predator Idendity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
-loc.all%>%
+prod.pred<-loc.all%>%
   ggplot(aes(x=as.factor(productivity),y=pred.time.2.ext, fill=as.factor(productivity)))+
   geom_point()+
   geom_boxplot(data=new_data)+
   scale_fill_viridis(discrete=T)+
   ggtitle("a)") +
-  ylab("Prey Time to Extinction")+
+  ylab("Predator Time to Extinction")+
   xlab("Productivity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
@@ -145,12 +145,14 @@ loc.all%>%
   geom_boxplot()+
   scale_fill_viridis(discrete=T)+
   ggtitle("a)") +
-  ylab("Prey Time to Extinction")+
+  ylab("Predator Time to Extinction")+
   xlab("Productivity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
-plot_grid()
+plot_grid(prod.prey,pred.prey,prey.meta,prey.con,prod.pred,pred.pred,pred.meta,pred.con,nrow=2)
+plot_grid(prod.prey,pred.prey,prod.pred,pred.pred,nrow=2)
+
 #
 
 
