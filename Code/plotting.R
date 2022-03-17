@@ -33,10 +33,10 @@ ggplot(prepplot, aes(nghbr.connect, log.number.bottles, fill = est.y)) +
 y<-loc.all$prey.time.2.ext
 mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
-new_data <- data.frame(productivity = factor(rep(c("0.56","0.76","1.28"), each = 200)),
-                       predator=factor(rep(c("Euplotes","Didinium"), each = 300)),
-                       log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 600), 3),
-                       nghbr.connect  = rep(seq(1, 8, length.out = 600), 3))
+new_data <- data.frame(productivity = factor(rep(c("0.56","0.76","1.28"), each = 400)),
+                       predator=factor(rep(c("Euplotes","Didinium"), each = 600)),
+                       log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                       nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
 
 new_data$prey.time.2.ext <- predict(mod14, newdata = new_data, type = "response")
 
@@ -90,9 +90,19 @@ loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
+loc.all%>%
+  ggplot(aes(x=as.factor(productivity),y=prey.time.2.ext, fill=as.factor(productivity)))+
+  geom_point()+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("a)") +
+  ylab("Prey Time to Extinction")+
+  xlab("Productivity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
 
-
-
+plot_grid()
+#
 
 
 
