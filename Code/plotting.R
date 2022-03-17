@@ -33,27 +33,116 @@ ggplot(prepplot, aes(nghbr.connect, log.number.bottles, fill = est.y)) +
 y<-loc.all$prey.time.2.ext
 mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
-## generate prediction frame
-PredProb=predict(mod14,type='response')
+new_data <- data.frame(productivity = factor(rep(c("0.56","0.76","1.28"), each = 200)),
+                       predator=factor(rep(c("Euplotes","Didinium"), each = 300)),
+                       log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 600), 3),
+                       nghbr.connect  = rep(seq(1, 8, length.out = 600), 3))
 
-par(mfrow=c(2,2))
-for(i in names(loc.all)){
-  plot(loc.all[,i],PredProb,xlab=i)
-}
+new_data$prey.time.2.ext <- predict(mod14, newdata = new_data, type = "response")
 
-
+ggplot(data = loc.all, 
+       aes(x = log.number.bottles, y = prey.time.2.ext)) +
+  geom_point() +
+  stat_smooth(data=new_data,method = glm,method.args = list(family = poisson(link = "log")))+
+  ggtitle("c)") +
+  xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
+  
+ggplot(data = loc.all, 
+       aes(x = nghbr.connect, y = prey.time.2.ext)) +
+  geom_point() +
+  stat_smooth(data=new_data,method = glm,method.args = list(family = poisson(link = "log")))+
+  ggtitle("c)") +
+  xlab("Connectivity")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
 
 loc.all%>%
   filter(number.bottles>1)%>%
-  ggplot(aes(x=log.number.bottles,y=prey.time.2.ext))+
-  geom_point()+#geom_smooth(method = "lm")+
-  #stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
-  scale_color_viridis(discrete = TRUE)+
-  ggtitle("c)") +
-  xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
+  ggplot(aes(x=as.factor(predator),y=prey.time.2.ext, fill=as.factor(predator)))+
+  geom_point()+
+  geom_boxplot(data=new_data)+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("b)") +
+  ylab("Prey Time to Extinction")+
+  xlab("Predator Idendity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
+
+loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(predator),y=prey.time.2.ext, fill=as.factor(predator)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("b)") +
+  ylab("Prey Time to Extinction")+
+  xlab("Predator Idendity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
+
+loc.all%>%
+  ggplot(aes(x=as.factor(productivity),y=prey.time.2.ext, fill=as.factor(productivity)))+
+  geom_point()+
+  geom_boxplot(data=new_data)+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("a)") +
+  ylab("Prey Time to Extinction")+
+  xlab("Productivity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+######OLD Stuff not working
+## generate prediction frame
+y<-loc.all$prey.time.2.ext
+lm.mod<-lm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),data=loc.all)
+summary(lm.mod)
+
+prepplot <- as.data.frame(matrix(ncol = 5, nrow = 10000))
+colnames(prepplot) <- c("productivity", "log.number.bottles", "nghbr.connect","predator", "est.prey.ext")
+
+range(loc.all$nghbr.connect)
+range(loc.all$log.number.bottles)
+
+
+prepplot$log.number.bottles <- rep(seq(1.098612, 3.258097, length.out = 100), 100)
+prepplot <- prepplot[order(prepplot$log.number.bottles),]
+prepplot$nghbr.connect <- rep(seq(1,8, length.out = 100), 100)
+prepplot$est.prey.ext<-predict(lm.mod,prepplot, type="response")
+
+
+loc.all%>%
+  ggplot(aes(x=log.number.bottles,y=prey.time.2.ext, colour=interaction(as.factor(productivity),as.factor(predator))))+
+  geom_point()+#geom_smooth(method = "lm")+
+  #stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
+  scale_color_viridis(discrete = TRUE, name="Productivity and Predator")+
+  ggtitle("c)") +
+  xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
+
+loc.all%>%
+  ggplot(aes(x=nghbr.connect,y=prey.time.2.ext, colour=interaction(as.factor(productivity),as.factor(predator))))+
+  geom_point()+#geom_smooth(method = "lm")+
+  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
+  scale_color_viridis(discrete = TRUE, name="Productivity and Predator")+
+  ggtitle("c)") +
+  xlab("Connectivity")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
 
 ##################################################################################################################################
 #plotting take 2: Interactions
