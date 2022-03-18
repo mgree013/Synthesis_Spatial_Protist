@@ -1,7 +1,11 @@
-#Take 3
+#plotting predicted values from best fit models~
 ##################################################################################################################################
 ####
-#Prey Time to ext
+#Problem: It seems like its plotting same slope for all predictors. Need to switch it for specific slope of predictors
+
+#Part 1: Time to Extinction
+
+#1A)Prey Time to ext
 y<-loc.all$prey.time.2.ext
 mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
@@ -73,11 +77,8 @@ loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
-
-#
-
-####
-#Predator Time to ext
+############################################
+#1B)Predator Time to ext
 y<-loc.all$pred.time.2.ext
 mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
 summary(mod14)
@@ -153,7 +154,165 @@ loc.all%>%
   theme(legend.position = "none")
 
 plot_grid(prod.prey,pred.prey,prey.meta,prey.con,prod.pred,pred.pred,pred.meta,pred.con,nrow=2)
-#
+
+
+
+####
+#Part 2: Local Occupancy
+
+#2A)Prey Occupancy
+y <- cbind(occupnacy$prey.occupany, occupnacy$n)
+mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=occupnacy)
+
+new_data <- data.frame(productivity = factor(rep(c("0.56","0.76","1.28"), each = 400)),
+                       predator=factor(rep(c("Euplotes","Didinium"), each = 600)),
+                       log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                       nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data$prey.oc <- predict(mod14, newdata = new_data, type = "response")
+
+prey.meta<-ggplot(data = occupnacy, 
+                  aes(x = log.number.bottles, y = prey.oc)) +
+  geom_point() +
+  stat_smooth(data=new_data,method = glm,method.args = list(family = binomial(link = "logit")))+
+  ggtitle("c)") +
+  xlab("Metacommunity Size")+   ylab("Prey Occupancy")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
+
+prey.con<-ggplot(data = occupnacy, 
+                 aes(x = nghbr.connect, y = prey.oc)) +
+  geom_point() +
+  stat_smooth(data=new_data,method = glm,method.args = list(family = binomial(link = "logit")))+
+  ggtitle("d)") +
+  xlab("Connectivity")+   ylab("Prey Occupancy")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
+
+pred.prey<-occupnacy%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(predator),y=prey.oc, fill=as.factor(predator)))+
+  geom_point()+
+  geom_boxplot(data=new_data)+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("b)") +
+  ylab("Prey Occupancy")+
+  xlab("Predator Idendity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
+
+occupnacy%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(predator),y=prey.oc, fill=as.factor(predator)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("b)") +
+  ylab("Prey Occupancy")+
+  xlab("Predator Idendity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
+
+prod.prey<-occupnacy%>%
+  ggplot(aes(x=as.factor(productivity),y=prey.oc, fill=as.factor(productivity)))+
+  geom_point()+
+  geom_boxplot(data=new_data)+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("a)") +
+  ylab("Prey Occupancy")+
+  xlab("Productivity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+occupnacy%>%
+  ggplot(aes(x=as.factor(productivity),y=prey.oc, fill=as.factor(productivity)))+
+  geom_point()+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("a)") +
+  ylab("Prey Occupancy")+
+  xlab("Productivity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+############################################
+#2B)Predator Occupancy
+y <- cbind(occupnacy$pred.occupany, occupnacy$n)
+mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=binomial(link="logit"),data=occupnacy)
+summary(mod14)
+
+new_data <- data.frame(productivity = factor(rep(c("0.56","0.76","1.28"), each = 80000)),
+                       predator=factor(rep(c("Euplotes","Didinium"), each = 120000)),
+                       log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 2400), 100),
+                       nghbr.connect  = rep(seq(1, 8, length.out = 2400), 100))
+
+new_data$pred.oc <- predict(mod14, newdata = new_data, type = "response")
+
+new_data%>%ggplot( aes(x = nghbr.connect, y = pred.oc)) +
+  geom_point() +
+  geom_smooth(method="lm", colour="black")
+  
+pred.meta<-ggplot(data = occupnacy, 
+                  aes(x = log.number.bottles, y = pred.oc)) +
+  geom_point() +
+  stat_smooth(data=new_data,method = glm,method.args = list(family = binomial(link = "logit")))+
+  ggtitle("g)") +
+  xlab("Metacommunity Size")+ ylab("Predator Occupancy")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
+
+pred.con<-ggplot(data = occupnacy, 
+                 aes(x = nghbr.connect, y = pred.oc)) +
+  geom_point() +
+  geom_smooth(method="lm", colour="black")+
+  stat_smooth(data=new_data,method = glm,method.args = list(family = binomial(link = "logit")))+
+  ggtitle("h)") +
+  xlab("Connectivity")+ ylab("Predator Occupancy")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
+
+pred.pred<-occupnacy%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(predator),y=pred.oc, fill=as.factor(predator)))+
+  geom_point()+
+  geom_boxplot(data=new_data)+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("f)") +
+  ylab("Predator Occupancy")+
+  xlab("Predator Idendity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
+
+occupnacy%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(predator),y=pred.oc, fill=as.factor(predator)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("b)") +
+  ylab("Predator Occupancy")+
+  xlab("Predator Idendity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
+
+prod.pred<-occupnacy%>%
+  ggplot(aes(x=as.factor(productivity),y=pred.oc, fill=as.factor(productivity)))+
+  geom_point()+
+  geom_boxplot(data=new_data)+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("e)") +
+  ylab("Predator Occupancy")+
+  xlab("Productivity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+occupnacy%>%
+  ggplot(aes(x=as.factor(productivity),y=pred.oc, fill=as.factor(productivity)))+
+  geom_point()+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("a)") +
+  ylab("Predator Occupancy")+
+  xlab("Productivity")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+plot_grid(prod.prey,pred.prey,prey.meta,prey.con,prod.pred,pred.pred,pred.meta,pred.con,nrow=2)
+
 
 
 
