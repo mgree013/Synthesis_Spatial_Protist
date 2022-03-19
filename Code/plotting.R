@@ -1,6 +1,26 @@
 #plotting predicted values from best fit models~
 ##################################################################################################################################
 ####
+## example from Venables and Ripley (2002, pp. 190-2.)
+ldose <- rep(0:5, 2)
+numdead <- c(1, 4, 9, 13, 18, 20, 0, 2, 6, 10, 12, 16)
+sex <- factor(rep(c("M", "F"), c(6, 6)))
+SF <- cbind(numdead, numalive = 20-numdead)
+budworm.lg <- glm(SF ~ sex*ldose, family = binomial)
+summary(budworm.lg)
+
+plot(c(1,32), c(0,1), type = "n", xlab = "dose",
+     ylab = "prob", log = "x")
+text(2^ldose, numdead/20, as.character(sex))
+ld <- seq(0, 5, 0.1)
+lines(2^ld, predict(budworm.lg, data.frame(ldose = ld,
+                                           sex = factor(rep("M", length(ld)), levels = levels(sex))),
+                    type = "response"))
+lines(2^ld, predict(budworm.lg, data.frame(ldose = ld,
+                                           sex = factor(rep("F", length(ld)), levels = levels(sex))),
+                    type = "response"))
+
+
 #Problem: It seems like its plotting same slope for all predictors. Need to switch it for specific slope of predictors
 
 #Part 1: Time to Extinction
@@ -9,12 +29,15 @@
 y<-loc.all$prey.time.2.ext
 mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
+set.seed(16)
 new_data <- data.frame(productivity = factor(rep(c("0.56","0.76","1.28"), each = 400)),
                        predator=factor(rep(c("Euplotes","Didinium"), each = 600)),
                        log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
                        nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
 
 new_data$prey.time.2.ext <- predict(mod14, newdata = new_data, type = "response")
+#new_data <- predict(mod14, newdata = new_data, type = "terms")
+
 
 prey.meta<-ggplot(data = loc.all, 
        aes(x = log.number.bottles, y = prey.time.2.ext)) +
