@@ -1,20 +1,22 @@
 #plotting predicted values from best fit models~
 ##################################################################################################################################
+
 #Problem: It seems like its plotting same slope for all predictors. Need to switch it for specific slope of predictors
+#Problem 2: Level of productivity (.76) one is cuasing issues in predict. 
 
 #Part 1: Time to Extinction
 
 #1A)Prey Time to ext
 y<-loc.all$prey.time.2.ext
-mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
-
+mod14<-glm(y~log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+summary(mod14)
 set.seed(16)
 new_data <- data.frame(productivity = factor(rep(c("0.56","0.76","1.28"), each = 400)),
                        predator=factor(rep(c("Euplotes","Didinium"), each = 600)),
                        log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
                        nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
 
-new_data$prey.time.2.ext <- predict(mod14, newdata = new_data, type = "response")
+new_data$prey.time.2.ext <- predict.glm(mod14, newdata = new_data, type = "response")
 #new_data <- predict(mod14, newdata = new_data, type = "terms")
 
 
