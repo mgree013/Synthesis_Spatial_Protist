@@ -2,6 +2,11 @@
 #Author: Matthew Douglas Green; Kurt E. Anderson
 #Date: September 21, 2021
 
+#Data: 
+#1) https://datadryad.org/stash/dataset/doi:10.5061/dryad.3j9kd51kx
+#2) http://datadryad.org/stash/dataset/doi:10.5061/dryad.sc1pq
+#3) http://datadryad.org/stash/dataset/doi:10.5061/dryad.p1n86
+
 ########################################################################################################################
 library(ggplot2)
 library(tidyverse)
