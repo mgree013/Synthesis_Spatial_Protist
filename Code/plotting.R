@@ -376,10 +376,9 @@ ggplot(data = loc.all,
   stat_smooth(data=new_data_eup_128,method = glm,method.args = list(family = poisson(link = "log")), colour="#FDE725FF")+
   stat_smooth(data=new_data_did_128,method = glm,method.args = list(family = poisson(link = "log")), colour="#3CBB75FF")+
   ggtitle("h)") +
-  scale_color_viridis_d()+
   xlab("Connectivity")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+ 
-  labs(color="Predator ID and Productivity")
+  labs(color="Predator ID and Productivity")+ scale_color_viridis_d(labels = c("Didinium Low", "Euplotes Low", "Didinium Medium","Didinium High","Euplotes High"))
 
 
 ggplot(data = loc.all, 
