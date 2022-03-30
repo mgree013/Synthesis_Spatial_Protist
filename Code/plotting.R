@@ -365,21 +365,38 @@ new_data_did_128 <- data.frame(productivity = factor(rep(c("1.28"), each = 1200)
 new_data_did_128$pred.time.2.ext <- predict(mod14, newdata = new_data_did_128, type = "response")
 
 ggplot(data = loc.all, 
+       aes(x = nghbr.connect, y = pred.time.2.ext, colour=interaction(predator,productivity))) +
+  geom_point() +
+  #geom_smooth(method="lm")+
+  stat_smooth(method = glm,method.args = list(family = poisson(link = "log")), colour="black")+
+  stat_smooth(data=new_data_eup_56,method = glm,method.args = list(family = poisson(link = "log")), colour="#404788FF")+
+  stat_smooth(data=new_data_did_56,method = glm,method.args = list(family = poisson(link = "log")), colour="#440154FF")+
+  #stat_smooth(data=new_data_eup_76,method = glm,method.args = list(family = poisson(link = "log")), colour="blue")+
+  stat_smooth(data=new_data_did_76,method = glm,method.args = list(family = poisson(link = "log")), colour="#238A8DFF")+
+  stat_smooth(data=new_data_eup_128,method = glm,method.args = list(family = poisson(link = "log")), colour="#FDE725FF")+
+  stat_smooth(data=new_data_did_128,method = glm,method.args = list(family = poisson(link = "log")), colour="#3CBB75FF")+
+  ggtitle("h)") +
+  scale_color_viridis_d()+
+  xlab("Connectivity")+ ylab("Predator Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+ 
+  labs(color="Predator ID and Productivity")
+
+
+ggplot(data = loc.all, 
        aes(x = nghbr.connect, y = pred.time.2.ext)) +
   geom_point() +
   #geom_smooth(method="lm")+
-  stat_smooth(data=new_data_eup_56,method = glm,method.args = list(family = poisson(link = "log")), colour="green")+
-  stat_smooth(data=new_data_did_56,method = glm,method.args = list(family = poisson(link = "log")), colour="orange")+
-  stat_smooth(data=new_data_eup_76,method = glm,method.args = list(family = poisson(link = "log")), colour="blue")+
-  stat_smooth(data=new_data_did_76,method = glm,method.args = list(family = poisson(link = "log")), colour="black")+
-  stat_smooth(data=new_data_eup_128,method = glm,method.args = list(family = poisson(link = "log")), colour="yellow")+
-  stat_smooth(data=new_data_did_128,method = glm,method.args = list(family = poisson(link = "log")), colour="red")+
+  stat_smooth(data=new_data_eup_56,method = glm,method.args = list(family = poisson(link = "log")), colour="#404788FF")+
+  stat_smooth(data=new_data_did_56,method = glm,method.args = list(family = poisson(link = "log")), colour="#440154FF")+
+  #stat_smooth(data=new_data_eup_76,method = glm,method.args = list(family = poisson(link = "log")), colour="blue")+
+  stat_smooth(data=new_data_did_76,method = glm,method.args = list(family = poisson(link = "log")), colour="#238A8DFF")+
+  stat_smooth(data=new_data_eup_128,method = glm,method.args = list(family = poisson(link = "log")), colour="#FDE725FF")+
+  stat_smooth(data=new_data_did_128,method = glm,method.args = list(family = poisson(link = "log")), colour="#3CBB75FF")+
   ggtitle("h)") +
+  scale_color_viridis_d()+
   xlab("Connectivity")+ ylab("Predator Time to Extinction")+
-  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
-
-
-
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+ 
+  labs(color="Predator ID and Productivity")
 
 
 
