@@ -64,6 +64,7 @@ Data%>%
   facet_wrap(~interaction(replicate,year,media,structure))+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())
+
 ################################################################################################################################################################################################################
   
 #Regional
@@ -113,6 +114,7 @@ reg.all<-Data %>%
   mutate(log.number.bottles=log(number.bottles+1),log.network.syn.lap=log(network.syn.lap+1),log.total.vol=log(total.vol+1))%>%
   dplyr::distinct(newID,cv.prey,reg.pred.ext,prey.persistence,.keep_all = TRUE)
 
+cor(reg.all$log.number.bottles,reg.all$log.total.vol)
 #Regional Ext Data to add to Local data
 reg.ext<-reg.all%>%
   ungroup()%>%
@@ -165,6 +167,8 @@ loc.all<-Data %>%
   mutate(log.total.vol=log(total.vol+1))%>%
   left_join(reg.ext, by="newID")%>%
   dplyr::distinct(newBottleID,cv.prey,pred.meta.ext,bottle.number,reg.pred.ext,.keep_all = TRUE)
+
+
 ################################################################################################################################################################################################################################################################
 #Pred attack areet combos
 Pred_data<-Data%>%
