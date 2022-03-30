@@ -92,8 +92,67 @@ new_data <- data.frame(productivity = factor(rep(c("0.56","0.76","1.28"), each =
                        log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
                        nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
 
-new_data$pred.time.2.ext <- predict(mod14, newdata = new_data, type = "response")
+new_data_eup_56 <- data.frame(productivity = factor(rep(c("0.56"), each = 1200)),
+                              predator=factor(rep(c("Euplotes"), each = 1200)),
+                              log.number.bottles  = rep(seq(0, 0, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data_eup_56$pred.time.2.ext <- predict(mod14, newdata = new_data_eup_56, type = "response")
+
+new_data_eup_76 <- data.frame(productivity = factor(rep(c("0.76"), each = 1200)),
+                              predator=factor(rep(c("Euplotes"), each = 1200)),
+                              log.number.bottles  = rep(seq(0, 0, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data_eup_76$pred.time.2.ext <- predict(mod14, newdata = new_data_eup_76, type = "response")
+
+new_data_eup_128 <- data.frame(productivity = factor(rep(c("1.28"), each = 1200)),
+                              predator=factor(rep(c("Euplotes"), each = 1200)),
+                              log.number.bottles  = rep(seq(0, 0, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data_eup_128$pred.time.2.ext <- predict(mod14, newdata = new_data_eup_128, type = "response")
+
+new_data_did_56 <- data.frame(productivity = factor(rep(c("0.56"), each = 1200)),
+                       predator=factor(rep(c("Didinium"), each = 1200)),
+                       log.number.bottles  = rep(seq(0, 0, length.out = 1200), 3),
+                       nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data_did_56$pred.time.2.ext <- predict(mod14, newdata = new_data_did_56, type = "response")
+
+new_data_did_76 <- data.frame(productivity = factor(rep(c("0.76"), each = 1200)),
+                              predator=factor(rep(c("Didinium"), each = 1200)),
+                              log.number.bottles  = rep(seq(0, 0, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data_did_76$pred.time.2.ext <- predict(mod14, newdata = new_data_did_76, type = "response")
+
+new_data_did_128 <- data.frame(productivity = factor(rep(c("1.28"), each = 1200)),
+                              predator=factor(rep(c("Didinium"), each = 1200)),
+                              log.number.bottles  = rep(seq(0, 0, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data_did_128$pred.time.2.ext <- predict(mod14, newdata = new_data_did_128, type = "response")
  
+ggplot(data = loc.all, 
+                 aes(x = nghbr.connect, y = pred.time.2.ext)) +
+  geom_point() +
+  #geom_smooth(method="lm")+
+  stat_smooth(data=new_data_eup_56,method = glm,method.args = list(family = poisson(link = "log")), colour="green")+
+  stat_smooth(data=new_data_did_56,method = glm,method.args = list(family = poisson(link = "log")), colour="orange")+
+  stat_smooth(data=new_data_eup_76,method = glm,method.args = list(family = poisson(link = "log")), colour="blue")+
+  stat_smooth(data=new_data_did_76,method = glm,method.args = list(family = poisson(link = "log")), colour="black")+
+  stat_smooth(data=new_data_eup_128,method = glm,method.args = list(family = poisson(link = "log")), colour="yellow")+
+  stat_smooth(data=new_data_did_128,method = glm,method.args = list(family = poisson(link = "log")), colour="red")+
+  ggtitle("h)") +
+  xlab("Connectivity")+ ylab("Predator Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))
+
+
+
+
+
+
 
 pred.meta<-ggplot(data = loc.all, 
        aes(x = log.number.bottles, y = pred.time.2.ext)) +
