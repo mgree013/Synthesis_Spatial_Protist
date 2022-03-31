@@ -318,6 +318,8 @@ plot_grid(prod.prey,pred.prey,prey.meta,prey.con,prod.pred,pred.pred,pred.meta,p
 
 ################################################################################################################################################################################
 #Option 2: Date 03/28/2022
+
+#1)Pred time to ext: Conenctivity
 y<-loc.all$pred.time.2.ext
 mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
 summary(mod14)
@@ -364,53 +366,266 @@ new_data_did_128 <- data.frame(productivity = factor(rep(c("1.28"), each = 1200)
 
 new_data_did_128$pred.time.2.ext <- predict(mod14, newdata = new_data_did_128, type = "response")
 
-ggplot(data = loc.all, 
+pred.ext.cnt<-ggplot(data = loc.all, 
        aes(x = nghbr.connect, y = pred.time.2.ext, colour=interaction(predator,productivity))) +
   geom_point() +
   #geom_smooth(method="lm")+
   stat_smooth(method = glm,method.args = list(family = poisson(link = "log")), colour="black")+
-  stat_smooth(data=new_data_eup_56,method = glm,method.args = list(family = poisson(link = "log")), colour="#404788FF")+
-  stat_smooth(data=new_data_did_56,method = glm,method.args = list(family = poisson(link = "log")), colour="#440154FF")+
+  stat_smooth(data=new_data_did_56,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis::viridis(5)[1])+
+  stat_smooth(data=new_data_eup_56,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis::viridis(5)[2])+
   #stat_smooth(data=new_data_eup_76,method = glm,method.args = list(family = poisson(link = "log")), colour="blue")+
-  stat_smooth(data=new_data_did_76,method = glm,method.args = list(family = poisson(link = "log")), colour="#238A8DFF")+
-  stat_smooth(data=new_data_eup_128,method = glm,method.args = list(family = poisson(link = "log")), colour="#FDE725FF")+
-  stat_smooth(data=new_data_did_128,method = glm,method.args = list(family = poisson(link = "log")), colour="#3CBB75FF")+
+  stat_smooth(data=new_data_did_76,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis(5)[3])+
+  stat_smooth(data=new_data_did_128,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis(5)[4])+
+  stat_smooth(data=new_data_eup_128,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis(5)[5])+
   ggtitle("h)") +
   xlab("Connectivity")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+ 
   labs(color="Predator ID and Productivity")+ scale_color_viridis_d(labels = c("Didinium Low", "Euplotes Low", "Didinium Medium","Didinium High","Euplotes High"))
 
 
-ggplot(data = loc.all, 
-       aes(x = nghbr.connect, y = pred.time.2.ext)) +
+
+#2)Metacommunity Size
+y<-loc.all$pred.time.2.ext
+mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+summary(mod14)
+range(loc.all$log.number.bottles)
+
+new_data_eup_56 <- data.frame(productivity = factor(rep(c("0.56"), each = 1200)),
+                              predator=factor(rep(c("Euplotes"), each = 1200)),
+                              log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(0,0, length.out = 1200), 3))
+
+new_data_eup_56$pred.time.2.ext <- predict(mod14, newdata = new_data_eup_56, type = "response")
+
+new_data_eup_76 <- data.frame(productivity = factor(rep(c("0.76"), each = 1200)),
+                              predator=factor(rep(c("Euplotes"), each = 1200)),
+                              log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(0,0, length.out = 1200), 3))
+
+new_data_eup_76$pred.time.2.ext <- predict(mod14, newdata = new_data_eup_76, type = "response")
+
+new_data_eup_128 <- data.frame(productivity = factor(rep(c("1.28"), each = 1200)),
+                               predator=factor(rep(c("Euplotes"), each = 1200)),
+                               log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                               nghbr.connect  = rep(seq(0,0, length.out = 1200), 3))
+
+new_data_eup_128$pred.time.2.ext <- predict(mod14, newdata = new_data_eup_128, type = "response")
+
+new_data_did_56 <- data.frame(productivity = factor(rep(c("0.56"), each = 1200)),
+                              predator=factor(rep(c("Didinium"), each = 1200)),
+                              log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(0,0, length.out = 1200), 3))
+
+new_data_did_56$pred.time.2.ext <- predict(mod14, newdata = new_data_did_56, type = "response")
+
+new_data_did_76 <- data.frame(productivity = factor(rep(c("0.76"), each = 1200)),
+                              predator=factor(rep(c("Didinium"), each = 1200)),
+                              log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(0,0, length.out = 1200), 3))
+
+new_data_did_76$pred.time.2.ext <- predict(mod14, newdata = new_data_did_76, type = "response")
+
+new_data_did_128 <- data.frame(productivity = factor(rep(c("1.28"), each = 1200)),
+                               predator=factor(rep(c("Didinium"), each = 1200)),
+                               log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                               nghbr.connect  = rep(seq(0,0, length.out = 1200), 3))
+
+new_data_did_128$pred.time.2.ext <- predict(mod14, newdata = new_data_did_128, type = "response")
+
+pred.ext.meta<-ggplot(data = loc.all, 
+       aes(x = log.number.bottles, y = pred.time.2.ext, colour=interaction(predator,productivity))) +
   geom_point() +
   #geom_smooth(method="lm")+
-  stat_smooth(data=new_data_eup_56,method = glm,method.args = list(family = poisson(link = "log")), colour="#404788FF")+
-  stat_smooth(data=new_data_did_56,method = glm,method.args = list(family = poisson(link = "log")), colour="#440154FF")+
+  stat_smooth(method = glm,method.args = list(family = poisson(link = "log")), colour="black")+
+  stat_smooth(data=new_data_did_56,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis::viridis(5)[1])+
+  stat_smooth(data=new_data_eup_56,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis::viridis(5)[2])+
   #stat_smooth(data=new_data_eup_76,method = glm,method.args = list(family = poisson(link = "log")), colour="blue")+
-  stat_smooth(data=new_data_did_76,method = glm,method.args = list(family = poisson(link = "log")), colour="#238A8DFF")+
-  stat_smooth(data=new_data_eup_128,method = glm,method.args = list(family = poisson(link = "log")), colour="#FDE725FF")+
-  stat_smooth(data=new_data_did_128,method = glm,method.args = list(family = poisson(link = "log")), colour="#3CBB75FF")+
-  ggtitle("h)") +
-  scale_color_viridis_d()+
-  xlab("Connectivity")+ ylab("Predator Time to Extinction")+
+  stat_smooth(data=new_data_did_76,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis(5)[3])+
+  stat_smooth(data=new_data_did_128,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis(5)[4])+
+  stat_smooth(data=new_data_eup_128,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis(5)[5])+
+  ggtitle("g)") +
+  xlab("Metacommunity Size")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+ 
-  labs(color="Predator ID and Productivity")
+  labs(color="Predator ID and Productivity")+ scale_color_viridis_d(labels = c("Didinium Low", "Euplotes Low", "Didinium Medium","Didinium High","Euplotes High"))
 
 
 
+###Prey
+
+#1)Prey time to ext: Connectivity
+y<-loc.all$prey.time.2.ext
+mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+summary(mod14)
+
+new_data_eup_56 <- data.frame(productivity = factor(rep(c("0.56"), each = 1200)),
+                              predator=factor(rep(c("Euplotes"), each = 1200)),
+                              log.number.bottles  = rep(seq(0, 0, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data_eup_56$prey.time.2.ext <- predict(mod14, newdata = new_data_eup_56, type = "response")
+
+new_data_eup_76 <- data.frame(productivity = factor(rep(c("0.76"), each = 1200)),
+                              predator=factor(rep(c("Euplotes"), each = 1200)),
+                              log.number.bottles  = rep(seq(0, 0, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data_eup_76$prey.time.2.ext <- predict(mod14, newdata = new_data_eup_76, type = "response")
+
+new_data_eup_128 <- data.frame(productivity = factor(rep(c("1.28"), each = 1200)),
+                               predator=factor(rep(c("Euplotes"), each = 1200)),
+                               log.number.bottles  = rep(seq(0, 0, length.out = 1200), 3),
+                               nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data_eup_128$prey.time.2.ext <- predict(mod14, newdata = new_data_eup_128, type = "response")
+
+new_data_did_56 <- data.frame(productivity = factor(rep(c("0.56"), each = 1200)),
+                              predator=factor(rep(c("Didinium"), each = 1200)),
+                              log.number.bottles  = rep(seq(0, 0, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data_did_56$prey.time.2.ext <- predict(mod14, newdata = new_data_did_56, type = "response")
+
+new_data_did_76 <- data.frame(productivity = factor(rep(c("0.76"), each = 1200)),
+                              predator=factor(rep(c("Didinium"), each = 1200)),
+                              log.number.bottles  = rep(seq(0, 0, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data_did_76$prey.time.2.ext <- predict(mod14, newdata = new_data_did_76, type = "response")
+
+new_data_did_128 <- data.frame(productivity = factor(rep(c("1.28"), each = 1200)),
+                               predator=factor(rep(c("Didinium"), each = 1200)),
+                               log.number.bottles  = rep(seq(0, 0, length.out = 1200), 3),
+                               nghbr.connect  = rep(seq(1, 8, length.out = 1200), 3))
+
+new_data_did_128$prey.time.2.ext <- predict(mod14, newdata = new_data_did_128, type = "response")
+
+prey.ext.cnt<-ggplot(data = loc.all, 
+                    aes(x = nghbr.connect, y = prey.time.2.ext, colour=interaction(predator,productivity))) +
+  geom_point() +
+  #geom_smooth(method="lm")+
+  stat_smooth(method = glm,method.args = list(family = poisson(link = "log")), colour="black")+
+  stat_smooth(data=new_data_did_56,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis::viridis(5)[1])+
+  stat_smooth(data=new_data_eup_56,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis::viridis(5)[2])+
+  #stat_smooth(data=new_data_eup_76,method = glm,method.args = list(family = poisson(link = "log")), colour="blue")+
+  stat_smooth(data=new_data_did_76,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis(5)[3])+
+  stat_smooth(data=new_data_did_128,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis(5)[4])+
+  stat_smooth(data=new_data_eup_128,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis(5)[5])+
+  ggtitle("d)") +
+  xlab("Connectivity")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+ 
+  labs(color="Predator ID and Productivity")+ scale_color_viridis_d(labels = c("Didinium Low", "Euplotes Low", "Didinium Medium","Didinium High","Euplotes High"))
 
 
 
+#2)Metacommunity Size
+y<-loc.all$prey.time.2.ext
+mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
+summary(mod14)
+range(loc.all$log.number.bottles)
+
+new_data_eup_56 <- data.frame(productivity = factor(rep(c("0.56"), each = 1200)),
+                              predator=factor(rep(c("Euplotes"), each = 1200)),
+                              log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(0,0, length.out = 1200), 3))
+
+new_data_eup_56$prey.time.2.ext <- predict(mod14, newdata = new_data_eup_56, type = "response")
+
+new_data_eup_76 <- data.frame(productivity = factor(rep(c("0.76"), each = 1200)),
+                              predator=factor(rep(c("Euplotes"), each = 1200)),
+                              log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(0,0, length.out = 1200), 3))
+
+new_data_eup_76$prey.time.2.ext <- predict(mod14, newdata = new_data_eup_76, type = "response")
+
+new_data_eup_128 <- data.frame(productivity = factor(rep(c("1.28"), each = 1200)),
+                               predator=factor(rep(c("Euplotes"), each = 1200)),
+                               log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                               nghbr.connect  = rep(seq(0,0, length.out = 1200), 3))
+
+new_data_eup_128$prey.time.2.ext <- predict(mod14, newdata = new_data_eup_128, type = "response")
+
+new_data_did_56 <- data.frame(productivity = factor(rep(c("0.56"), each = 1200)),
+                              predator=factor(rep(c("Didinium"), each = 1200)),
+                              log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(0,0, length.out = 1200), 3))
+
+new_data_did_56$prey.time.2.ext <- predict(mod14, newdata = new_data_did_56, type = "response")
+
+new_data_did_76 <- data.frame(productivity = factor(rep(c("0.76"), each = 1200)),
+                              predator=factor(rep(c("Didinium"), each = 1200)),
+                              log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                              nghbr.connect  = rep(seq(0,0, length.out = 1200), 3))
+
+new_data_did_76$prey.time.2.ext <- predict(mod14, newdata = new_data_did_76, type = "response")
+
+new_data_did_128 <- data.frame(productivity = factor(rep(c("1.28"), each = 1200)),
+                               predator=factor(rep(c("Didinium"), each = 1200)),
+                               log.number.bottles  = rep(seq(1.098612, 3.258097, length.out = 1200), 3),
+                               nghbr.connect  = rep(seq(0,0, length.out = 1200), 3))
+
+new_data_did_128$prey.time.2.ext <- predict(mod14, newdata = new_data_did_128, type = "response")
+
+prey.ext.meta<-ggplot(data = loc.all, 
+                      aes(x = log.number.bottles, y = prey.time.2.ext, colour=interaction(predator,productivity))) +
+  geom_point() +
+  #geom_smooth(method="lm")+
+  stat_smooth(method = glm,method.args = list(family = poisson(link = "log")), colour="black")+
+  stat_smooth(data=new_data_did_56,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis::viridis(5)[1])+
+  stat_smooth(data=new_data_eup_56,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis::viridis(5)[2])+
+  #stat_smooth(data=new_data_eup_76,method = glm,method.args = list(family = poisson(link = "log")), colour="blue")+
+  stat_smooth(data=new_data_did_76,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis(5)[3])+
+  stat_smooth(data=new_data_did_128,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis(5)[4])+
+  stat_smooth(data=new_data_eup_128,method = glm,method.args = list(family = poisson(link = "log")), colour=viridis(5)[5])+
+  ggtitle("c)") +
+  xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+ 
+  labs(color="Predator ID and Productivity")+ scale_color_viridis_d(labels = c("Didinium Low", "Euplotes Low", "Didinium Medium","Didinium High","Euplotes High"))
+
+
+plot_grid(prey.ext.meta,prey.ext.cnt,pred.ext.meta,pred.ext.cnt, nrow=2)
 ################################################################################################################################################################################
 
 
 
+prey.ext.meta.1<-ggplot(data = loc.all, 
+                      aes(x = log.number.bottles, y = prey.time.2.ext, colour=interaction(predator,productivity))) +
+  geom_point() +
+  stat_smooth(method = glm,method.args = list(family = poisson(link = "log")),fullrange = T)+
+  ggtitle("c)") +
+  xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+ 
+  labs(color="Predator ID and Productivity")+ scale_color_viridis_d(labels = c("Didinium Low", "Euplotes Low", "Didinium Medium","Didinium High","Euplotes High"))
+
+prey.ext.cnt.1<-ggplot(data = loc.all, 
+                        aes(x = nghbr.connect, y = pred.time.2.ext, colour=interaction(predator,productivity))) +
+  geom_point() +
+  stat_smooth(method = glm,method.args = list(family = poisson(link = "log")),fullrange = T)+
+  ggtitle("d)") +
+  xlab("Connectivity")+ ylab("Prey Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+ 
+  labs(color="Predator ID and Productivity")+ scale_color_viridis_d(labels = c("Didinium Low", "Euplotes Low", "Didinium Medium","Didinium High","Euplotes High"))
 
 
+pred.ext.meta.1<-ggplot(data = loc.all, 
+                        aes(x = log.number.bottles, y = prey.time.2.ext, colour=interaction(predator,productivity))) +
+  geom_point() +
+  stat_smooth(method = glm,method.args = list(family = poisson(link = "log")),fullrange = T)+
+  ggtitle("g)") +
+  xlab("Metacommunity Size")+ ylab("Predator Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+ 
+  labs(color="Predator ID and Productivity")+ scale_color_viridis_d(labels = c("Didinium Low", "Euplotes Low", "Didinium Medium","Didinium High","Euplotes High"))
+
+pred.ext.cnt.1<-ggplot(data = loc.all, 
+                       aes(x = nghbr.connect, y = pred.time.2.ext, colour=interaction(predator,productivity))) +
+  geom_point() +
+  stat_smooth(method = glm,method.args = list(family = poisson(link = "log")),fullrange = T)+
+  ggtitle("h)") +
+  xlab("Connectivity")+ ylab("Predator Time to Extinction")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+ 
+  labs(color="Predator ID and Productivity")+ scale_color_viridis_d(labels = c("Didinium Low", "Euplotes Low", "Didinium Medium","Didinium High","Euplotes High"))
 
 
-
+plot_grid(prey.ext.meta.1,prey.ext.cnt.1,pred.ext.meta.1,pred.ext.cnt.1, nrow=2)
 
 #Prey.ext
 library(jtools)
