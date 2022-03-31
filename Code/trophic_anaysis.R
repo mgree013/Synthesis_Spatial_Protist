@@ -68,6 +68,11 @@ loc.all.plot<-loc.all%>%
 loc.all.plot$productivity = factor(loc.all.plot$productivity, levels=c('Low','Medium','High'))
 loc.all.plot$pred.attack = factor(loc.all.plot$pred.attack, levels=c('Euplotes-Tetrahymena','Didinium-Colpidium','Didinium-Paramecium'))
 
+loc.all.plot <- transform(
+  loc.all.plot, 
+  Nester = ifelse(pred.attack == "Euplotes-Tetrahymena", "Predator-Prey", "Predator-Prey"),
+  Nester.2 = ifelse(productivity == "Low", "Productivity", "Productivity"))
+
 loc.all.plot%>%
   ggplot(aes(x=pred.oc,y=prey.oc, colour=interaction(productivity,pred.attack)))+
   geom_point()+
@@ -83,8 +88,7 @@ loc.all.plot%>%
   scale_color_viridis(discrete = TRUE)+
   xlab("Predator Occupancy")+ylab("Prey Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+facet_grid(pred.attack~productivity)+ theme(strip.text.y = element_text(face = "italic"))
-
+  theme(legend.position = "none")+ theme(strip.text.y = element_text(face = "italic"))+facet_nested(Nester+ pred.attack~ Nester.2+ productivity)
   
 #take2
 d1<-did_para_high%>%
