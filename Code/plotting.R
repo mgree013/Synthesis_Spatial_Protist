@@ -627,6 +627,15 @@ pred.ext.cnt.1<-ggplot(data = loc.all,
 
 plot_grid(prey.ext.meta.1,prey.ext.cnt.1,pred.ext.meta.1,pred.ext.cnt.1, nrow=2)
 
+
+
+
+
+
+
+
+
+#######
 #Prey.ext
 library(jtools)
 y<-loc.all$prey.time.2.ext
