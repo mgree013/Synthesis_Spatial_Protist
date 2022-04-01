@@ -254,7 +254,7 @@ mod12<-glm(y~as.factor(productivity)+nghbr.connect+as.factor(predator),family=po
 mod13<-glm(y~log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
 
 mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator),family=poisson(link="log"),data=loc.all)
-
+summary(mod14)
 nullmod<-glm(y~1,family=poisson(link="log"),data=loc.all)
 
 reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)

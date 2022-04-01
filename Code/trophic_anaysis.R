@@ -88,7 +88,7 @@ loc.all.plot%>%
   scale_color_viridis(discrete = TRUE)+
   xlab("Predator Occupancy")+ylab("Prey Occupancy")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")+ theme(strip.text.y = element_text(face = "italic"))+facet_nested(Nester+ pred.attack~ Nester.2+ productivity)
+  theme(legend.position = "none")+facet_nested(Nester+ pred.attack~ Nester.2+ productivity)+ theme(strip.text.y = element_text(face = "italic"))
   
 #take2
 d1<-did_para_high%>%
