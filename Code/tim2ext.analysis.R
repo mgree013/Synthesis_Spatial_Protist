@@ -100,7 +100,7 @@ e5<-loc.all%>%
 
 e2<-loc.all%>%
   filter(number.bottles>1)%>%
-  ggplot(aes(x=log.number.bottles,y=prey.time.2.ext, colour=interaction(productivity,predator)))+
+  ggplot(aes(x=log.number.bottles,y=prey.time.2.ext))+
   geom_point()+#geom_smooth(method = "lm")+
   stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
   scale_color_viridis(discrete = TRUE)+

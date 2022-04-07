@@ -334,7 +334,7 @@ a<-Ext_col_data_network%>%
   ggplot(aes(x=log.number.bottles,y=prey.oc))+ 
   geom_point()+
   ggtitle("c)") +
-  geom_smooth(method = "lm",se=F)+
+  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -344,7 +344,7 @@ b<-Ext_col_data_network%>%
   ggplot(aes(x=log.network.syn.lap,y=prey.oc))+ 
   geom_point()+
   ggtitle("d)") +
-  geom_smooth(method = "lm",se=F)+
+  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Network Synchrony",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -355,7 +355,7 @@ c<-Ext_col_data_network%>%
   geom_point()+
   #ggtitle("d)") +
   ggtitle("d)") +
-  geom_smooth(method = "lm",se=F)+
+  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -366,7 +366,7 @@ d<-Ext_col_data_network%>%
   geom_point()+
   #ggtitle("f)") +
   ggtitle("g)") +
-  geom_smooth(method = "lm",se=F)+
+  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -376,7 +376,7 @@ e<-Ext_col_data_network%>%
   ggplot(aes(x=log.network.syn.lap,y=pred.oc))+ 
   geom_point()+
   ggtitle("i)") +
-  geom_smooth(method = "lm",se=F)+
+  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Network Synchrony",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -387,7 +387,7 @@ f<-Ext_col_data_network%>%
   geom_point()+
   #ggtitle("h)") +
   ggtitle("h)") +
-  geom_smooth(method = "lm",se=F)+
+  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
