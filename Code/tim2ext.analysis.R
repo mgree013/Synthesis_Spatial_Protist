@@ -102,7 +102,7 @@ e2<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=log.number.bottles,y=prey.time.2.ext))+
   geom_point()+#geom_smooth(method = "lm")+
-  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
+  stat_smooth(method="glm", method.args=list(family=poisson(link="log")), se=FALSE) +
   scale_color_viridis(discrete = TRUE)+
   ggtitle("c)") +
   xlab("Metacommunity Size")+ ylab("Prey Time to Extinction")+
@@ -113,7 +113,7 @@ e4<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=nghbr.connect,y=prey.time.2.ext))+
   geom_point()+#geom_smooth(method = "lm")+
-  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
+  stat_smooth(method="glm", method.args=list(family=poisson(link="log")), se=FALSE) +
   scale_color_viridis(discrete = TRUE)+
   #ggtitle("d)") +
   ggtitle("d)") +
@@ -125,7 +125,7 @@ e6<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=log.number.bottles,y=pred.time.2.ext))+
   geom_point()+#geom_smooth(method = "lm")+
-  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
+  stat_smooth(method="glm", method.args=list(family=poisson(link="log")), se=FALSE) +
   scale_color_viridis(discrete = TRUE)+
   #ggtitle("f)") +
   ggtitle("g)") +
@@ -137,7 +137,7 @@ e8<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=nghbr.connect,y=pred.time.2.ext))+
   geom_point()+#geom_smooth(method = "lm")+
-  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
+  stat_smooth(method="glm", method.args=list(family=poisson(link="log")), se=FALSE) +
   scale_color_viridis(discrete = TRUE)+
   #ggtitle("h)") +
   ggtitle("h)") +
