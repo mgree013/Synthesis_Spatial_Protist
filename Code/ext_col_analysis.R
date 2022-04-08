@@ -66,11 +66,9 @@ a<-Ext_col_data%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
-
 c<-Ext_col_data%>%
   ggplot(aes(x=nghbr.connect,y=extinction_prob_prey,weight=extinction_potenital_prey))+ 
   geom_point()+
-  #ggtitle("d)") +
   ggtitle("d)") +
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
   scale_color_viridis_d()+
@@ -78,10 +76,9 @@ c<-Ext_col_data%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
-d<-Ext_col_data%>%
+d<-Ext_col_data%>% #prob
   ggplot(aes(x=log.number.bottles,y=extinction_prob_pred,weight=extinction_potenital_pred))+ 
   geom_point()+
-  #ggtitle("f)") +
   ggtitle("g)") +
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
   scale_color_viridis_d()+
@@ -90,9 +87,8 @@ d<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 f<-Ext_col_data%>%
-  ggplot(aes(x=nghbr.connect,y=extinction_prob_pred,,weight=extinction_potenital_prey))+ 
+  ggplot(aes(x=nghbr.connect,y=extinction_prob_pred,weight=extinction_potenital_pred))+ 
   geom_point()+
-  #ggtitle("h)") +
   ggtitle("h)") +
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
   scale_color_viridis_d()+
@@ -103,7 +99,6 @@ f<-Ext_col_data%>%
 pred.ext.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=extinction_prob_pred,fill=as.factor(productivity)))+ 
   geom_boxplot()+
-  #ggtitle("e)") +
   ggtitle("e)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Productivity",y="Predator Exctinction Probability")+
@@ -122,7 +117,6 @@ prey.ext.plot<-Ext_col_data%>%
 pred.ext.atk.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(predator),y=extinction_prob_pred,fill=as.factor(predator)))+ 
   geom_boxplot()+
-  #ggtitle("e)") +
   ggtitle("f)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Predator Identity",y="Predator Exctinction Probability")+
@@ -145,7 +139,6 @@ plot_grid(prey.ext.plot,prey.ext.atk.plot,a,c,pred.ext.plot,pred.ext.atk.plot,d,
 pred.col.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=colonization_prob_pred,fill=as.factor(productivity)))+ 
   geom_boxplot()+
-  #ggtitle("e)") +
   ggtitle("e)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Productivity",y="Predator Colonization Probability")+
@@ -164,7 +157,6 @@ prey.col.plot<-Ext_col_data%>%
 pred.col.atk.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(predator),y=colonization_prob_pred,fill=as.factor(predator)))+ 
   geom_boxplot()+
-  #ggtitle("e)") +
   ggtitle("f)") +
   scale_fill_viridis(discrete=T)+
   labs(x="Predator Identity",y="Predator Colonization Probability")+
@@ -194,7 +186,6 @@ a<-Ext_col_data%>%
 c<-Ext_col_data%>%
   ggplot(aes(x=nghbr.connect,y=colonization_prob_prey,weight=colonization_potenital_prey))+ 
   geom_point()+
-  #ggtitle("d)") +
   ggtitle("d)") +
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
   scale_color_viridis_d()+
@@ -203,9 +194,8 @@ c<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 d<-Ext_col_data%>%
-  ggplot(aes(x=log.number.bottles,y=colonization_prob_pred,weight=colonization_potenital_pred))+ 
+  ggplot(aes(x=log.number.bottles,y=colonization_prob_pred))+#,weight=colonization_potenital_pred))+ 
   geom_point()+
-  #ggtitle("f)") +
   ggtitle("g)") +
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
   scale_color_viridis_d()+
@@ -214,9 +204,8 @@ d<-Ext_col_data%>%
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 f<-Ext_col_data%>%
-  ggplot(aes(x=nghbr.connect,y=colonization_prob_pred,weight=colonization_potenital_pred))+ 
+  ggplot(aes(x=nghbr.connect,y=colonization_prob_pred))+#,weight=colonization_potenital_pred))+ 
   geom_point()+
-  #ggtitle("h)") +
   ggtitle("h)") +
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
   scale_color_viridis_d()+

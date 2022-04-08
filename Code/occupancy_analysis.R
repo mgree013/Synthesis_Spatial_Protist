@@ -29,7 +29,6 @@ a<-occupnacy%>%
   ggplot(aes(x=log.number.bottles,y=prey.oc,weight=n))+ 
   geom_point()+
   ggtitle("c)") +
-  #geom_smooth(method = "lm",se=F)+
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Prey Occupancy")+
@@ -39,10 +38,8 @@ a<-occupnacy%>%
 c<-occupnacy%>%
   ggplot(aes(x=nghbr.connect,y=prey.oc,weight=n))+ 
   geom_point()+
-  #ggtitle("d)") +
   ggtitle("d)") +
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
-  #geom_smooth(method = "lm",se=F)+
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -51,9 +48,7 @@ c<-occupnacy%>%
 d<-occupnacy%>%
   ggplot(aes(x=log.number.bottles,y=pred.oc,weight=n))+ 
   geom_point()+
-  #ggtitle("f)") +
   ggtitle("g)") +
-  #geom_smooth(method = "lm",se=F)+
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Predator Occupancy")+
@@ -63,9 +58,7 @@ d<-occupnacy%>%
 f<-occupnacy%>%
   ggplot(aes(x=nghbr.connect,y=pred.oc,weight=n))+ 
   geom_point()+
-  #ggtitle("h)") +
   ggtitle("h)") +
-  #geom_smooth(method = "lm",se=F)+
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Nearest Neighboor Connectivity",y="Predator Occupancy")+
@@ -73,10 +66,8 @@ f<-occupnacy%>%
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
 op1<-occupnacy%>%
-  filter(connectivity.x>0)%>%
   ggplot(aes(x=as.factor(productivity),y=pred.oc,fill=as.factor(productivity)))+ 
   geom_boxplot()+
-  #ggtitle("e)") +
   ggtitle("e)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Productivity (g)",y="Predator Occupancy")+
@@ -84,7 +75,6 @@ op1<-occupnacy%>%
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 op2<-occupnacy%>%
-  filter(connectivity.x>0)%>%
   ggplot(aes(x=as.factor(productivity),y=prey.oc,fill=as.factor(productivity)))+ 
   geom_boxplot()+
   ggtitle("a)") +
@@ -94,10 +84,8 @@ op2<-occupnacy%>%
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
 opp1<-occupnacy%>%
-  filter(connectivity.x>0)%>%
   ggplot(aes(x=as.factor(predator),y=pred.oc,fill=as.factor(predator)))+ 
   geom_boxplot()+
-  #ggtitle("e)") +
   ggtitle("f)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Predator Identity",y="Predator Occupancy")+
@@ -105,7 +93,6 @@ opp1<-occupnacy%>%
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
 opp2<-occupnacy%>%
-  filter(connectivity.x>0)%>%
   ggplot(aes(x=as.factor(predator),y=prey.oc,fill=as.factor(predator)))+ 
   geom_boxplot()+
   ggtitle("b)") +
@@ -279,7 +266,6 @@ pred.a<-Ext_col_data_network%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=as.factor(productivity),y=pred.oc,fill=as.factor(productivity)))+ 
   geom_boxplot()+
-  #ggtitle("e)") +
   ggtitle("e)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Productivity (g)",y="Predator Occupancy")+
@@ -300,7 +286,6 @@ pred.atk.a<-Ext_col_data_network%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=as.factor(predator),y=pred.oc,fill=as.factor(predator)))+ 
   geom_boxplot()+
-  #ggtitle("e)") +
   ggtitle("f)") +
   scale_fill_viridis(discrete = TRUE)+
   labs(x="Predator Identity",y="Predator Occupancy")+
@@ -321,7 +306,6 @@ a<-Ext_col_data_network%>%
 c<-Ext_col_data_network%>%
   ggplot(aes(x=av.nghbr.connect,y=prey.oc,weight=n))+ 
   geom_point()+
-  #ggtitle("d)") +
   ggtitle("d)") +
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
   scale_color_viridis_d()+
@@ -332,7 +316,6 @@ c<-Ext_col_data_network%>%
 d<-Ext_col_data_network%>%
   ggplot(aes(x=log.number.bottles,y=pred.oc,weight=n))+ 
   geom_point()+
-  #ggtitle("f)") +
   ggtitle("g)") +
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
   scale_color_viridis_d()+
@@ -343,7 +326,6 @@ d<-Ext_col_data_network%>%
 f<-Ext_col_data_network%>%
   ggplot(aes(x=av.nghbr.connect,y=pred.oc,weight=n))+ 
   geom_point()+
-  #ggtitle("h)") +
   ggtitle("h)") +
   stat_smooth(method="glm", method.args=list(family=binomial(link = "logit")), se=FALSE) +
   scale_color_viridis_d()+
