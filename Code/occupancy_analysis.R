@@ -26,24 +26,13 @@ occupnacy$productivity<-as.factor(occupnacy$productivity)
 ########################################################################
 #Plots
 a<-occupnacy%>%
-  ggplot(aes(x=log.number.bottles,y=prey.oc, weight=(n)))+ 
+  ggplot(aes(x=log.number.bottles,y=prey.oc))+ 
   geom_point()+
   ggtitle("c)") +
   #geom_smooth(method = "lm",se=F)+
-  stat_smooth(method = "glm", method.args = list(family = "binomial"))+  
+  stat_smooth(method = "glm", formula=cbind(occupnacy$prey.oc, occupnacy$n) ~ occupnacy$log.number.bottles, method.args = list(family = "binomial"))+  
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Prey Occupancy")+
-  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
-
-b<-occupnacy%>%
-  ggplot(aes(x=log.network.syn.lap,y=prey.oc))+ 
-  geom_point()+
-  ggtitle("b)") +
-  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
-  #geom_smooth(method = "lm",se=F)+
-  scale_color_viridis_d()+
-  labs(x="Network Synchrony",y="Prey Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
@@ -68,17 +57,6 @@ d<-occupnacy%>%
   stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Predator Occupancy")+
-  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
-
-e<-occupnacy%>%
-  ggplot(aes(x=log.network.syn.lap,y=pred.oc))+ 
-  geom_point()+
-  ggtitle("e)") +
-  #geom_smooth(method = "lm",se=F)+
-  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
-  scale_color_viridis_d()+
-  labs(x="Network Synchrony",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
@@ -340,16 +318,6 @@ a<-Ext_col_data_network%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
-b<-Ext_col_data_network%>%
-  ggplot(aes(x=log.network.syn.lap,y=prey.oc))+ 
-  geom_point()+
-  ggtitle("d)") +
-  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
-  scale_color_viridis_d()+
-  labs(x="Network Synchrony",y="Prey Occupancy")+
-  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
-
 c<-Ext_col_data_network%>%
   ggplot(aes(x=av.nghbr.connect,y=prey.oc))+ 
   geom_point()+
@@ -369,16 +337,6 @@ d<-Ext_col_data_network%>%
   stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
   scale_color_viridis_d()+
   labs(x="Metacommunity Size",y="Predator Occupancy")+
-  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
-
-e<-Ext_col_data_network%>%
-  ggplot(aes(x=log.network.syn.lap,y=pred.oc))+ 
-  geom_point()+
-  ggtitle("i)") +
-  stat_smooth(method="glm", method.args=list(family="binomial"), se=FALSE) +
-  scale_color_viridis_d()+
-  labs(x="Network Synchrony",y="Predator Occupancy")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 

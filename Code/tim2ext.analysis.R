@@ -109,17 +109,6 @@ e2<-loc.all%>%
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
-e3<-loc.all%>%
-  filter(number.bottles>1)%>%
-  ggplot(aes(x=log.network.syn.lap,y=prey.time.2.ext))+
-  geom_point()+#geom_smooth(method = "lm")+
-  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
-  scale_color_viridis(discrete = TRUE)+
-  ggtitle("d)") +
-  xlab("Network Synchrony")+ ylab("Prey Time to Extinction")+
-  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")
-
 e4<-loc.all%>%
   filter(number.bottles>1)%>%
   ggplot(aes(x=nghbr.connect,y=prey.time.2.ext))+
@@ -141,17 +130,6 @@ e6<-loc.all%>%
   #ggtitle("f)") +
   ggtitle("g)") +
   xlab("Metacommunity Size")+ ylab("Predator Time to Extinction")+
-  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
-  theme(legend.position = "none")
-
-e7<-loc.all%>%
-  filter(number.bottles>1)%>%
-  ggplot(aes(x=log.network.syn.lap,y=pred.time.2.ext))+
-  geom_point()+#geom_smooth(method = "lm")+
-  stat_smooth(method="glm", method.args=list(family="poisson"), se=FALSE) +
-  scale_color_viridis(discrete = TRUE)+
-  ggtitle("i)") +
-  xlab("Network Synchrony")+ ylab("Predator Time to Extinction")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")
 
