@@ -4,7 +4,7 @@ Title: Synthesizing the Effects of Spatial Network Structure on Predator Prey Dy
 
 Authors: Matthew D. Green, Clara Woodie, Megan Whitesell, Sean Hayes, and Kurt E. Anderson
 
-Status of MS: In prep
+Status of MS: Submitted Frontiers in Ecology and Evolution
 
 # Methods
 
