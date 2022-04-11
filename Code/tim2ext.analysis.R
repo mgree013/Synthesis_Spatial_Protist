@@ -59,7 +59,7 @@ p1<-loc.all%>%
   scale_fill_viridis(discrete=T)+
   ggtitle("b)") +
   ylab("Prey Time to Extinction")+
-  xlab("Predator Idendity")+
+  xlab("Predator Identity")+
   theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
   theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
