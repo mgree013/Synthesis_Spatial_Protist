@@ -7,6 +7,7 @@
 #2) http://datadryad.org/stash/dataset/doi:10.5061/dryad.sc1pq
 #3) http://datadryad.org/stash/dataset/doi:10.5061/dryad.p1n86
 
+
 ########################################################################################################################
 #Load Libraries
 
@@ -171,11 +172,5 @@ loc.all<-Data %>%
   left_join(reg.ext, by="newID")%>%
   dplyr::distinct(newBottleID,cv.prey,pred.meta.ext,bottle.number,reg.pred.ext,.keep_all = TRUE)
 
-
-################################################################################################################################################################################################################################################################
-#Pred attack areet combos
-Pred_data<-Data%>%
-  dplyr::select(c(Pred.attack.rate,prey,predator))%>%
-  dplyr::distinct(Pred.attack.rate,prey,predator,.keep_all = FALSE)
 
 #############################################################################################################################
