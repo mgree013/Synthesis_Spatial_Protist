@@ -20,6 +20,9 @@ Status of MS: Submitted Frontiers in Ecology and Evolution
 ### Figure 6: Colonization and Extinction Dynamics of Predator and Prey Occupancy
 ![](Figs/Fig6.png)
 
+### Figure 7: Bottom up and Top Down Effects
+![](Figs/Fig7.final.png)
+
 ### Supplementary Figures
 
 # Fig S1
