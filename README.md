@@ -15,10 +15,10 @@ Status of MS: Submitted Frontiers in Ecology and Evolution
 # Results
 
 ### Figure 2: Occupancy Dynamcis of Predators and Prey
-![](Figs/Fig2.png)
+![](Figs/Fig2.final.png)
 
 ### Figure 6: Colonization and Extinction Dynamics of Predator and Prey Occupancy
-![](Figs/Fig6..png)
+![](Figs/Fig6.png)
 
 ### Supplementary Figures
 
