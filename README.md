@@ -19,3 +19,9 @@ Status of MS: Submitted Frontiers in Ecology and Evolution
 
 ### Figure 6: Colonization and Extinction Dynamics of Predator and Prey Occupancy
 ![](Figs/Fig6..png)
+
+### Supplementary Figures
+
+# Fig S1
+![](Figs/FigS1.png)
+
