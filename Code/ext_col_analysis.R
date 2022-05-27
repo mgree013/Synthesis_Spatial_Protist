@@ -55,6 +55,71 @@ Ext_col_data<-Ext_col_data%>%
   filter(nghbr.connect>0)
 Ext_col_data$log.network.syn.lap
 
+Ext_col_data<-Ext_col_data%>%
+  mutate(Local_volume=if_else(year=="2010" , "32mL",if_else(year =="1996" ,"32mL","50mL")))
+
+supp.b<-Ext_col_data%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(Local_volume),y=extinction_prob_prey, fill=as.factor(Local_volume)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  #ggtitle("e)") +
+  ggtitle("b)") +
+  ylab("Extinction Probability of Prey")+
+  xlab("Local Volume Size")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+plot_grid(supp.a, supp.b)
+
+dog<-aov(extinction_prob_prey~as.factor(Local_volume),Ext_col_data)
+summary(dog)
+
+Ext_col_data%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(Local_volume),y=extinction_prob_pred, fill=as.factor(Local_volume)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  #ggtitle("e)") +
+  ggtitle("a)") +
+  ylab("Prey Occupancy")+
+  xlab("Local Volume Size")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+dog<-aov(extinction_prob_pred~as.factor(Local_volume),Ext_col_data)
+summary(dog)
+
+Ext_col_data%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(Local_volume),y=colonization_prob_prey, fill=as.factor(Local_volume)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  #ggtitle("e)") +
+  ggtitle("a)") +
+  ylab("Prey Occupancy")+
+  xlab("Local Volume Size")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+dog<-aov(colonization_prob_prey~as.factor(Local_volume),Ext_col_data)
+summary(dog)
+
+Ext_col_data%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(Local_volume),y=colonization_prob_pred, fill=as.factor(Local_volume)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  #ggtitle("e)") +
+  ggtitle("a)") +
+  ylab("Prey Occupancy")+
+  xlab("Local Volume Size")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+dog<-aov(colonization_prob_pred~as.factor(Local_volume),Ext_col_data)
+summary(dog)
+
 #EXT PLOTS
 a<-Ext_col_data%>%
   ggplot(aes(x=log.number.bottles,y=extinction_prob_prey,weight=extinction_potenital_prey))+ 

@@ -23,6 +23,23 @@ occupnacy<-newer_pa_datas%>%
 
 occupnacy$productivity<-as.factor(occupnacy$productivity)
 
+occupnacy<-occupnacy%>%
+  mutate(Local_volume=if_else(year=="2010" , "32mL",if_else(year =="1996" ,"32mL","50mL")))
+
+supp.a<-occupnacy%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(Local_volume),y=prey.oc, fill=as.factor(Local_volume)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  #ggtitle("e)") +
+  ggtitle("a)") +
+  ylab("Prey Occupancy")+
+  xlab("Local Volume Size")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+dog<-aov(prey.oc~as.factor(Local_volume),occupnacy)
+summary(dog)
 ########################################################################
 #Plots
 a<-occupnacy%>%

@@ -49,6 +49,9 @@ loc.all<-Data %>%
 
 loc.all$pred.prey.prod<-as.factor(loc.all$pred.prey.prod)
 levels(loc.all$pred.prey.prod)
+
+loc.all<-loc.all%>%
+  mutate(Local_volume=if_else(year=="2010" , "32mL",if_else(year =="1996" ,"32mL","50mL")))
 ####################################################################################################################################
 
 #Time to Ext Figs
@@ -147,6 +150,21 @@ e8<-loc.all%>%
 
 plot_grid(e1,p1,e2,e4,e5,p5,e6,e8, nrow=2)
 
+
+loc.all%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(Local_volume),y=prey.time.2.ext, fill=as.factor(Local_volume)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  #ggtitle("e)") +
+  ggtitle("e)") +
+  ylab("Predator Time to Extinction")+
+  xlab("Local Volume Size")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
+
+dog<-aov(prey.time.2.ext~as.factor(Local_volume),loc.all)
+summary(dog)
 ####################################################################################################################################
 #GLMS
 
@@ -158,7 +176,8 @@ mod0<-glm(y~as.factor(productivity),family=poisson(link="log"),data=loc.all)
 mod1<-glm(y~log.number.bottles,family=poisson(link="log"),data=loc.all)
 mod2<-glm(y~nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod3<-glm(y~as.factor(predator),family=poisson(link="log"),data=loc.all)
-
+mod15<-glm(y~as.factor(data_source),family=poisson(link="log"),data=loc.all)
+summary(mod15)
 mod4<-glm(y~as.factor(productivity)+log.number.bottles,family=poisson(link="log"),data=loc.all)
 mod5<-glm(y~as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod6<-glm(y~as.factor(productivity)+as.factor(predator),family=poisson(link="log"),data=loc.all)
@@ -218,6 +237,8 @@ mod0<-glm(y~as.factor(productivity),family=poisson(link="log"),data=loc.all)
 mod1<-glm(y~log.number.bottles,family=poisson(link="log"),data=loc.all)
 mod2<-glm(y~nghbr.connect,family=poisson(link="log"),data=loc.all)
 mod3<-glm(y~as.factor(predator),family=poisson(link="log"),data=loc.all)
+mod15<-glm(y~as.factor(data_source),family=poisson(link="log"),data=loc.all)
+summary(mod15)
 
 mod4<-glm(y~as.factor(productivity)+log.number.bottles,family=poisson(link="log"),data=loc.all)
 mod5<-glm(y~as.factor(productivity)+nghbr.connect,family=poisson(link="log"),data=loc.all)
@@ -235,7 +256,7 @@ mod14<-glm(y~as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(
 summary(mod14)
 nullmod<-glm(y~1,family=poisson(link="log"),data=loc.all)
 
-reported.table2 <- bbmle::AICtab(mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
+reported.table2 <- bbmle::AICtab(mod15,mod0,mod1,mod2,mod3,mod4,mod5,mod6,mod7,mod8,mod9,mod10,mod11,mod12,mod13,mod14,nullmod,weights = TRUE, sort = F)
 reported.table2
 
 plot_model(mod14)
