@@ -17,7 +17,7 @@ fixef(S_m_alpha_4stu)
 #
 y<-loc.all$prey.time.2.ext
 mod14<-glm(y~,family=poisson(link="log"),data=loc.all)
-###Time to Ext prey analysis
+###Time to Ext prey analysis ######
 
 S_m_alpha_4stu <- brm(y ~ as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator) +
                         (Treatment | Study) + (1 | site.id / Block),
@@ -29,4 +29,4 @@ S_m_alpha_4stu <- brm(y ~ as.factor(productivity)+log.number.bottles+nghbr.conne
                         prior('normal(0,1)', class = 'sd'),
                         prior('normal(0,1)', class = 'b')),
                       control = list(adapt_delta = 0.99, max_treedepth = 12))
-fixef(S_m_alpha_4stu)s
+fixef(S_m_alpha_4stu)
