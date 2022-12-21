@@ -1,5 +1,6 @@
 install.packages("brms")
 library(brms)
+library(tidyverse)
 
 ##### S model #######
 S_m_alpha_4stu <- brm(S ~ Treatment + (Treatment | Study) +
@@ -19,10 +20,10 @@ y<-loc.all$prey.time.2.ext
 mod14<-glm(y~,family=poisson(link="log"),data=loc.all)
 ###Time to Ext prey analysis ######
 
-S_m_alpha_4stu <- brm(y ~ as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator) +
-                        (Treatment | Study) + (1 | site.id / Block),
+S_m_alpha_4stu <- brm(prey.time.2.ext ~ as.factor(productivity)+log.number.bottles+nghbr.connect+as.factor(predator) +
+                        (newID | year) + (1 | structure / replicate),
                       family = 'poisson', #Poisson because S are integer values at alpha-scale
-                      data = alpha_data_4stu,
+                      data = loc.all,
                       cores = 4, chains = 4,
                       iter = 4000,
                       prior = c(
@@ -30,3 +31,4 @@ S_m_alpha_4stu <- brm(y ~ as.factor(productivity)+log.number.bottles+nghbr.conne
                         prior('normal(0,1)', class = 'b')),
                       control = list(adapt_delta = 0.99, max_treedepth = 12))
 fixef(S_m_alpha_4stu)
+summary(S_m_alpha_4stu)
