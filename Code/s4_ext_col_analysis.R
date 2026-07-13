@@ -224,6 +224,7 @@ pred.col.plot<-Ext_col_data%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")
 
+
 prey.col.plot<-Ext_col_data%>%
   ggplot(aes(x=as.factor(productivity),y=colonization_prob_prey, fill=as.factor(productivity)))+ 
   geom_boxplot()+

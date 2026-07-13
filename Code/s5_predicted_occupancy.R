@@ -8,11 +8,16 @@ all_pa_dataz<-Datazz%>%
   group_by(newID,volume.L,structure,replicate,bottle,productivity,bottle.number,connectivity,predator,prey,network.syn.lap,media,year, number.bottles,nghbr.connect, Prey.disp.rate,Prey.growth.rate,Prey.K.cap,Pred.attack.rate,Pred.size,Prey.size)%>%
   summarise(prey.occupancy =mean(prey.oc), pred.occupancy= mean(pred.oc))
 
-new_pa_datas <- slide(Datazz, Var = "pred.oc", GroupVar = "newID",
-                      slideBy = -1)
 
-newer_pa_datas <- slide(new_pa_datas, Var = "prey.oc", GroupVar = "newID",
-                        slideBy = -1)
+new_pa_datas <- Datazz %>%
+  group_by(newID) %>%
+  mutate(`pred.oc-1` = lag(pred.oc)) %>%
+  ungroup()
+
+newer_pa_datas <- new_pa_datas %>%
+  group_by(newID) %>%
+  mutate(`prey.oc-1` = lag(prey.oc)) %>%
+  ungroup()
 
 Ext_col_data<-newer_pa_datas%>%
   #filter(structure=="isolated")%>%
@@ -187,7 +192,7 @@ predf<-pred_Ext_col_data%>%
   labs(x="Predator Observed Occupancy",y="Predator Extinction Probability")+
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
-#plot_grid(preda,predb)
+plot_grid(preda,predb,predc,predd,prede,predf, nrow=3)
 
 ################################################################################################################################################
 #2) Network level
@@ -214,12 +219,10 @@ pred_network<-newer_pa_datas%>%
     colonization_prob_pred=colonization_sum_pred/colonization_potenital_pred, extinction_prob_pred=extinction_sum_pred/extinction_potenital_pred,
     colonization_prob_prey=colonization_sum_prey/colonization_potenital_prey, extinction_prob_prey=extinction_sum_prey/extinction_potenital_prey,
     ext_colon_ratio_pred=(extinction_prob_pred/colonization_prob_pred),ext_colon_ratio_prey=(extinction_prob_prey/colonization_prob_prey),
-    pred.prey.oc=1-((extinction_prob_prey/colonization_prob_prey)/lambda_m),pred.pred.oc=1-((extinction_prob_pred/colonization_prob_pred)/lambda_m))%>%
+    pred.prey.oc=1-((extinction_prob_prey/colonization_prob_prey)/first(lambda_m)),
+    pred.pred.oc=1-((extinction_prob_pred/colonization_prob_pred)/first(lambda_m)))%>%
   full_join(reg.all, by=c("predator","prey","productivity","network.syn.lap","number.bottles","replicate","structure","media","year", "prey.oc", "pred.oc"))%>%
   dplyr::distinct(structure,replicate, .keep_all = T)#%>%
-#filter(pred.prey.oc>0 & pred.prey.oc<1)%>%
-#filter(pred.pred.oc>0 & pred.pred.oc<1)
-
 
 
 #Predicted Occupnacy
@@ -272,6 +275,7 @@ reported.table2
 performance::r2(dog)
 pseudoR1 <- ((dog$null.deviance-dog$deviance)/dog$null.deviance)
 
+##############################################################################################################################
 #Predicted prey and predator occupancy at network level and local  scales
-
+#Figure 6
 plot_grid(preda_net,predb_net,preda,predb,predc,predd,prede,predf,nrow=4)

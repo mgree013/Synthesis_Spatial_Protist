@@ -80,119 +80,62 @@ reg.all <- Data %>%
   filter(day > 3 & day < 75) %>%
   filter(number.bottles > 1) %>%
   
-  unite("newID", number.bottles:predator, remove=FALSE) %>%
+  unite("newID", number.bottles:predator, remove = FALSE) %>%
+  arrange(newID, day) %>%
   
-  group_by(predator,prey,productivity,network.syn.lap,
-           number.bottles,replicate,structure,
-           media,year,day,volume.L,newID) %>%
-  
-  summarise(
-    prey.dens=sum(ln.prey),
-    pred.dens=sum(ln.pred),
-    
-    total.vol=sum(volume.L),
-    av.nghbr.connect=mean(nghbr.connect),
-    
-    prey.net.oc=as.integer(any(prey.oc>0)),
-    pred.net.oc=as.integer(any(pred.oc>0)),
-    
-    .groups="drop"
-  ) %>%
-  
-  group_by(predator,prey,productivity,network.syn.lap,
-           number.bottles,replicate,structure,
-           media,year,total.vol,av.nghbr.connect,newID) %>%
+  group_by(newID, predator, prey, productivity, network.syn.lap,
+           number.bottles, replicate, structure, media, year) %>%
   
   summarise(
-    sampling.days=n(),
+    sampling.days = n(),
+    total.vol = sum(volume.L, na.rm = TRUE),
+    av.nghbr.connect = mean(nghbr.connect, na.rm = TRUE),
     
-    prod=mean(productivity),
-    bottle.number=mean(number.bottles),
-    meta.size=mean(number.bottles),
+    prey.oc = mean(prey.oc > 0, na.rm = TRUE),
+    pred.oc = mean(pred.oc > 0, na.rm = TRUE),
     
-    prey.oc=mean(prey.net.oc),
-    pred.oc=mean(pred.net.oc),
+    prey.dens = mean(prey.density, na.rm = TRUE),
+    pred.dens = mean(pred.density, na.rm = TRUE),
     
-    prey.dens=mean(prey.dens)/mean(number.bottles),
-    pred.dens=mean(pred.dens)/mean(number.bottles),
+    # === FIXED TIME TO EXTINCTION ===
+    prey.time.2.ext = {
+      idx <- which(prey.density <= 0)
+      if (length(idx) > 0) day[idx[1]] else NA_real_
+    },
     
-    prey.quasi.ext.ten =
-      as.integer(any(prey.dens <= .10*mean(prey.dens))),
+    pred.time.2.ext = {
+      idx <- which(pred.density <= 0)
+      if (length(idx) > 0) day[idx[1]] else NA_real_
+    },
     
-    pred.quasi.ext.ten =
-      as.integer(any(pred.dens <= .10*mean(pred.dens))),
+    prey.minimia = min(prey.density, na.rm = TRUE),
+    pred.minimia = min(pred.density, na.rm = TRUE),
     
-    prey.quasi.ext.five =
-      as.integer(any(prey.dens <= .05*mean(prey.dens))),
+    prey.amp = max(prey.density, na.rm = TRUE),
+    pred.amp = max(pred.density, na.rm = TRUE),
     
-    pred.quasi.ext.five =
-      as.integer(any(pred.dens <= .05*mean(pred.dens))),
+    prey.persistence = sum(prey.density > 0.1, na.rm = TRUE) / (mean(number.bottles, na.rm = TRUE) + n()),
+    pred.persistence = sum(pred.density > 0.1, na.rm = TRUE) / (mean(number.bottles, na.rm = TRUE) + n()),
     
-    prey.quasi.ext.one =
-      as.integer(any(prey.dens <= .01*mean(prey.dens))),
+    cv.prey = sd(prey.density, na.rm = TRUE) / mean(prey.density, na.rm = TRUE),
+    cv.pred = sd(pred.density, na.rm = TRUE) / mean(pred.density, na.rm = TRUE),
     
-    pred.quasi.ext.one =
-      as.integer(any(pred.dens <= .01*mean(pred.dens))),
+    reg.prey.ext = if_else(any(prey.density <= 0, na.rm = TRUE), 
+                           "Extinctions", "No Extinctions"),
+    reg.pred.ext = if_else(any(pred.density <= 0, na.rm = TRUE), 
+                           "Extinctions", "No Extinctions"),
     
-    # KEEP LABELS
-    reg.prey.ext =
-      if_else(any(prey.dens<=0),
-              "Extinctions",
-              "No Extinctions"),
-    
-    reg.pred.ext =
-      if_else(any(pred.dens<=0),
-              "Extinctions",
-              "No Extinctions"),
-    
-    prey.minimia=min(prey.dens),
-    pred.minimia=min(pred.dens),
-    
-    day.prey.min=day[which.min(prey.dens)],
-    day.pred.min=day[which.min(pred.dens)],
-    
-    prey.amp=max(prey.dens),
-    pred.amp=max(pred.dens),
-    
-    day.prey.max=day[which.max(prey.dens)],
-    day.pred.max=day[which.max(pred.dens)],
-    
-    prey.persistence =
-      sum(prey.dens>1)/(mean(number.bottles)+n()),
-    
-    pred.persistence =
-      sum(pred.dens>1)/(mean(number.bottles)+n()),
-    
-    Sum.Zero.Prey.Densities.Locally=sum(prey.dens<1),
-    Sum.Zero.Predator.Densities.Locally=sum(pred.dens<1),
-    
-    prey.time.2.ext=first(day[prey.dens<=0]),
-    pred.time.2.ext=first(day[pred.dens<=0]),
-    
-    cv.prey=raster::cv(prey.dens,na.rm=TRUE),
-    cv.pred=raster::cv(pred.dens,na.rm=TRUE),
-    
-    high.oc.prey=sum(prey.oc>.75)/(mean(number.bottles)+n()),
-    
-    .groups="drop"
+    .groups = "drop"
   ) %>%
   
   mutate(
-    log.number.bottles=log(number.bottles+1),
-    log.network.syn.lap=log(network.syn.lap+1),
-    log.total.vol=log(total.vol+1),
-    
-    pred.prey.prod =
-      paste(predator,prey,productivity,sep="_")
+    log.number.bottles = log(number.bottles + 1),
+    log.network.syn.lap = log(network.syn.lap + 1),
+    log.total.vol = log(total.vol + 1),
+    pred.prey.prod = paste(predator, prey, productivity, sep = "_")
   ) %>%
   
-  distinct(
-    newID,
-    cv.prey,
-    reg.pred.ext,
-    prey.persistence,
-    .keep_all=TRUE
-  )
+  distinct(newID, .keep_all = TRUE)
 
 cor(reg.all$log.number.bottles,reg.all$log.total.vol)
 #Regional Ext Data to add to Local data
@@ -201,18 +144,21 @@ reg.ext<-reg.all%>%
   dplyr::select(c(newID,reg.prey.ext,reg.pred.ext))
 
 #Local
+library(tidyverse)
+# library(raster)  # if still needed for cv; otherwise use base or psych::cv
+
 loc.all <- Data %>%
   filter(day > 3 & day < 75) %>%
   filter(number.bottles > 1) %>%
   
-  unite("newID", number.bottles:predator, remove = FALSE) %>%
-  unite("newBottleID", number.bottles:predator:bottle, remove = FALSE) %>%
+  unite("newID", c(number.bottles, predator, prey, replicate, structure, media, year, network.syn.lap, productivity), remove = FALSE) %>%
+  unite("newBottleID", c(number.bottles, predator, prey, replicate, structure, media, year, bottle.number), remove = FALSE) %>%
   
-  group_by(predator, prey, network.syn.lap, number.bottles,
-           structure, replicate, media, year, bottle.number,
-           nghbr.connect, productivity, newID, newBottleID) %>%
+  dplyr::group_by(predator, prey, network.syn.lap, number.bottles,
+                  structure, replicate, media, year, bottle.number,
+                  nghbr.connect, productivity, newID, newBottleID) %>%
   
-  summarise(
+  dplyr::summarise(
     sampling.days = n(),
     
     prod = mean(productivity),
@@ -234,8 +180,8 @@ loc.all <- Data %>%
     
     meta.size = mean(number.bottles),
     
-    prey.oc = mean(prey.oc),
-    pred.oc = mean(pred.oc),
+    prey.oc = mean(prey.oc, na.rm = TRUE),
+    pred.oc = mean(pred.oc, na.rm = TRUE),
     
     prey.minimia = min(prey.density),
     pred.minimia = min(pred.density),
@@ -252,7 +198,6 @@ loc.all <- Data %>%
     prey.den = mean(prey.density),
     pred.den = mean(pred.density),
     
-    # binary quasi-extinction
     prey.quasi.ext.ten =
       as.integer(any(prey.density <= .10 * mean(prey.density))),
     
@@ -271,7 +216,6 @@ loc.all <- Data %>%
     pred.quasi.ext.one =
       as.integer(any(pred.density <= .01 * mean(pred.density))),
     
-    # KEEP ORIGINAL LABELS FOR PLOTTING
     prey.ext =
       if_else(any(prey.density <= 0),
               "Extinctions",
@@ -330,10 +274,12 @@ loc.all <- Data %>%
     log.total.vol = log(total.vol+1),
     
     pred.prey.prod =
-      paste(predator,prey,productivity,sep="_")
+      paste(predator,prey,productivity,sep="_"),
+    
+    pred.attack.pair = paste(predator, prey, sep = "-")
   ) %>%
   
-  left_join(reg.ext,by="newID") %>%
+  left_join(reg.ext, by="newID") %>%
   
   distinct(
     newBottleID,
@@ -343,5 +289,4 @@ loc.all <- Data %>%
     reg.pred.ext,
     .keep_all=TRUE
   )
-
 #############################################################################################################################
