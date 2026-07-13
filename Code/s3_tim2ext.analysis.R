@@ -1,5 +1,6 @@
+#Time to Extinction Analysis: Figure 2 and Table S1
+##################################################################################################################################
 #Local
-
 
 loc.all$pred.prey.prod<-as.factor(loc.all$pred.prey.prod)
 levels(loc.all$pred.prey.prod)
