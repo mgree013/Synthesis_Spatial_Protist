@@ -1,18 +1,20 @@
 #Part 2: Ext-Col Analysis
 
-Datazz<-Data%>%
-  #filter(year > 2010)%>%
-  unite("newID", media:predator,bottle, remove=FALSE)
+#Figure 4 and 5
+##############################################################################################################################
+Datazz <- Data %>%
+  unite("newID", media:predator, bottle, remove = FALSE) %>%
+  arrange(newID, year)
 
-all_pa_dataz<-Datazz%>%
-  group_by(newID,volume.L,structure,replicate,bottle,productivity,bottle.number,connectivity,predator,prey,network.syn.lap,media,year, number.bottles,nghbr.connect, Prey.disp.rate,Prey.growth.rate,Prey.K.cap,Pred.attack.rate,Pred.size,Prey.size)%>%
-  summarise(prey.occupancy =mean(prey.oc), pred.occupancy= mean(pred.oc))
+new_pa_datas <- Datazz %>%
+  group_by(newID) %>%
+  mutate(`pred.oc-1` = lag(pred.oc)) %>%
+  ungroup()
 
-new_pa_datas <- slide(Datazz, Var = "pred.oc", GroupVar = "newID",
-                      slideBy = -1)
-
-newer_pa_datas <- slide(new_pa_datas, Var = "prey.oc", GroupVar = "newID",
-                        slideBy = -1)
+newer_pa_datas <- new_pa_datas %>%
+  group_by(newID) %>%
+  mutate(`prey.oc-1` = lag(prey.oc)) %>%
+  ungroup()
 
 Ext_col_data<-newer_pa_datas%>%
   #filter(structure=="isolated")%>%
@@ -57,6 +59,17 @@ Ext_col_data$log.network.syn.lap
 
 Ext_col_data<-Ext_col_data%>%
   mutate(Local_volume=if_else(year=="2010" , "32mL",if_else(year =="1996" ,"32mL","50mL")))
+
+supp.a<-Ext_col_data%>%
+  filter(number.bottles>1)%>%
+  ggplot(aes(x=as.factor(Local_volume),y=prey.occupancy, fill=as.factor(Local_volume)))+
+  geom_boxplot()+
+  scale_fill_viridis(discrete=T)+
+  ggtitle("a)") +
+  ylab("Prey Occupancy")+
+  xlab("Local Volume Size")+
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_rect(colour = "black"))+
+  theme(legend.position = "none")
 
 supp.b<-Ext_col_data%>%
   filter(number.bottles>1)%>%
@@ -197,6 +210,7 @@ prey.ext.atk.plot<-Ext_col_data%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())+ theme(legend.position = "none")+ theme(axis.text.x = element_text(face = "italic"))
 
+#Figure 5
 plot_grid(prey.ext.plot,prey.ext.atk.plot,a,c,pred.ext.plot,pred.ext.atk.plot,d,f, nrow=2)
 
 #Colonization Plots
@@ -278,6 +292,7 @@ f<-Ext_col_data%>%
   theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(),panel.background = element_blank())#+ theme(legend.position = "none")
 
+#Figure 4
 plot_grid(prey.col.plot,prey.col.atk.plot,a,c,pred.col.plot,pred.col.atk.plot,d,f, nrow=2)
 
 ################################################################################################################################################

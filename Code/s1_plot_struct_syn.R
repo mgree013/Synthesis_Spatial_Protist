@@ -1,33 +1,9 @@
-library(igraph)
 
-#To Do: Calculate lambda for predicted occupancy
-#Replace 0's along diagonal and change sign to positive from negative
-
-
-#Figure 1: Networks
-par(mfrow=c(6,3),mar= c(2, 4, 1, 1), mgp=c(2,1,0))
-plot(A)
-plot(B)
-plot(C)
-plot(D)
-plot(E)
-plot(Fa)
-plot(G)
-plot(H)
-plot(I)
-plot(dend.7)
-plot(latt.7)
-plot(str.7)
-plot(sean.big)
-plot(sean.small)
-plot(small)
-plot(dend.15)
-plot(latt.15)
-#plot(fox)
-plot(big)
+################################################################################################################################################
+#Plot Figure 1
 
 
-#Example first
+################################################################################################################################################
 ex.graph <- sample_gnp(10,0.4)
 plot(ex.graph)
 
@@ -44,8 +20,7 @@ ev.ratio <- lambda.n/lambda.two
 
 
 ###########IGrpah Det Asycnrony of network structures
-#install.packages("igraph")
-library(igraph)
+
 
 #7 bottle figs
 dend.7 <- graph( edges=c(1,2,1,3, 2,4, 2,5,  3,6, 3,7), n=7, directed=F ) 
@@ -254,3 +229,26 @@ latt.big.eigen<-eigen(adj.mat.big)$values
 syn.latt.big<-max(latt.big.eigen)/latt.big.eigen[length(latt.big.eigen)-1]
 
 
+################################################################################################################################################
+
+#Figure 1: Networks
+par(mfrow=c(6,3),mar= c(2, 4, 1, 1), mgp=c(2,1,0))
+plot(A)
+plot(B)
+plot(C)
+plot(D)
+plot(E)
+plot(Fa)
+plot(G)
+plot(H)
+plot(I)
+plot(dend.7)
+plot(latt.7)
+plot(str.7)
+plot(sean.big)
+plot(sean.small)
+plot(small)
+plot(dend.15)
+plot(latt.15)
+#plot(fox)
+plot(big)

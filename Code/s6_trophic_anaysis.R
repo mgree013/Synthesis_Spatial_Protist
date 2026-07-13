@@ -1,52 +1,6 @@
 #Trophic Analysis
 
-loc.all<-Data %>%
-  #filter(year > 2010)%>%
-  filter(day > 3 & day < 75)%>%
-  filter(number.bottles > 1)%>%
-  unite("newID", number.bottles:predator, remove=FALSE)%>%
-  unite("newBottleID", number.bottles:predator,bottle, remove=FALSE)%>%
-  group_by(predator,prey,network.syn.lap,number.bottles, structure,replicate,media,year,bottle.number,nghbr.connect,productivity,newID,newBottleID)%>%
-  dplyr::summarize(sampling.days=n(),
-                   prod=mean(productivity),
-                   patch.degree=mean(connectivity),
-                   patch.deg2=mean(disp.connect),
-                   tubelength=mean(tube.length),
-                   connect.per=mean(Connectivity.per),
-                   total.vol=sum(volume.L),
-                   nghbr.connect=mean(nghbr.connect),
-                   prey.growth=mean(Prey.growth.rate),
-                   prey.size=mean(Prey.size),
-                   prey.k.cap=mean(Prey.K.cap),
-                   prey.disp=mean(Prey.disp.rate),
-                   pred.size=mean(Pred.size),
-                   pred.attack=mean(Pred.attack.rate),
-                   meta.size=mean(number.bottles),
-                   prey.sum.oc=sum(prey.oc), pred.sum.oc=sum(pred.oc),
-                   prey.oc=mean(prey.oc),pred.oc=mean(pred.oc),pred.prey.oc.mean=mean(pred.prey.oc),
-                   prey.minimia=min(prey.density),pred.minimia=min(pred.density),                                #Minima density
-                   day.prey.min=day[which.min(prey.density)],day.pred.min=day[which.min(pred.density)],          #Day of Minimia
-                   prey.amp=max(prey.density),pred.amp=max(pred.density),                                        #Amp density
-                   day.prey.max=day[which.max(prey.density)],day.pred.max=day[which.max(pred.density)],          #Day of Amp
-                   prey.den=mean(prey.density),pred.den=mean(pred.density),                                                #Mean Density
-                   prey.quasi.ext.ten=if_else(prey.density<=.1*(mean(prey.density)), "yes", "no"),pred.quasi.ext.ten=if_else(pred.density<=.1*(mean(pred.density)), "yes", "no"),
-                   prey.quasi.ext.five=if_else(prey.density<=.05*(mean(prey.density)), "yes", "no"),pred.quasi.ext.five=if_else(pred.density<=.05*(mean(pred.density)), "yes", "no"),
-                   prey.quasi.ext.one=if_else(prey.density<=.01*(mean(prey.density)), "yes", "no"),pred.quasi.ext.one=if_else(pred.density<=.01*(mean(pred.density)), "yes", "no"),
-                   prey.ext=if_else(prey.density<=0, "Extinctions", "No Extinctions"),pred.ext=if_else(pred.density<=0, "Extinctions", "No Extinctions"),       
-                   prey.ext.quant=if_else(prey.density<=0, 1, 0),pred.ext.quant=if_else(pred.density<=0, 1,0),
-                   prey.meta.ext=sum(prey.ext.quant),pred.meta.ext=sum(pred.ext.quant),
-                   prey.persistence=sum(ln.prey>0)/(meta.size+sampling.days),pred.persistence=sum(ln.pred>0)/(meta.size+sampling.days),                    #Number of days Persistence
-                   prey.nmbr.ext.days=sum(prey.density<=0)/sampling.days,pred.nmbr.ext.days=sum(pred.density<=0)/sampling.days,                   #Number of days Persistence
-                   prey.time.2.ext=first(day[ln.prey<=.05]),pred.time.2.ext=first(day[ln.pred<=.05]),
-                   Sum.Zero.Prey.Densities.Locally=sum(ln.prey<1)/sampling.days,Sum.Zero.Predator.Densities.Locally=sum(ln.pred<1)/sampling.days,# Number of days  Zero
-                   cv.prey=raster::cv(prey.density,na.rm = T), cv.pred=raster::cv(pred.density,na.rm = T),
-                   prey.time.high.oc=sum(prey.density<=.1*(mean(prey.density)))/sampling.days,pred.time.high.oc=sum(pred.density<=.1*(mean(pred.density)))/sampling.days)%>%
-  ungroup()%>%
-  mutate(log.number.bottles=log(number.bottles+1))%>%
-  mutate(log.network.syn.lap=log(network.syn.lap+1))%>%
-  mutate(log.total.vol=log(total.vol+1))%>%
-  left_join(reg.ext, by="newID")%>%
-  dplyr::distinct(newBottleID,cv.prey,pred.meta.ext,bottle.number,reg.pred.ext,.keep_all = TRUE)
+
 ##############################################################################################################################
 #Plotting
 
