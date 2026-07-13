@@ -1,5 +1,7 @@
-#Predicted Occupnacy
+#Predicted Occupancy
 
+#Figure 6 and Table S4
+###########################################################################################################################################################################
 #1)Local Scale
 Datazz<-Data%>%
   unite("newID", media:predator,bottle, remove=FALSE)

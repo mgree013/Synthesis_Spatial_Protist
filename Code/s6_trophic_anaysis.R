@@ -1,12 +1,8 @@
 #Trophic Analysis
 
-
+#Figure 8 and Table 2
 ##############################################################################################################################
-#Plotting
 
-#Figure 8
-
-#take1
 loc.all%>%
   ggplot(aes(x=pred.oc,y=prey.oc))+
   geom_point()+geom_smooth(method = "lm")+
@@ -34,10 +30,10 @@ loc.all.plot%>%
   geom_smooth(data=filter(loc.all.plot,productivity=="Low"& pred.attack=="Didinium-Paramecium"),  method = "lm")+
   geom_smooth(data=filter(loc.all.plot,productivity=="High"& pred.attack=="Didinium-Paramecium"),  method = "lm")+
   geom_smooth(data=filter(loc.all.plot,productivity=="Medium"& pred.attack=="Didinium-Colpidium"),  method = "lm")+
-  #geom_text(data=filter(loc.all.plot,productivity=="Low"& pred.attack=="Euplotes-Tetrahymena"),x = .3, y = .75, label = "R^2 == 0.28", parse = TRUE, colour="black")+
-  #geom_text(data=filter(loc.all.plot,productivity=="Low"& pred.attack=="Didinium-Paramecium"),x = .75, y = .6, label = "R^2 == 0.50", parse = TRUE, colour="black")+
-  #geom_text(data=filter(loc.all.plot,productivity=="High"& pred.attack=="Didinium-Paramecium"),x = .3, y = .2, label = "R^2 == 0.28", parse = TRUE, colour="black")+
-  #geom_text(data=filter(loc.all.plot,productivity=="Medium"& pred.attack=="Didinium-Colpidium"),x = .3, y = .2, label = "R^2 == 0.32", parse = TRUE, colour="black")+
+  geom_text(data=filter(loc.all.plot,productivity=="Low"& pred.attack=="Euplotes-Tetrahymena"),x = .3, y = .75, label = "R^2 == 0.28", parse = TRUE, colour="black")+
+  geom_text(data=filter(loc.all.plot,productivity=="Low"& pred.attack=="Didinium-Paramecium"),x = .75, y = .6, label = "R^2 == 0.50", parse = TRUE, colour="black")+
+  geom_text(data=filter(loc.all.plot,productivity=="High"& pred.attack=="Didinium-Paramecium"),x = .3, y = .2, label = "R^2 == 0.28", parse = TRUE, colour="black")+
+  geom_text(data=filter(loc.all.plot,productivity=="Medium"& pred.attack=="Didinium-Colpidium"),x = .3, y = .2, label = "R^2 == 0.32", parse = TRUE, colour="black")+
   #geom_smooth(method = "lm")+
   scale_color_viridis(discrete = TRUE)+
   xlab("Predator Occupancy")+ylab("Prey Occupancy")+
@@ -87,7 +83,6 @@ e2<-eup_tetra_low%>%
 
 
 
-plot_grid(d1,d2,d3,e1,e2, nrow=2)
 ##############################################################################################################################
 
 #Analysis
@@ -95,23 +90,23 @@ plot_grid(d1,d2,d3,e1,e2, nrow=2)
 #Organaize pred/prod combos
 did_para_high<-loc.all%>%
   filter(productivity==1.28)%>%
-  filter(pred.attack>0.48)
+  filter(Pred.attack.rate>0.48)
 
 did_para_low<-loc.all%>%
   filter(productivity=="0.56")%>%
-  filter(pred.attack>0.48)
+  filter(Pred.attack.rate>0.48)
 
 did_colp_med<-loc.all%>%
   filter(productivity=="0.76")%>%
-  filter(pred.attack=="0.4272")
+  filter(Pred.attack.rate=="0.4272")
 
 eup_tetra_high<-loc.all%>%
   filter(productivity=="1.28")%>%
-  filter(pred.attack=="0.31925")
+  filter(Pred.attack.rate=="0.31925")
 
 eup_tetra_low<-loc.all%>%
   filter(productivity=="0.56")%>%
-  filter(pred.attack=="0.31925")
+  filter(Pred.attack.rate=="0.31925")
 
 
 #GLMS
