@@ -5,9 +5,9 @@ Persistence Across Network Sizes and Structures
 
 **Authors:** Matthew D. Green, Clara Woodie, Megan Whitesell, Sean Hayes, and Kurt E. Anderson
 
-**Journal:** Oikos — Manuscript ID **OIK-09524**
+**Journal:** TBD
 
-**Status:** Submitted (Research Article)
+**Status:** In progress
 
 **Keywords:** Connectivity, Data Synthesis, Metacommunity, Predator-Prey, Protists, Trophic
 
