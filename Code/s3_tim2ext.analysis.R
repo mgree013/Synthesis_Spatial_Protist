@@ -1,4 +1,4 @@
-#Time to Extinction Analysis: Figure 2 and Table S1
+#Time to Extinction Analysis: Figure 2 and Table S1; Fig. S1
 ##################################################################################################################################
 #Local
 

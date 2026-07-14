@@ -1,6 +1,6 @@
 #Ext-Col Analysis
 
-#Figure 4 and 5, Table S3
+#Figure 4 and 5, Table S3; Fig. S3
 ##############################################################################################################################
 Datazz <- Data %>%
   unite("newID", media:predator, bottle, remove = FALSE) %>%

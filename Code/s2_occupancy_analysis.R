@@ -1,6 +1,6 @@
-#2)Occupancy
+#2) Occupancy
 
-#Occupancy analysis Figure 3 and Table S2
+#Occupancy analysis Figure 3 and Table S2; Fig. S2
 ##############################################################################################################################
 occupnacy<-newer_pa_datas%>%
   filter(day > 3 & day < 75)%>%
