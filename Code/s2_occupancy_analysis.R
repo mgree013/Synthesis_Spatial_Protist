@@ -4,9 +4,6 @@
 ##############################################################################################################################
 occupnacy<-newer_pa_datas%>%
   filter(day > 3 & day < 75)%>%
-  #filter(day < 75)%>%
-  #filter(day  > 75 & day < 150)%>%
-  #filter(day  > 150)%>%
   mutate(prey.unoccupied=if_else(prey.oc==1,0,1),prey.occupied=if_else(prey.oc==1,1,0),
          pred.unoccupied=if_else(pred.oc==1,0,1),pred.occupied=if_else(pred.oc==1,1,0))%>%
   group_by(structure,replicate, connectivity, bottle,newID)%>%
